@@ -1,0 +1,19 @@
+<svg width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Postia</title>
+  <desc id="desc">Logo de Postia — generador de carruseles para Instagram con IA</desc>
+  <!-- Fondo -->
+  <rect width="96" height="96" rx="22" fill="#F3EEFF"/>
+  <!-- Tarjeta trasera (3ra) -->
+  <rect x="34" y="34" width="38" height="44" rx="8" fill="#9333EA" opacity="0.45"/>
+  <!-- Tarjeta media (2da) -->
+  <rect x="27" y="27" width="38" height="44" rx="8" fill="#7C3AED" opacity="0.7"/>
+  <!-- Tarjeta delantera (1ra) -->
+  <rect x="18" y="18" width="42" height="50" rx="9" fill="#6D28D9"/>
+  <!-- Cuadradito perfil arriba izq -->
+  <rect x="25" y="25" width="10" height="10" rx="3" fill="#EDE9FE"/>
+  <!-- Líneas de texto -->
+  <rect x="25" y="51" width="28" height="4" rx="2" fill="#EDE9FE"/>
+  <rect x="25" y="59" width="20" height="4" rx="2" fill="#EDE9FE" opacity="0.6"/>
+  <!-- Chispa IA -->
+  <path d="M72 16 L74.5 23 L81.5 25.5 L74.5 28 L72 35 L69.5 28 L62.5 25.5 L69.5 23 Z" fill="#A855F7"/>
+</svg>
