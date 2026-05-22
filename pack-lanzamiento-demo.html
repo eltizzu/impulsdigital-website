@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack Lanzamiento — Demo · Impuls Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --white: #fff;
+    --brand: #2d6a4f;
+    --brand2: #95d5b2;
+    --brand-light: #eaf6f0;
+    --accent: #e76f51;
+    --dark: #1a1a1a;
+    --mid: #555;
+    --light: #999;
+    --border: #e8e8e8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
+
+  /* PAGE HEADER */
+  .page-header {
+    background: #111;
+    color: white;
+    padding: 48px 24px 40px;
+    text-align: center;
+  }
+  .page-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.85);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .page-header h1 { font-family: 'Fraunces', serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 10px; }
+  .page-header p { color: rgba(255,255,255,0.6); font-size: 0.93rem; max-width: 520px; margin: 0 auto 24px; line-height: 1.7; }
+  .deliverables { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .deliverable { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); font-size: 0.78rem; font-weight: 600; padding: 7px 16px; border-radius: 20px; }
+
+  /* NAV TABS */
+  .demo-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: white;
+    border-bottom: 2px solid var(--border);
+    padding: 0 20px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .demo-nav::-webkit-scrollbar { display: none; }
+  .demo-nav-inner { display: flex; gap: 0; white-space: nowrap; }
+  .demo-tab {
+    padding: 14px 22px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    color: var(--light);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.18s;
+    font-family: 'Inter', sans-serif;
+  }
+  .demo-tab:hover { color: var(--brand); }
+  .demo-tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+  /* SECTIONS */
+  .demo-section { display: none; }
+  .demo-section.active { display: block; }
+
+  /* ==================== LOGO ==================== */
+  .logo-section { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+  .logo-context { text-align: center; margin-bottom: 40px; }
+  .logo-context .badge { display: inline-block; background: var(--brand-light); color: var(--brand); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 5px 14px; border-radius: 20px; margin-bottom: 12px; }
+  .logo-context h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; margin-bottom: 8px; }
+  .logo-context p { color: var(--mid); font-size: 0.9rem; max-width: 480px; margin: 0 auto; }
+
+  .logo-showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+
+  .logo-bg-light, .logo-bg-dark {
+    border-radius: 14px;
+    padding: 40px 32px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px;
+    min-height: 200px;
+  }
+  .logo-bg-light { background: white; border: 1px solid var(--border); }
+  .logo-bg-dark { background: #111; }
+
+  /* SVG Logo */
+  .brand-logo { display: flex; align-items: center; gap: 14px; }
+  .brand-logo-icon {
+    width: 48px; height: 48px;
+    background: var(--brand);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .brand-logo-icon svg { width: 28px; height: 28px; }
+  .brand-logo-text {}
+  .brand-logo-name { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; line-height: 1; }
+  .brand-logo-tagline { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.6; margin-top: 3px; }
+
+  .logo-small { transform: scale(0.65); transform-origin: center; }
+  .logo-large { transform: scale(1.15); transform-origin: center; }
+
+  .logo-bg-light .brand-logo-name { color: var(--dark); }
+  .logo-bg-light .brand-logo-tagline { color: var(--mid); }
+  .logo-bg-dark .brand-logo-name { color: white; }
+  .logo-bg-dark .brand-logo-tagline { color: rgba(255,255,255,0.5); }
+  .logo-bg-dark .brand-logo-icon { background: var(--brand2); }
+  .logo-bg-dark .brand-logo-icon svg path { stroke: #111; }
+
+  .palette { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .swatch {
+    flex: 1; min-width: 80px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+  .swatch-color { height: 56px; }
+  .swatch-info { background: white; padding: 8px 10px; }
+  .swatch-name { font-size: 0.75rem; font-weight: 700; color: var(--dark); }
+  .swatch-hex { font-size: 0.7rem; color: var(--light); font-family: monospace; }
+
+  .type-showcase { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; }
+  .type-row { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; align-items: baseline; gap: 16px; }
+  .type-row:last-child { border-bottom: none; }
+  .type-label { font-size: 0.7rem; color: var(--light); width: 100px; flex-shrink: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ==================== FLYER ==================== */
+  .flyer-section { max-width: 900px; margin: 0 auto; padding: 48px 20px; }
+  .flyer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+  .flyer-card {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  }
+  .flyer-label { text-align: center; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--light); margin-top: 14px; }
+
+  /* Flyer 1 — Apertura */
+  .flyer1 {
+    background: var(--brand);
+    padding: 36px 28px;
+    min-height: 400px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .flyer1::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .flyer1::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: -40px;
+    width: 140px; height: 140px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .flyer1-tag { background: var(--accent); color: white; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 20px; position: relative; z-index: 1; }
+  .flyer1-title { font-family: 'Fraunces', serif; font-size: 2rem; color: white; line-height: 1.15; font-weight: 700; position: relative; z-index: 1; margin-bottom: 12px; }
+  .flyer1-title em { font-style: italic; color: var(--brand2); }
+  .flyer1-sub { color: rgba(255,255,255,0.75); font-size: 0.85rem; line-height: 1.6; position: relative; z-index: 1; margin-bottom: 24px; }
+  .flyer1-date { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 8px; display: inline-block; position: relative; z-index: 1; margin-bottom: 20px; }
+  .flyer1-footer { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; }
+  .flyer1-brand { font-family: 'Fraunces', serif; color: white; font-size: 1rem; font-weight: 700; }
+  .flyer1-ig { color: rgba(255,255,255,0.6); font-size: 0.75rem; }
+
+  /* Flyer 2 — Oferta */
+  .flyer2 {
+    background: #fefce8;
+    padding: 36px 28px;
+    min-height: 400px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    border: 3px solid var(--brand);
+    position: relative;
+  }
+  .flyer2-corner { position: absolute; top: 0; right: 0; background: var(--brand); color: white; padding: 10px 18px; font-size: 0.75rem; font-weight: 800; text-align: center; }
+  .flyer2-corner span { display: block; font-size: 1.3rem; font-weight: 700; }
+  .flyer2-icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .flyer2-title { font-family: 'Fraunces', serif; font-size: 1.6rem; color: var(--dark); font-weight: 700; line-height: 1.2; margin-bottom: 10px; }
+  .flyer2-desc { color: var(--mid); font-size: 0.85rem; line-height: 1.65; margin-bottom: 20px; }
+  .flyer2-price { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 700; color: var(--brand); line-height: 1; margin-bottom: 4px; }
+  .flyer2-price-sub { font-size: 0.78rem; color: var(--light); margin-bottom: 20px; }
+  .flyer2-cta { background: var(--brand); color: white; text-align: center; padding: 12px; border-radius: 8px; font-weight: 700; font-size: 0.88rem; }
+  .flyer2-brand { font-family: 'Fraunces', serif; font-size: 0.8rem; color: var(--light); margin-top: 14px; }
+
+  /* ==================== LANDING ==================== */
+  .landing-wrapper {
+    max-width: 900px; margin: 0 auto; padding: 40px 20px;
+  }
+  .landing-note {
+    background: #fef9c3;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 0.82rem;
+    color: #78350f;
+    margin-bottom: 28px;
+    text-align: center;
+  }
+  /* Simulated landing inside a browser frame */
+  .browser-frame {
+    background: #e8e8e8;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  }
+  .browser-bar {
+    background: #d4d4d4;
+    padding: 10px 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .browser-dots { display: flex; gap: 5px; }
+  .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .browser-url { background: white; border-radius: 20px; padding: 4px 14px; font-size: 0.72rem; color: #666; flex: 1; max-width: 260px; margin: 0 auto; }
+
+  /* Landing content */
+  .landing-hero {
+    background: var(--brand);
+    padding: 60px 40px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .landing-hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 40px);
+  }
+  .landing-nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 32px; background: rgba(0,0,0,0.2); position: relative; z-index: 1; margin: -60px -40px 40px; }
+  .landing-nav-brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1rem; }
+  .landing-nav-cta { background: var(--accent); color: white; padding: 7px 16px; border-radius: 6px; font-size: 0.78rem; font-weight: 700; }
+  .landing-hero-tag { display: inline-block; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.9); font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px; position: relative; z-index: 1; }
+  .landing-hero h2 { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; margin-bottom: 10px; position: relative; z-index: 1; line-height: 1.2; }
+  .landing-hero p { color: rgba(255,255,255,0.75); font-size: 0.88rem; max-width: 400px; margin: 0 auto 24px; line-height: 1.7; position: relative; z-index: 1; }
+  .landing-hero-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; position: relative; z-index: 1; }
+  .landing-btn-primary { background: var(--accent); color: white; padding: 11px 24px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; }
+  .landing-btn-secondary { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: white; padding: 11px 24px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; }
+
+  .landing-body { background: white; padding: 40px 32px; }
+  .landing-services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 36px; }
+  .landing-service { text-align: center; padding: 20px 14px; border: 1px solid var(--border); border-radius: 10px; }
+  .landing-service-icon { font-size: 1.8rem; margin-bottom: 8px; }
+  .landing-service-name { font-weight: 700; font-size: 0.82rem; color: var(--dark); margin-bottom: 4px; }
+  .landing-service-desc { font-size: 0.74rem; color: var(--light); line-height: 1.5; }
+
+  .landing-about { display: flex; gap: 24px; align-items: flex-start; padding: 28px; background: var(--brand-light); border-radius: 12px; margin-bottom: 28px; }
+  .landing-about-icon { font-size: 2.5rem; flex-shrink: 0; }
+  .landing-about h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 6px; }
+  .landing-about p { font-size: 0.83rem; color: var(--mid); line-height: 1.65; }
+
+  .landing-cta-strip { background: var(--brand); color: white; padding: 28px 32px; text-align: center; margin: 0 -32px -40px; }
+  .landing-cta-strip h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; margin-bottom: 6px; }
+  .landing-cta-strip p { color: rgba(255,255,255,0.7); font-size: 0.83rem; margin-bottom: 16px; }
+  .landing-cta-strip-btn { background: var(--accent); color: white; padding: 10px 24px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; display: inline-block; }
+
+  /* CTA FINAL */
+  .final-cta {
+    background: #111;
+    color: white;
+    padding: 52px 24px;
+    text-align: center;
+  }
+  .final-cta h2 { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 10px; }
+  .final-cta p { color: rgba(255,255,255,0.6); font-size: 0.9rem; max-width: 480px; margin: 0 auto 24px; line-height: 1.7; }
+  .final-cta-price { font-family: 'Fraunces', serif; font-size: 2.2rem; font-weight: 700; color: var(--brand2); margin-bottom: 6px; }
+  .final-cta-sub { font-size: 0.8rem; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+  .final-includes { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 28px; }
+  .final-include { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); font-size: 0.78rem; font-weight: 600; padding: 6px 14px; border-radius: 20px; }
+  .final-btn { display: inline-block; background: var(--brand); color: white; padding: 14px 32px; border-radius: 10px; font-weight: 700; font-size: 0.92rem; text-decoration: none; transition: opacity 0.2s; }
+  .final-btn:hover { opacity: 0.88; }
+  .final-made { margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+  .final-made a { color: var(--accent); font-weight: 600; text-decoration: none; }
+
+  @media (max-width: 600px) {
+    .logo-showcase { grid-template-columns: 1fr; }
+    .flyer-grid { grid-template-columns: 1fr; }
+    .landing-services { grid-template-columns: 1fr 1fr; }
+    .landing-about { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-tag">Demo · Pack Lanzamiento</div>
+  <h1>Todo lo que un negocio nuevo necesita para arrancar con imagen profesional</h1>
+  <p>Logo, identidad visual, landing page y flyers coherentes — un solo pack, una sola reunión, todo listo en una semana.</p>
+  <div class="deliverables">
+    <span class="deliverable">✦ Identidad visual</span>
+    <span class="deliverable">✦ Logo en todos los formatos</span>
+    <span class="deliverable">✦ Landing page</span>
+    <span class="deliverable">✦ 2 flyers listos para imprimir</span>
+  </div>
+</div>
+
+<!-- DEMO NAV -->
+<nav class="demo-nav">
+  <div class="demo-nav-inner">
+    <button class="demo-tab active" onclick="switchTab('logo', this)">01 · Identidad &amp; Logo</button>
+    <button class="demo-tab" onclick="switchTab('flyer', this)">02 · Flyers</button>
+    <button class="demo-tab" onclick="switchTab('landing', this)">03 · Landing Page</button>
+  </div>
+</nav>
+
+<!-- ===== LOGO ===== -->
+<div class="demo-section active" id="tab-logo">
+  <div class="logo-section">
+    <div class="logo-context">
+      <div class="badge">Caso demo</div>
+      <h2>Verde Raíz — Catering Saludable</h2>
+      <p>Negocio ficticio de catering saludable en Málaga. Paleta verde natural, tipografía orgánica, sensación de frescura y confianza.</p>
+    </div>
+
+    <div class="logo-showcase">
+      <div>
+        <div class="logo-bg-light">
+          <div class="brand-logo">
+            <div class="brand-logo-icon">
+              <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 4C14 4 7 8 7 15C7 19.4 10.1 23 14 23C17.9 23 21 19.4 21 15C21 8 14 4 14 4Z" stroke="white" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 10V22" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M10 14L14 10L18 14" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="brand-logo-text">
+              <div class="brand-logo-name">Verde Raíz</div>
+              <div class="brand-logo-tagline">Catering Saludable · Málaga</div>
+            </div>
+          </div>
+        </div>
+        <div class="logo-label">Versión principal — fondo claro</div>
+      </div>
+      <div>
+        <div class="logo-bg-dark">
+          <div class="brand-logo">
+            <div class="brand-logo-icon">
+              <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 4C14 4 7 8 7 15C7 19.4 10.1 23 14 23C17.9 23 21 19.4 21 15C21 8 14 4 14 4Z" stroke="#111" stroke-width="1.8" stroke-linejoin="round"/>
+                <path d="M14 10V22" stroke="#111" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M10 14L14 10L18 14" stroke="#111" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="brand-logo-text">
+              <div class="brand-logo-name">Verde Raíz</div>
+              <div class="brand-logo-tagline">Catering Saludable · Málaga</div>
+            </div>
+          </div>
+        </div>
+        <div class="logo-label" style="color:#888;">Versión negativa — fondo oscuro</div>
+      </div>
+    </div>
+
+    <!-- PALETTE -->
+    <div style="margin-bottom:28px;">
+      <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--light);margin-bottom:14px;">Paleta de colores</div>
+      <div class="palette">
+        <div class="swatch">
+          <div class="swatch-color" style="background:#2d6a4f;"></div>
+          <div class="swatch-info"><div class="swatch-name">Verde Bosque</div><div class="swatch-hex">#2d6a4f</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#95d5b2;"></div>
+          <div class="swatch-info"><div class="swatch-name">Verde Menta</div><div class="swatch-hex">#95d5b2</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#e76f51;"></div>
+          <div class="swatch-info"><div class="swatch-name">Terracota</div><div class="swatch-hex">#e76f51</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#fefce8;"></div>
+          <div class="swatch-info"><div class="swatch-name">Crema</div><div class="swatch-hex">#fefce8</div></div>
+        </div>
+        <div class="swatch">
+          <div class="swatch-color" style="background:#1a1a1a;"></div>
+          <div class="swatch-info"><div class="swatch-name">Negro</div><div class="swatch-hex">#1a1a1a</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TYPOGRAPHY -->
+    <div style="margin-bottom:16px;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--light);">Tipografía</div>
+    <div class="type-showcase">
+      <div class="type-row">
+        <div class="type-label">Titular H1</div>
+        <div style="font-family:'Fraunces',serif;font-size:2rem;font-weight:700;color:var(--dark);">Verde Raíz</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Titular H2</div>
+        <div style="font-family:'Fraunces',serif;font-size:1.4rem;font-weight:600;color:var(--dark);">Catering saludable en Málaga</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Cuerpo</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.92rem;color:var(--mid);line-height:1.7;">Comida rica, fresca y de temporada. Para eventos, empresas y domicilios.</div>
+      </div>
+      <div class="type-row">
+        <div class="type-label">Etiqueta</div>
+        <div style="font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--light);">Solicitar presupuesto</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FLYERS ===== -->
+<div class="demo-section" id="tab-flyer">
+  <div class="flyer-section">
+    <div style="text-align:center;margin-bottom:36px;">
+      <div style="display:inline-block;background:var(--brand-light);color:var(--brand);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;padding:5px 14px;border-radius:20px;margin-bottom:12px;">Diseño coherente con la identidad</div>
+      <h2 style="font-family:'Fraunces',serif;font-size:1.5rem;font-weight:700;margin-bottom:8px;">Dos flyers, mismo lenguaje visual</h2>
+      <p style="color:var(--mid);font-size:0.88rem;max-width:440px;margin:0 auto;">Un flyer de apertura para redes y un flyer de oferta para imprimir — ambos adaptados a la identidad del negocio.</p>
+    </div>
+
+    <div class="flyer-grid">
+      <!-- FLYER 1 -->
+      <div>
+        <div class="flyer-card">
+          <div class="flyer1">
+            <div>
+              <div class="flyer1-tag">🌿 Apertura</div>
+              <div class="flyer1-title">Comida que<br><em>cuida de vos</em></div>
+              <div class="flyer1-sub">Catering saludable para eventos, empresas y domicilios en Málaga y la Costa del Sol.</div>
+              <div class="flyer1-date">📅 Abrimos el 1 de junio · Málaga</div>
+            </div>
+            <div class="flyer1-footer">
+              <div>
+                <div class="flyer1-brand">Verde Raíz</div>
+                <div class="flyer1-ig">@verderaizmalaga</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="color:rgba(255,255,255,0.5);font-size:0.7rem;">📞 623 44 17 89</div>
+                <div style="color:rgba(255,255,255,0.5);font-size:0.7rem;">verderaiz.es</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flyer-label">Flyer de apertura — Instagram / WhatsApp</div>
+      </div>
+
+      <!-- FLYER 2 -->
+      <div>
+        <div class="flyer-card">
+          <div class="flyer2">
+            <div class="flyer2-corner">OFERTA<span>-20%</span></div>
+            <div>
+              <div class="flyer2-icon">🥗</div>
+              <div class="flyer2-title">Menú semanal para empresas</div>
+              <div class="flyer2-desc">Entrega a domicilio en tu oficina · Lunes a viernes · Mínimo 5 personas. Menú variado cada semana con productos de temporada.</div>
+            </div>
+            <div>
+              <div class="flyer2-price">12€ <span style="font-size:1rem;">/ persona</span></div>
+              <div class="flyer2-price-sub">Por menú · Descuento del 20% el primer mes</div>
+              <div class="flyer2-cta">Pedir información por WhatsApp →</div>
+              <div class="flyer2-brand">Verde Raíz · Catering Saludable · Málaga</div>
+            </div>
+          </div>
+        </div>
+        <div class="flyer-label">Flyer de oferta — para imprimir o compartir</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LANDING ===== -->
+<div class="demo-section" id="tab-landing">
+  <div class="landing-wrapper">
+    <div class="landing-note">
+      🖥️ Simulación de landing page real — así se vería en el navegador del cliente
+    </div>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="browser-dot" style="background:#ff5f57;"></div>
+          <div class="browser-dot" style="background:#febc2e;"></div>
+          <div class="browser-dot" style="background:#28c840;"></div>
+        </div>
+        <div class="browser-url">verderaiz.es</div>
+      </div>
+
+      <!-- LANDING CONTENT -->
+      <div class="landing-hero">
+        <div class="landing-nav">
+          <div class="landing-nav-brand">Verde Raíz</div>
+          <div class="landing-nav-cta">Pedir info</div>
+        </div>
+        <div class="landing-hero-tag">🌿 Abrimos en Málaga · Junio 2025</div>
+        <h2>Catering saludable para quienes cuidan lo que comen</h2>
+        <p>Menús semanales para empresas, eventos corporativos y celebraciones privadas. Producto local, recetas reales, sin ultraprocesados.</p>
+        <div class="landing-hero-btns">
+          <span class="landing-btn-primary">Pedir presupuesto</span>
+          <span class="landing-btn-secondary">Ver menú de ejemplo</span>
+        </div>
+      </div>
+
+      <div class="landing-body">
+        <div style="text-align:center;margin-bottom:24px;">
+          <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--light);margin-bottom:8px;">Qué ofrecemos</div>
+          <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;">Un servicio para cada ocasión</div>
+        </div>
+        <div class="landing-services">
+          <div class="landing-service">
+            <div class="landing-service-icon">🏢</div>
+            <div class="landing-service-name">Empresas</div>
+            <div class="landing-service-desc">Menú diario para equipos de 5 a 50 personas</div>
+          </div>
+          <div class="landing-service">
+            <div class="landing-service-icon">🎉</div>
+            <div class="landing-service-name">Eventos</div>
+            <div class="landing-service-desc">Catering para bodas, bautizos y reuniones privadas</div>
+          </div>
+          <div class="landing-service">
+            <div class="landing-service-icon">🏠</div>
+            <div class="landing-service-name">Domicilio</div>
+            <div class="landing-service-desc">Entrega semanal de tupers para toda la semana</div>
+          </div>
+        </div>
+
+        <div class="landing-about">
+          <div class="landing-about-icon">👩‍🍳</div>
+          <div>
+            <h3>Hecho con producto local y recetas de verdad</h3>
+            <p>Trabajamos con proveedores de la provincia de Málaga. Sin conservantes, sin ultraprocesados. Cada semana el menú cambia según la temporada — siempre fresco, siempre distinto.</p>
+          </div>
+        </div>
+
+        <div class="landing-cta-strip">
+          <h3>¿Cuántas personas son?</h3>
+          <p>Contanos y te mandamos presupuesto en menos de 24 horas.</p>
+          <span class="landing-cta-strip-btn">Escribir por WhatsApp →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FINAL CTA -->
+<div class="final-cta">
+  <h2>Pack Lanzamiento</h2>
+  <p>Todo lo que ves en esta demo — identidad, logo, dos flyers y landing page — en una semana y con un solo punto de contacto.</p>
+  <div class="final-cta-price">490€</div>
+  <div class="final-cta-sub">pago único · entrega en 7 días hábiles</div>
+  <div class="final-includes">
+    <span class="final-include">✓ Logo en SVG, PNG y PDF</span>
+    <span class="final-include">✓ Paleta + tipografías</span>
+    <span class="final-include">✓ 2 flyers editables</span>
+    <span class="final-include">✓ Landing page publicada</span>
+    <span class="final-include">✓ 2 revisiones incluidas</span>
+  </div>
+  <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20me%20interesa%20el%20Pack%20Lanzamiento%20(490%E2%82%AC).%20%C2%BFMe%20pod%C3%A9s%20contar%20m%C3%A1s%3F" class="final-btn" target="_blank">Solicitar Pack Lanzamiento</a>
+  <div class="final-made">Demo creada por <a href="https://impulsdigital.es" target="_blank">Impuls Digital</a> · Negocio y marca ficticios</div>
+</div>
+
+<script>
+  function switchTab(tab, btn) {
+    document.querySelectorAll('.demo-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.demo-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
