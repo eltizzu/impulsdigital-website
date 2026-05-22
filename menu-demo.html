@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Terraza del Puerto — Menú Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --card: #ffffff;
+    --accent: #c4622d;
+    --accent-light: #fdf0e8;
+    --dark: #1c1a17;
+    --mid: #5a4f47;
+    --light: #9e8f85;
+    --border: #ede8e2;
+    --green: #1a4a3a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
+
+  /* HEADER */
+  .hero {
+    background: var(--green);
+    color: white;
+    text-align: center;
+    padding: 56px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.75);
+    font-size: 0.95rem;
+    margin-bottom: 24px;
+  }
+  .hero-badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .hero-badge {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.9);
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+
+  /* STICKY NAV */
+  .menu-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .menu-nav::-webkit-scrollbar { display: none; }
+  .menu-nav-inner {
+    display: flex;
+    gap: 4px;
+    padding: 10px 0;
+    white-space: nowrap;
+  }
+  .nav-pill {
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--mid);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  .nav-pill:hover, .nav-pill.active {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* CONTENT */
+  .container { max-width: 680px; margin: 0 auto; padding: 0 16px; }
+
+  .section {
+    padding: 40px 0 24px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title span { font-size: 1.4rem; }
+  .section-subtitle {
+    font-size: 0.82rem;
+    color: var(--light);
+    margin-bottom: 20px;
+  }
+
+  /* DISH CARDS */
+  .dishes { display: flex; flex-direction: column; gap: 1px; }
+  .dish {
+    background: var(--card);
+    border-radius: 0;
+    padding: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .dish:first-child { border-radius: 12px 12px 0 0; padding-top: 20px; }
+  .dish:last-child { border-radius: 0 0 12px 12px; border-bottom: none; padding-bottom: 20px; }
+  .dish:first-child:last-child { border-radius: 12px; }
+  .dishes-wrap {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 0 20px;
+    border: 1px solid var(--border);
+  }
+  .dish-emoji {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 48px;
+    text-align: center;
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .dish-info { flex: 1; min-width: 0; }
+  .dish-name {
+    font-weight: 600;
+    font-size: 0.97rem;
+    color: var(--dark);
+    margin-bottom: 3px;
+  }
+  .dish-desc {
+    font-size: 0.82rem;
+    color: var(--light);
+    line-height: 1.5;
+  }
+  .dish-tags {
+    display: flex;
+    gap: 6px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+  .dish-tag {
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+  .dish-tag.veg { background: #f0fdf4; color: #16a34a; }
+  .dish-tag.new { background: #fef9c3; color: #854d0e; }
+  .dish-price {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+
+  /* FEATURED DISH */
+  .dish-featured {
+    background: var(--accent-light);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(196, 98, 45, 0.2);
+    margin-bottom: 12px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .dish-featured::before {
+    content: '⭐ Recomendado del chef';
+    position: absolute;
+    top: 10px; right: -28px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 36px;
+    transform: rotate(35deg);
+    letter-spacing: 0.05em;
+  }
+
+  /* DRINKS GRID */
+  .drinks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .drink-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .drink-category {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--light);
+    margin-bottom: 10px;
+  }
+  .drink-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--border);
+    font-size: 0.85rem;
+  }
+  .drink-item:last-child { border-bottom: none; }
+  .drink-name { color: var(--dark); }
+  .drink-price { color: var(--accent); font-weight: 600; font-size: 0.82rem; }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 32px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .info-item { font-size: 0.85rem; }
+  .info-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--light); margin-bottom: 4px; }
+  .info-value { color: var(--dark); font-weight: 500; }
+
+  /* ALLERGENS */
+  .allergens {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 0.8rem;
+    color: #78350f;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.7);
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 0.82rem;
+    line-height: 1.8;
+  }
+  .footer strong { color: white; }
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .footer-made {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    font-size: 0.75rem;
+  }
+  .footer-made a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 480px) {
+    .drinks-grid { grid-template-columns: 1fr; }
+    .info-box { grid-template-columns: 1fr; }
+    .dish-featured::before { display: none; }
+  }
+
+  @media print {
+    .menu-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Menú Digital · 2025</div>
+  <h1>La Terraza del Puerto</h1>
+  <p>Cocina malagueña de mercado · Puerto de Málaga</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🕐 Mar–Dom 13:00–16:30 · 20:00–23:30</span>
+    <span class="hero-badge">📍 Muelle Uno, Málaga</span>
+    <span class="hero-badge">📞 952 18 44 07</span>
+  </div>
+</div>
+
+<!-- STICKY NAV -->
+<nav class="menu-nav">
+  <div class="menu-nav-inner">
+    <a href="#entrantes" class="nav-pill active">🥗 Entrantes</a>
+    <a href="#principales" class="nav-pill">🍳 Principales</a>
+    <a href="#pescados" class="nav-pill">🐟 Pescados</a>
+    <a href="#postres" class="nav-pill">🍮 Postres</a>
+    <a href="#bebidas" class="nav-pill">🍷 Bebidas</a>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- ENTRANTES -->
+  <div class="section" id="entrantes">
+    <div class="section-title"><span>🥗</span> Entrantes</div>
+    <p class="section-subtitle">Para compartir · Raciones generosas</p>
+
+    <div class="dish-featured">
+      <div class="dish-emoji">🥘</div>
+      <div class="dish-info">
+        <div class="dish-name">Cazuela de bacalao al ajillo</div>
+        <div class="dish-desc">Bacalao desalado en cazuela de barro con aceite de oliva virgen extra, ajos confitados y guindilla. Con pan de pueblo tostado.</div>
+        <div class="dish-tags"><span class="dish-tag">Firma</span></div>
+      </div>
+      <div class="dish-price">13,50€</div>
+    </div>
+
+    <div class="dishes-wrap">
+      <div class="dishes">
+        <div class="dish">
+          <div class="dish-emoji">🥑</div>
+          <div class="dish-info">
+            <div class="dish-name">Ensalada de aguacate y langostinos</div>
+            <div class="dish-desc">Aguacate, langostinos cocidos, tomate cherry, cebolla morada y vinagreta de lima.</div>
+            <div class="dish-tags"><span class="dish-tag veg">Sin gluten</span></div>
+          </div>
+          <div class="dish-price">11,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🍅</div>
+          <div class="dish-info">
+            <div class="dish-name">Salmorejo cordobés</div>
+            <div class="dish-desc">Crema fría de tomate con virutas de jamón ibérico y huevo duro picado. El verano en un bol.</div>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetariano</span></div>
+          </div>
+          <div class="dish-price">7,50€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🧅</div>
+          <div class="dish-info">
+            <div class="dish-name">Croquetas de jamón ibérico (6 uds.)</div>
+            <div class="dish-desc">Bechamel cremosa con jamón de bellota, rebozadas en panko y fritas al momento.</div>
+          </div>
+          <div class="dish-price">9,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🦑</div>
+          <div class="dish-info">
+            <div class="dish-name">Chipirones a la plancha</div>
+            <div class="dish-desc">Chipirones de la bahía con alioli de azafrán y limón. Temporada.</div>
+            <div class="dish-tags"><span class="dish-tag new">Temporada</span></div>
+          </div>
+          <div class="dish-price">12,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🍞</div>
+          <div class="dish-info">
+            <div class="dish-name">Pan con tomate y jamón</div>
+            <div class="dish-desc">Pan de telera con tomate rallado, aceite de oliva DO Málaga y jamón serrano loncheado.</div>
+          </div>
+          <div class="dish-price">6,50€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRINCIPALES -->
+  <div class="section" id="principales">
+    <div class="section-title"><span>🍳</span> Principales</div>
+    <p class="section-subtitle">Cocina de mercado · Producto local</p>
+
+    <div class="dish-featured">
+      <div class="dish-emoji">🥩</div>
+      <div class="dish-info">
+        <div class="dish-name">Secreto ibérico a la brasa con mojo verde</div>
+        <div class="dish-desc">Secreto de cerdo ibérico a las brasas de encina, mojo verde de cilantro y papas arrugadas. Punto de cocción: a elegir.</div>
+        <div class="dish-tags"><span class="dish-tag">Firma</span><span class="dish-tag veg">Sin gluten</span></div>
+      </div>
+      <div class="dish-price">18,50€</div>
+    </div>
+
+    <div class="dishes-wrap">
+      <div class="dishes">
+        <div class="dish">
+          <div class="dish-emoji">🍝</div>
+          <div class="dish-info">
+            <div class="dish-name">Fideuá de mariscos</div>
+            <div class="dish-desc">Fideos finos con caldo de pescado, gambas, mejillones y sepia. Con alioli casero aparte.</div>
+          </div>
+          <div class="dish-price">16,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🍗</div>
+          <div class="dish-info">
+            <div class="dish-name">Pollo de corral al horno con verduras</div>
+            <div class="dish-desc">Medio pollo de corral con tomillo, romero, patata panadera y pimientos asados.</div>
+          </div>
+          <div class="dish-price">14,50€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🥦</div>
+          <div class="dish-info">
+            <div class="dish-name">Risotto de setas y trufa negra</div>
+            <div class="dish-desc">Arroz arborio cremoso con mezcla de setas, parmesano 24 meses y aceite de trufa.</div>
+            <div class="dish-tags"><span class="dish-tag veg">Vegetariano</span></div>
+          </div>
+          <div class="dish-price">15,00€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PESCADOS -->
+  <div class="section" id="pescados">
+    <div class="section-title"><span>🐟</span> Pescados y Mariscos</div>
+    <p class="section-subtitle">Lonja de Málaga · Según disponibilidad</p>
+
+    <div class="dish-featured">
+      <div class="dish-emoji">🐠</div>
+      <div class="dish-info">
+        <div class="dish-name">Dorada a la sal con guarnición</div>
+        <div class="dish-desc">Dorada fresca de lonja entera cocinada en costra de sal gruesa, servida en mesa. Con patata vapor y ensalada de temporada.</div>
+        <div class="dish-tags"><span class="dish-tag">Firma</span><span class="dish-tag veg">Sin gluten</span></div>
+      </div>
+      <div class="dish-price">22,00€</div>
+    </div>
+
+    <div class="dishes-wrap">
+      <div class="dishes">
+        <div class="dish">
+          <div class="dish-emoji">🦐</div>
+          <div class="dish-info">
+            <div class="dish-name">Gambas al pil-pil</div>
+            <div class="dish-desc">Gambas blancas de Málaga en cazuela con aceite de oliva, ajo laminado y guindilla.</div>
+          </div>
+          <div class="dish-price">16,50€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🦞</div>
+          <div class="dish-info">
+            <div class="dish-name">Espeto de sardinas (6 uds.)</div>
+            <div class="dish-desc">Sardinas frescas en espeto de caña a la brasa de sarmiento. Tradición malagueña pura.</div>
+            <div class="dish-tags"><span class="dish-tag new">Temporada</span></div>
+          </div>
+          <div class="dish-price">11,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🐙</div>
+          <div class="dish-info">
+            <div class="dish-name">Pulpo a la gallega sobre crema de patata</div>
+            <div class="dish-desc">Pulpo cocido al punto, sobre crema de patata, pimentón de la Vera y aceite virgen extra.</div>
+          </div>
+          <div class="dish-price">19,00€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POSTRES -->
+  <div class="section" id="postres">
+    <div class="section-title"><span>🍮</span> Postres</div>
+    <p class="section-subtitle">Elaboración propia · Recetas de siempre</p>
+
+    <div class="dishes-wrap">
+      <div class="dishes">
+        <div class="dish">
+          <div class="dish-emoji">🍮</div>
+          <div class="dish-info">
+            <div class="dish-name">Tarta de queso al horno</div>
+            <div class="dish-desc">Tarta de queso cremosa horneada a baja temperatura, con coulis de frutos rojos.</div>
+            <div class="dish-tags"><span class="dish-tag new">Nueva</span></div>
+          </div>
+          <div class="dish-price">6,50€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🍫</div>
+          <div class="dish-info">
+            <div class="dish-name">Coulant de chocolate con helado de vainilla</div>
+            <div class="dish-desc">Bizcocho tibio con interior fundente de chocolate negro 70%, servido con helado artesano.</div>
+          </div>
+          <div class="dish-price">7,00€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🍊</div>
+          <div class="dish-info">
+            <div class="dish-name">Naranja con miel y canela</div>
+            <div class="dish-desc">Naranjas de temporada peladas al vivo, miel de la axarquía y canela de Ceilán. Ligero.</div>
+            <div class="dish-tags"><span class="dish-tag veg">Sin gluten · Vegan</span></div>
+          </div>
+          <div class="dish-price">4,50€</div>
+        </div>
+        <div class="dish">
+          <div class="dish-emoji">🥛</div>
+          <div class="dish-info">
+            <div class="dish-name">Bienmesabe malagueño</div>
+            <div class="dish-desc">Crema tradicional de almendras con miel, limón y yema. Receta de la abuela.</div>
+          </div>
+          <div class="dish-price">5,50€</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BEBIDAS -->
+  <div class="section" id="bebidas">
+    <div class="section-title"><span>🍷</span> Bebidas</div>
+    <p class="section-subtitle">Vinos de Málaga · Carta de importación</p>
+
+    <div class="drinks-grid">
+      <div class="drink-card">
+        <div class="drink-category">Vinos blancos</div>
+        <div class="drink-item"><span class="drink-name">Botani Moscatel (copa)</span><span class="drink-price">4,50€</span></div>
+        <div class="drink-item"><span class="drink-name">Albariño Rías Baixas</span><span class="drink-price">5,00€</span></div>
+        <div class="drink-item"><span class="drink-name">Botella Botani</span><span class="drink-price">22€</span></div>
+      </div>
+      <div class="drink-card">
+        <div class="drink-category">Vinos tintos</div>
+        <div class="drink-item"><span class="drink-name">Ribera del Duero (copa)</span><span class="drink-price">5,00€</span></div>
+        <div class="drink-item"><span class="drink-name">Rioja Crianza</span><span class="drink-price">4,50€</span></div>
+        <div class="drink-item"><span class="drink-name">Botella selección</span><span class="drink-price">desde 18€</span></div>
+      </div>
+      <div class="drink-card">
+        <div class="drink-category">Cervezas y refrescos</div>
+        <div class="drink-item"><span class="drink-name">Victoria (caña)</span><span class="drink-price">2,20€</span></div>
+        <div class="drink-item"><span class="drink-name">Victoria (botellín)</span><span class="drink-price">2,80€</span></div>
+        <div class="drink-item"><span class="drink-name">Refrescos</span><span class="drink-price">2,50€</span></div>
+      </div>
+      <div class="drink-card">
+        <div class="drink-category">Café y digestivos</div>
+        <div class="drink-item"><span class="drink-name">Café solo / con leche</span><span class="drink-price">1,80€</span></div>
+        <div class="drink-item"><span class="drink-name">Málaga Virgen (dulce)</span><span class="drink-price">3,50€</span></div>
+        <div class="drink-item"><span class="drink-name">Licores de la casa</span><span class="drink-price">4,00€</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="info-box">
+    <div class="info-item">
+      <div class="info-label">📍 Dirección</div>
+      <div class="info-value">Muelle Uno, Local 12<br>Málaga 29016</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">🕐 Horario</div>
+      <div class="info-value">Mar–Dom<br>13:00–16:30 · 20:00–23:30</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">📞 Reservas</div>
+      <div class="info-value">952 18 44 07<br>o por WhatsApp</div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">🌐 Web</div>
+      <div class="info-value">laterrazadelpuerto.es<br>@laterrazadelpuerto</div>
+    </div>
+  </div>
+
+  <div class="allergens">
+    ⚠️ <strong>Alérgenos:</strong> Si tienes alergia o intolerancia alimentaria, indícalo a tu camarero antes de pedir. Podemos adaptar algunos platos. Lista completa de alérgenos disponible en el local. Los precios incluyen IVA.
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">La Terraza del Puerto</div>
+  <div>Muelle Uno · Málaga · 952 18 44 07</div>
+  <div>laterrazadelpuerto.es</div>
+  <div class="footer-made">
+    Menú digital creado por <a href="https://impulsdigital.es" target="_blank">Impuls Digital</a> · ¿Quieres uno para tu negocio? <a href="https://wa.me/34692388908" target="_blank">Escríbenos</a>
+  </div>
+</footer>
+
+<script>
+  // Active nav pill on scroll
+  const sections = document.querySelectorAll('.section[id]');
+  const pills = document.querySelectorAll('.nav-pill');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        pills.forEach(p => p.classList.remove('active'));
+        const active = document.querySelector(`.nav-pill[href="#${e.target.id}"]`);
+        if (active) {
+          active.classList.add('active');
+          active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      }
+    });
+  }, { rootMargin: '-40% 0px -40% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
+
+</body>
+</html>

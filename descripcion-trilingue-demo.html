@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Descripción Trilingüe — Demo · Impuls Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf7f2;
+    --white: #fff;
+    --accent: #c4622d;
+    --accent-light: #fdf0e8;
+    --green: #1a4a3a;
+    --green-light: #eaf4f0;
+    --dark: #1c1a17;
+    --mid: #5a4f47;
+    --light: #9e8f85;
+    --border: #ede8e2;
+    --bad: #fee2e2;
+    --bad-text: #991b1b;
+    --good: #dcfce7;
+    --good-text: #166534;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
+
+  /* HERO */
+  .hero {
+    background: var(--green);
+    color: white;
+    padding: 52px 24px 44px;
+    text-align: center;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.9);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(1.7rem,5vw,2.6rem); font-weight: 700; margin-bottom: 10px; line-height: 1.2; }
+  .hero p { color: rgba(255,255,255,0.75); font-size: 0.97rem; max-width: 540px; margin: 0 auto 24px; line-height: 1.7; }
+  .hero-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+  .hero-badge { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: white; font-size: 0.78rem; padding: 6px 14px; border-radius: 20px; }
+
+  /* LAYOUT */
+  .container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+  /* BUSINESS CARD */
+  .biz-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 36px auto;
+    max-width: 900px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .biz-icon { font-size: 2.8rem; flex-shrink: 0; }
+  .biz-name { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+  .biz-meta { font-size: 0.83rem; color: var(--light); }
+
+  /* SECTION */
+  .section { padding: 40px 0 16px; }
+  .section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 6px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+  .section-sub { font-size: 0.88rem; color: var(--light); margin-bottom: 24px; }
+
+  /* BEFORE / AFTER */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .compare-box { border-radius: 12px; padding: 20px 22px; }
+  .compare-box.before { background: var(--bad); border: 1px solid #fca5a5; }
+  .compare-box.after { background: var(--good); border: 1px solid #86efac; }
+  .compare-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .compare-box.before .compare-label { color: var(--bad-text); }
+  .compare-box.after .compare-label { color: var(--good-text); }
+  .compare-text { font-size: 0.88rem; line-height: 1.7; color: var(--dark); }
+  .compare-box.before .compare-text { color: #7f1d1d; }
+
+  /* LANG TABS */
+  .lang-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .lang-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.83rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    background: var(--white);
+    color: var(--mid);
+    transition: all 0.18s;
+  }
+  .lang-tab.active {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+  }
+
+  /* LANG CONTENT */
+  .lang-content { display: none; }
+  .lang-content.active { display: block; }
+
+  /* TEXT CARD */
+  .text-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .text-card-header {
+    background: var(--green);
+    color: white;
+    padding: 10px 18px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .text-card-header span { opacity: 0.7; font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .text-card-body { padding: 18px 20px; font-size: 0.92rem; line-height: 1.75; color: var(--mid); }
+  .text-card-body.short { font-size: 0.88rem; }
+
+  /* GMAPS MOCK */
+  .gmaps-mock {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+  }
+  .gmaps-mock-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .gmaps-pin { color: #ea4335; font-size: 1.4rem; }
+  .gmaps-name { font-weight: 700; font-size: 0.97rem; color: var(--dark); }
+  .gmaps-cat { color: var(--light); font-size: 0.8rem; }
+  .gmaps-stars { color: #f59e0b; font-size: 0.82rem; margin-bottom: 8px; }
+  .gmaps-desc { color: var(--mid); line-height: 1.65; font-size: 0.83rem; }
+  .gmaps-tag { display: inline-block; background: #f1f5f9; color: #475569; font-size: 0.72rem; padding: 3px 10px; border-radius: 10px; margin: 6px 4px 0 0; }
+
+  /* LANG FLAGS */
+  .lang-flag { font-size: 1.1rem; }
+
+  /* VALUE PILLS */
+  .value-pills { display: flex; gap: 10px; flex-wrap: wrap; margin: 20px 0 32px; }
+  .value-pill { background: var(--accent-light); color: var(--accent); border: 1px solid rgba(196,98,45,0.2); font-size: 0.82rem; font-weight: 600; padding: 8px 16px; border-radius: 20px; }
+
+  /* CTA */
+  .cta-box {
+    background: var(--green);
+    color: white;
+    border-radius: 14px;
+    padding: 32px 36px;
+    text-align: center;
+    margin: 40px 0;
+  }
+  .cta-box h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; margin-bottom: 8px; }
+  .cta-box p { color: rgba(255,255,255,0.75); font-size: 0.9rem; margin-bottom: 20px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .cta-btn:hover { opacity: 0.9; }
+  .cta-price { font-size: 0.8rem; opacity: 0.65; margin-top: 10px; }
+
+  @media (max-width: 600px) {
+    .compare { grid-template-columns: 1fr; }
+    .biz-card { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Demo · Descripción Trilingüe</div>
+  <h1>Antes y después:<br>la misma barbería, otra dimensión</h1>
+  <p>Lo que ponés hoy en Google Maps probablemente te está costando clientes. Esto es lo que entregamos — en español, inglés y francés.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🇪🇸 Español</span>
+    <span class="hero-badge">🇬🇧 English</span>
+    <span class="hero-badge">🇫🇷 Français</span>
+    <span class="hero-badge">📍 Google Maps · Web · Redes</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- BIZ -->
+  <div class="biz-card">
+    <div class="biz-icon">✂️</div>
+    <div>
+      <div class="biz-name">Barbería El Faro — Málaga Centro</div>
+      <div class="biz-meta">Negocio ficticio creado para esta demo · Barberías &amp; peluquerías masculinas</div>
+    </div>
+  </div>
+
+  <!-- ANTES / DESPUÉS -->
+  <div class="section">
+    <div class="section-label">El problema</div>
+    <div class="section-title">Lo que suele escribirse vs. lo que funciona</div>
+    <div class="section-sub">La mayoría de negocios pone una descripción de Google Maps genérica — o directamente no la tiene. Aquí la diferencia real.</div>
+
+    <div class="compare">
+      <div class="compare-box before">
+        <div class="compare-label">✗ Antes — Descripción actual típica</div>
+        <div class="compare-text">"Barbería en Málaga. Cortes de pelo, arreglo de barba y afeitado. Atención personalizada. Llámanos para reservar cita."</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">✓ Después — Descripción optimizada (ES)</div>
+        <div class="compare-text">"Barbería tradicional en el corazón de Málaga Centro. Especialistas en corte clásico, degradado moderno y arreglo de barba. Ambiente relajado, resultados precisos y atención sin prisas. Reserva tu cita online o por WhatsApp — también atendemos turistas en inglés y francés."</div>
+      </div>
+    </div>
+
+    <div class="value-pills">
+      <span class="value-pill">✓ Palabras clave locales</span>
+      <span class="value-pill">✓ Servicios específicos</span>
+      <span class="value-pill">✓ Diferencial claro</span>
+      <span class="value-pill">✓ CTA incluida</span>
+      <span class="value-pill">✓ Atrae turistas</span>
+    </div>
+  </div>
+
+  <!-- LANG SELECTOR -->
+  <div class="section">
+    <div class="section-label">Resultado completo</div>
+    <div class="section-title">Los tres idiomas — listos para copiar y pegar</div>
+    <div class="section-sub">Cada idioma incluye versión corta (Google Maps, máx. 750 caracteres) y versión larga (web, bio, etc.).</div>
+
+    <div class="lang-tabs">
+      <button class="lang-tab active" onclick="switchLang('es', this)"><span class="lang-flag">🇪🇸</span> Español</button>
+      <button class="lang-tab" onclick="switchLang('en', this)"><span class="lang-flag">🇬🇧</span> English</button>
+      <button class="lang-tab" onclick="switchLang('fr', this)"><span class="lang-flag">🇫🇷</span> Français</button>
+    </div>
+
+    <!-- ES -->
+    <div class="lang-content active" id="lang-es">
+      <div class="text-card">
+        <div class="text-card-header">Versión corta <span>Google Maps · máx. 750 caracteres</span></div>
+        <div class="text-card-body short">Barbería tradicional en Málaga Centro. Especialistas en corte clásico, degradado moderno y arreglo de barba con navaja. Ambiente relajado, música en directo los viernes y atención sin esperas. Reserva online o por WhatsApp. También atendemos en inglés y francés.</div>
+      </div>
+      <div class="text-card">
+        <div class="text-card-header">Versión larga <span>Web · "Sobre nosotros" · Bio</span></div>
+        <div class="text-card-body">En Barbería El Faro llevamos más de diez años cuidando el aspecto de los hombres de Málaga. Nacimos en el barrio de la Trinidad con una idea clara: recuperar el ritual de la barbería clásica — la conversación, el detalle y la precisión — sin renunciar a los estilos contemporáneos.<br><br>Nuestros barberos dominan el degradado americano, el corte clásico con tijera y el afeitado con navaja y toalla caliente. También trabajamos con productos premium nacionales sin sulfatos ni parabenos.<br><br>Estamos en el centro de Málaga, a dos minutos a pie de la Catedral. Abiertos de lunes a sábado. Reserva tu cita con un mensaje de WhatsApp o directamente desde nuestra web.</div>
+      </div>
+
+      <!-- GMAPS MOCK -->
+      <div style="margin-top:20px;">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--light);margin-bottom:10px;">Así se vería en Google Maps →</div>
+        <div class="gmaps-mock">
+          <div class="gmaps-mock-header">
+            <span class="gmaps-pin">📍</span>
+            <div>
+              <div class="gmaps-name">Barbería El Faro</div>
+              <div class="gmaps-cat">Barbería · Málaga Centro</div>
+            </div>
+          </div>
+          <div class="gmaps-stars">★★★★★ 4,9 · (127 reseñas)</div>
+          <div class="gmaps-desc">Barbería tradicional en Málaga Centro. Especialistas en corte clásico, degradado moderno y arreglo de barba con navaja. Ambiente relajado, música en directo los viernes y atención sin esperas. Reserva online o por WhatsApp. También atendemos en inglés y francés.</div>
+          <div>
+            <span class="gmaps-tag">Corte clásico</span>
+            <span class="gmaps-tag">Arreglo de barba</span>
+            <span class="gmaps-tag">Degradado</span>
+            <span class="gmaps-tag">Reserva online</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EN -->
+    <div class="lang-content" id="lang-en">
+      <div class="text-card">
+        <div class="text-card-header">Short version <span>Google Maps · max. 750 characters</span></div>
+        <div class="text-card-body short">Traditional barbershop in the heart of Málaga city centre. Specialists in classic cuts, modern fades and straight razor shaves. Relaxed atmosphere, no rush. Book online or via WhatsApp. English-speaking staff always available — we love welcoming international visitors.</div>
+      </div>
+      <div class="text-card">
+        <div class="text-card-header">Long version <span>Website · About us · Bio</span></div>
+        <div class="text-card-body">Barbería El Faro has been serving the men of Málaga for over a decade. We combine the timeless rituals of classic barbering — precision scissor cuts, hot towel shaves, and the art of conversation — with modern styles that keep you looking sharp.<br><br>Our barbers are fluent in English and welcome tourists and expats who want a quality cut without the language barrier. Located just two minutes from Málaga Cathedral, we're easy to find and even easier to enjoy.<br><br>Walk-ins welcome, but we recommend booking ahead via WhatsApp or our website to secure your preferred time slot.</div>
+      </div>
+      <div style="margin-top:20px;">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--light);margin-bottom:10px;">How it looks on Google Maps →</div>
+        <div class="gmaps-mock">
+          <div class="gmaps-mock-header">
+            <span class="gmaps-pin">📍</span>
+            <div>
+              <div class="gmaps-name">Barbería El Faro</div>
+              <div class="gmaps-cat">Barber Shop · Málaga City Centre</div>
+            </div>
+          </div>
+          <div class="gmaps-stars">★★★★★ 4.9 · (127 reviews)</div>
+          <div class="gmaps-desc">Traditional barbershop in the heart of Málaga city centre. Specialists in classic cuts, modern fades and straight razor shaves. Relaxed atmosphere, no rush. Book online or via WhatsApp. English-speaking staff always available.</div>
+          <div>
+            <span class="gmaps-tag">Classic cuts</span>
+            <span class="gmaps-tag">Beard trim</span>
+            <span class="gmaps-tag">Fades</span>
+            <span class="gmaps-tag">English spoken</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FR -->
+    <div class="lang-content" id="lang-fr">
+      <div class="text-card">
+        <div class="text-card-header">Version courte <span>Google Maps · max. 750 caractères</span></div>
+        <div class="text-card-body short">Barbier traditionnel au cœur du centre-ville de Málaga. Spécialistes en coupes classiques, dégradés modernes et rasages à la lame. Ambiance détendue, sans attente. Réservez en ligne ou via WhatsApp. Notre équipe parle français — les touristes sont les bienvenus.</div>
+      </div>
+      <div class="text-card">
+        <div class="text-card-header">Version longue <span>Site web · À propos · Bio</span></div>
+        <div class="text-card-body">Barbería El Faro est un barbier traditionnel situé au cœur de Málaga, à deux minutes à pied de la Cathédrale. Depuis plus de dix ans, nous accueillons les hommes qui souhaitent une coupe précise, un rasage soigné et un moment de détente.<br><br>Nos barbiers maîtrisent les techniques classiques — ciseaux, rasoir droit, serviette chaude — ainsi que les coupes contemporaines comme le dégradé américain. Nous utilisons des produits haut de gamme sans sulfates ni parabènes.<br><br>Nous parlons français et accueillons chaleureusement les touristes et expatriés. Réservez votre créneau via WhatsApp ou notre site web.</div>
+      </div>
+      <div style="margin-top:20px;">
+        <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--light);margin-bottom:10px;">Aperçu sur Google Maps →</div>
+        <div class="gmaps-mock">
+          <div class="gmaps-mock-header">
+            <span class="gmaps-pin">📍</span>
+            <div>
+              <div class="gmaps-name">Barbería El Faro</div>
+              <div class="gmaps-cat">Barbier · Centre de Málaga</div>
+            </div>
+          </div>
+          <div class="gmaps-stars">★★★★★ 4,9 · (127 avis)</div>
+          <div class="gmaps-desc">Barbier traditionnel au cœur du centre-ville de Málaga. Spécialistes en coupes classiques, dégradés modernes et rasages à la lame. Ambiance détendue, sans attente. Réservez en ligne ou via WhatsApp. Notre équipe parle français.</div>
+          <div>
+            <span class="gmaps-tag">Coupe classique</span>
+            <span class="gmaps-tag">Taille de barbe</span>
+            <span class="gmaps-tag">Dégradé</span>
+            <span class="gmaps-tag">Français parlé</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>¿Tu negocio aparece así en Google?</h3>
+    <p>En 24h tenés las tres versiones listas para copiar y pegar en Google Maps, tu web y tus redes.</p>
+    <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20me%20interesa%20la%20Descripci%C3%B3n%20Tril%C3%BCng%C3%BCe%20(79%E2%82%AC)" class="cta-btn" target="_blank">Solicitar — 79€</a>
+    <div class="cta-price">Entrega en 24h · Español + Inglés + Francés · Versión corta y larga · Sin compromiso</div>
+  </div>
+
+  <div style="text-align:center;padding-bottom:32px;font-size:0.78rem;color:var(--light);">
+    Demo creada por <a href="https://impulsdigital.es" style="color:var(--accent);font-weight:600;text-decoration:none;">Impuls Digital</a> · Negocio ficticio · Málaga
+  </div>
+
+</div>
+
+<script>
+  function switchLang(lang, btn) {
+    document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('lang-' + lang).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

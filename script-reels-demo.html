@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Script para Reels — Demo · Impuls Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f0f;
+    --card: #1a1a1a;
+    --card2: #222;
+    --accent: #c4622d;
+    --accent-light: rgba(196,98,45,0.15);
+    --green: #1a4a3a;
+    --purple: #7c3aed;
+    --purple-light: rgba(124,58,237,0.15);
+    --blue: #0ea5e9;
+    --blue-light: rgba(14,165,233,0.12);
+    --white: #ffffff;
+    --light: #888;
+    --border: #2a2a2a;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--white); min-height: 100vh; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a0a1e 50%, #0a1a0f 100%);
+    padding: 52px 24px 44px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,0.12) 0%, transparent 60%);
+  }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(124,58,237,0.2);
+    color: #a78bfa;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(124,58,237,0.3);
+    position: relative;
+  }
+  .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(1.7rem,5vw,2.6rem); font-weight: 700; margin-bottom: 10px; line-height: 1.2; position: relative; }
+  .hero p { color: rgba(255,255,255,0.6); font-size: 0.95rem; max-width: 520px; margin: 0 auto 24px; line-height: 1.7; position: relative; }
+  .hero-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; position: relative; }
+  .hero-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); font-size: 0.78rem; padding: 6px 14px; border-radius: 20px; }
+
+  /* CONTAINER */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+
+  /* BRIEF */
+  .brief {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin: 36px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  .brief-item {}
+  .brief-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--light); margin-bottom: 5px; }
+  .brief-value { font-size: 0.9rem; font-weight: 600; }
+
+  /* SCRIPT TABS */
+  .script-tabs { display: flex; gap: 8px; margin: 32px 0 20px; flex-wrap: wrap; }
+  .script-tab {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--light);
+    transition: all 0.18s;
+    font-family: 'Inter', sans-serif;
+  }
+  .script-tab.active { background: var(--purple); border-color: var(--purple); color: white; }
+
+  .script-content { display: none; }
+  .script-content.active { display: block; }
+
+  /* SCRIPT BLOCK */
+  .script-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .script-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .script-header-left { display: flex; align-items: center; gap: 12px; }
+  .script-part-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .badge-hook { background: rgba(196,98,45,0.2); color: #fb923c; border: 1px solid rgba(196,98,45,0.3); }
+  .badge-dev { background: rgba(14,165,233,0.15); color: #38bdf8; border: 1px solid rgba(14,165,233,0.25); }
+  .badge-cta { background: rgba(124,58,237,0.2); color: #a78bfa; border: 1px solid rgba(124,58,237,0.3); }
+  .badge-cap { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+
+  .script-part-title { font-weight: 700; font-size: 0.88rem; }
+  .script-timer { font-size: 0.75rem; color: var(--light); background: rgba(255,255,255,0.05); padding: 3px 10px; border-radius: 10px; }
+
+  .script-body { padding: 20px; }
+  .script-line {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .script-line:last-child { margin-bottom: 0; }
+  .script-role {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 4px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+  .role-cam { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); }
+  .role-voz { background: rgba(196,98,45,0.2); color: #fb923c; }
+  .role-texto { background: rgba(14,165,233,0.15); color: #38bdf8; }
+  .role-nota { background: rgba(234,179,8,0.15); color: #fbbf24; }
+
+  .script-text { font-size: 0.9rem; line-height: 1.65; color: rgba(255,255,255,0.85); }
+  .script-text em { color: var(--light); font-style: normal; font-size: 0.82rem; }
+  .script-text strong { color: white; }
+
+  /* CAPTION */
+  .caption-block {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .caption-text { font-size: 0.88rem; line-height: 1.8; color: rgba(255,255,255,0.8); white-space: pre-line; }
+  .hashtags { margin-top: 12px; font-size: 0.83rem; color: var(--blue); line-height: 1.9; }
+
+  /* TIPS */
+  .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 24px 0 40px; }
+  .tip-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .tip-icon { font-size: 1.3rem; margin-bottom: 8px; }
+  .tip-title { font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; }
+  .tip-desc { font-size: 0.78rem; color: var(--light); line-height: 1.5; }
+
+  /* CTA */
+  .cta-box {
+    background: linear-gradient(135deg, #1a0a2e, #0a1a1e);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 14px;
+    padding: 36px;
+    text-align: center;
+    margin: 0 0 40px;
+  }
+  .cta-box h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; margin-bottom: 8px; }
+  .cta-box p { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 20px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--purple);
+    color: white;
+    padding: 13px 30px;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .cta-btn:hover { opacity: 0.88; }
+  .cta-price { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 10px; }
+
+  @media (max-width: 600px) {
+    .brief { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Demo · Script para Reels</div>
+  <h1>Un guion completo,<br>listo para grabar</h1>
+  <p>Así entregamos cada script: con estructura probada, copy en voz, indicaciones de cámara y caption para Instagram.</p>
+  <div class="hero-badges">
+    <span class="hero-badge">🎬 Hook · Desarrollo · CTA</span>
+    <span class="hero-badge">📱 Instagram Reels</span>
+    <span class="hero-badge">⏱️ 30–60 seg</span>
+    <span class="hero-badge">📝 Caption + hashtags</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- BRIEF -->
+  <div class="brief">
+    <div class="brief-item">
+      <div class="brief-label">Negocio</div>
+      <div class="brief-value">✂️ Barbería El Faro</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-label">Objetivo</div>
+      <div class="brief-value">Conseguir reservas</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-label">Duración</div>
+      <div class="brief-value">~45 segundos</div>
+    </div>
+    <div class="brief-item">
+      <div class="brief-label">Tono</div>
+      <div class="brief-value">Confianza + cercanía</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="script-tabs">
+    <button class="script-tab active" onclick="switchScript('v1', this)">Versión 1 — Hook problema</button>
+    <button class="script-tab" onclick="switchScript('v2', this)">Versión 2 — Hook sorpresa</button>
+  </div>
+
+  <!-- V1 -->
+  <div class="script-content active" id="script-v1">
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-hook">Hook</span>
+          <span class="script-part-title">Los primeros 3 segundos — lo más importante</span>
+        </div>
+        <span class="script-timer">⏱ 0–3 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Primer plano de tijeras sobre pelo — movimiento lento. Fondo desenfocado con ambiente de barbería.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text"><strong>"¿Cuánto llevas con el mismo corte?"</strong> <em>(texto grande, centrado, blanco sobre fondo semitransparente)</em></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-nota">Nota</span>
+          <div class="script-text">El gancho tiene que parar el scroll. Una pregunta que hace que el espectador se identifique de inmediato.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-dev">Desarrollo</span>
+          <span class="script-part-title">Mostrar el proceso — generar deseo</span>
+        </div>
+        <span class="script-timer">⏱ 3–35 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Toma del barbero preparando las herramientas. Luego corte en acción — planos cortos del detalle.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-voz">Voz</span>
+          <div class="script-text"><strong>"En la Barbería El Faro llevamos 10 años haciendo una sola cosa: cortes que duran y que se notan. Degradado, clásico con tijera, barba con navaja..."</strong></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Reveal del cliente: antes/después. La cámara recorre el corte terminado de cerca.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-voz">Voz</span>
+          <div class="script-text"><strong>"Sin prisas. Sin resultados genéricos. Cada corte, pensado para tu cara."</strong></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-nota">Nota</span>
+          <div class="script-text">Usar música de fondo con ritmo medio-alto. Cortes de edición rápidos sincronizados con el beat.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-cta">CTA</span>
+          <span class="script-part-title">Llamada a la acción — cerrar la reserva</span>
+        </div>
+        <span class="script-timer">⏱ 35–45 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Plano frontal del barbero mirando a cámara, relajado, con los brazos cruzados. Ambiente de fondo.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-voz">Voz</span>
+          <div class="script-text"><strong>"Estamos en el centro de Málaga. Reserva por WhatsApp — el link está en la bio."</strong></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text"><strong>"Reserva ahora 👉 Link en bio"</strong> <em>(aparece en pantalla con animación de entrada)</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-cap">Caption</span>
+          <span class="script-part-title">Texto para Instagram + hashtags</span>
+        </div>
+      </div>
+      <div class="script-body">
+        <div class="caption-block">
+          <div class="caption-text">✂️ Un corte nuevo puede cambiar más de lo que crees.
+
+En El Faro no hacemos cortes rápidos. Hacemos el tuyo — con tiempo, con detalle y con las técnicas que realmente duran.
+
+Degradados, clásicos con tijera, afeitado con navaja. Desde 15€.
+
+📍 Málaga Centro · Abiertos lun–sáb
+📲 Reserva por WhatsApp (link en bio)</div>
+          <div class="hashtags">#barberia #barberiamalaga #cortedepelomalaga #degradado #barberlife #malagacentro #barbershopmalaga #peluqueria #corteclasico #malaga</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- V2 -->
+  <div class="script-content" id="script-v2">
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-hook">Hook</span>
+          <span class="script-part-title">Arranca con el reveal — sorpresa visual</span>
+        </div>
+        <span class="script-timer">⏱ 0–3 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Empezar con el resultado final — plano del corte terminado, bien iluminado, impactante.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text"><strong>"Esto tardó 40 minutos. El resultado dura 4 semanas."</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-dev">Desarrollo</span>
+          <span class="script-part-title">El proceso — reel de transformación</span>
+        </div>
+        <span class="script-timer">⏱ 3–35 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-cam">Cámara</span>
+          <div class="script-text">Reel tipo "satisfying": planos muy cortos y bien editados del proceso completo — toalla caliente, navaja, tijera, secado, peinado final.</div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text">Subtítulos cortos sobre cada toma: <strong>"Toalla caliente" / "Navaja al detalle" / "Degradado a mano" / "Producto premium"</strong></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-nota">Nota</span>
+          <div class="script-text">Sin voz en off — que la música y las imágenes hablen. Elegir una canción con buen ritmo que encaje con el corte de edición.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-cta">CTA</span>
+          <span class="script-part-title">Cierre — con urgencia</span>
+        </div>
+        <span class="script-timer">⏱ 35–45 seg</span>
+      </div>
+      <div class="script-body">
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text"><strong>"Solo quedan 3 huecos esta semana"</strong> <em>(crear urgencia real si corresponde)</em></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-texto">Texto</span>
+          <div class="script-text"><strong>"Reserva por WhatsApp 👇"</strong></div>
+        </div>
+        <div class="script-line">
+          <span class="script-role role-nota">Nota</span>
+          <div class="script-text">Terminar con la pantalla en negro 1 segundo antes del fin — hace que se "sienta" más como contenido premium que como publicidad.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="script-block">
+      <div class="script-header">
+        <div class="script-header-left">
+          <span class="script-part-badge badge-cap">Caption</span>
+          <span class="script-part-title">Texto para Instagram + hashtags</span>
+        </div>
+      </div>
+      <div class="script-body">
+        <div class="caption-block">
+          <div class="caption-text">40 minutos. Un corte que dura semanas. ✂️
+
+Esto es lo que pasa cuando le das tiempo a alguien que sabe lo que hace.
+
+Degradado americano + barba a navaja + toalla caliente.
+Desde el primer contacto hasta el espejo final.
+
+Disponible lun–sáb en Málaga Centro.
+Reserva por WhatsApp antes de que se llene 👇</div>
+          <div class="hashtags">#barberia #corte #degradado #barbershop #malagacentro #barbermalaga #afeitado #navaja #barberia2025 #cortedepelomalaga</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TIPS -->
+  <div style="margin-top:8px;">
+    <div style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--light);margin-bottom:16px;">Consejos de producción incluidos con cada script</div>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-icon">💡</div>
+        <div class="tip-title">Iluminación</div>
+        <div class="tip-desc">Recomendaciones de luz natural o artificial según el tipo de negocio y la hora de grabación.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">🎵</div>
+        <div class="tip-title">Música</div>
+        <div class="tip-desc">3 sugerencias de canciones en tendencia en Reels que encajan con el tono del guion.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">✂️</div>
+        <div class="tip-title">Edición</div>
+        <div class="tip-desc">Indicaciones de ritmo y duración de cada toma para que el corte funcione en CapCut o Reels directo.</div>
+      </div>
+      <div class="tip-card">
+        <div class="tip-icon">📐</div>
+        <div class="tip-title">Formato</div>
+        <div class="tip-desc">Siempre vertical 9:16, con safe zone marcada para texto. Indicaciones de dónde poner subtítulos.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-box">
+    <h3>¿Querés uno para tu negocio?</h3>
+    <p>Te mando 2 versiones del guion adaptadas a tu negocio, tus servicios y tu estilo. Listo para grabar.</p>
+    <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20me%20interesa%20un%20Script%20para%20Reels%20para%20mi%20negocio" class="cta-btn" target="_blank">Solicitar script</a>
+    <div class="cta-price">Entrega en 48h · 2 versiones · Caption + hashtags incluidos · Consejos de producción</div>
+  </div>
+
+  <div style="text-align:center;padding-bottom:32px;font-size:0.78rem;color:var(--light);">
+    Demo creada por <a href="https://impulsdigital.es" style="color:#a78bfa;font-weight:600;text-decoration:none;">Impuls Digital</a> · Negocio ficticio · Málaga
+  </div>
+
+</div>
+
+<script>
+  function switchScript(v, btn) {
+    document.querySelectorAll('.script-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.script-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById('script-' + v).classList.add('active');
+    btn.classList.add('active');
+  }
+</script>
+
+</body>
+</html>

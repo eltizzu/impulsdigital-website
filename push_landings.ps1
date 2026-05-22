@@ -25,4 +25,4 @@ foreach ($repo in $repos) {
     Write-Host "  Listo." -ForegroundColor Green
 }
 
-Write-Host "`nTodo subido." -F
+Write-Host "`nTodo subido." -ForegroundColor Green

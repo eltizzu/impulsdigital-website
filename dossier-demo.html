@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dossier Comercial — Carlos García Fontanería</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f9fc;
+    --white: #ffffff;
+    --accent: #1a4a8a;
+    --accent-light: #eef3fb;
+    --accent2: #e8820c;
+    --dark: #1a1f2e;
+    --mid: #4a5568;
+    --light: #9aa3b2;
+    --border: #e8ecf0;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
+
+  /* PRINT */
+  @media print {
+    body { background: white; }
+    .no-print { display: none !important; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; max-width: 100%; }
+    .cover { page-break-after: always; }
+    @page { margin: 0; size: A4; }
+  }
+
+  /* LAYOUT */
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    background: var(--white);
+    box-shadow: 0 4px 40px rgba(0,0,0,0.10);
+  }
+
+  /* TOP BAR */
+  .top-bar {
+    background: var(--accent);
+    color: white;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+  }
+  .top-bar span { opacity: 0.8; }
+
+  /* COVER */
+  .cover {
+    background: linear-gradient(135deg, #0f2a5c 0%, var(--accent) 60%, #1a5fa8 100%);
+    color: white;
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .cover-pattern {
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(255,255,255,0.02) 30px,
+      rgba(255,255,255,0.02) 60px
+    );
+  }
+  .cover-icon {
+    width: 72px; height: 72px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.4rem;
+    margin-bottom: 28px;
+    border: 2px solid rgba(255,255,255,0.2);
+    position: relative; z-index: 1;
+  }
+  .cover h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+  .cover-subtitle {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-bottom: 28px;
+    position: relative; z-index: 1;
+  }
+  .cover-badges {
+    display: flex; gap: 10px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .cover-badge {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+  .cover-year {
+    position: absolute;
+    top: 40px; right: 48px;
+    font-family: 'Fraunces', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    opacity: 0.06;
+    line-height: 1;
+    z-index: 0;
+  }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    background: var(--accent2);
+    color: white;
+    padding: 14px 48px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+  .contact-strip span { opacity: 0.9; }
+
+  /* SECTION COMMON */
+  .section {
+    padding: 48px 48px 0;
+  }
+  .section:last-of-type { padding-bottom: 48px; }
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+  .divider {
+    width: 48px; height: 3px;
+    background: var(--accent2);
+    border-radius: 2px;
+    margin-bottom: 20px;
+  }
+  p { line-height: 1.75; color: var(--mid); }
+
+  /* PRESENTACION */
+  .intro-box {
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 10px 10px 0;
+    padding: 20px 24px;
+    font-size: 0.97rem;
+    line-height: 1.75;
+    color: var(--dark);
+  }
+
+  /* SERVICES */
+  .services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 20px;
+  }
+  .service-card {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    transition: box-shadow 0.2s;
+  }
+  .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .service-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .service-name {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--dark);
+    margin-bottom: 4px;
+  }
+  .service-desc { font-size: 0.82rem; color: var(--light); line-height: 1.5; }
+  .service-card.accent {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .service-card.accent .service-name { color: white; }
+  .service-card.accent .service-desc { color: rgba(255,255,255,0.75); }
+
+  /* WHY US */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  .why-card {
+    text-align: center;
+    padding: 24px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .why-icon {
+    width: 52px; height: 52px;
+    background: var(--accent-light);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto 14px;
+  }
+  .why-title {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+  .why-desc { font-size: 0.8rem; color: var(--light); line-height: 1.5; }
+
+  /* ZONA */
+  .zones-wrap {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .zone-pill {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(26, 74, 138, 0.15);
+  }
+  .zone-map-note {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--light);
+  }
+
+  /* CONTACT FINAL */
+  .contact-final {
+    background: var(--dark);
+    color: white;
+    padding: 40px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  .contact-final h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.4rem;
+    margin-bottom: 8px;
+  }
+  .contact-final p { color: rgba(255,255,255,0.65); font-size: 0.9rem; }
+  .contact-items { display: flex; flex-direction: column; gap: 10px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 0.88rem;
+  }
+  .contact-item-icon {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+  .contact-item-text { color: rgba(255,255,255,0.85); }
+  .contact-item-text strong { color: white; display: block; font-size: 0.8rem; margin-bottom: 1px; }
+
+  /* FOOTER */
+  .footer {
+    background: #f0f2f7;
+    padding: 16px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--light);
+    border-top: 1px solid var(--border);
+  }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+
+  /* PRINT BUTTON */
+  .print-btn {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(26,74,138,0.3);
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #0f2a5c; }
+
+  @media (max-width: 600px) {
+    .cover, .section, .contact-final { padding-left: 24px; padding-right: 24px; }
+    .contact-strip { padding: 12px 24px; gap: 12px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .contact-final { grid-template-columns: 1fr; }
+    .footer { flex-direction: column; gap: 6px; text-align: center; }
+    .top-bar { padding: 10px 24px; font-size: 0.7rem; }
+    .cover-year { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <span>DOSSIER COMERCIAL · CONFIDENCIAL</span>
+    <span>Carlos García — Fontanería &amp; Instalaciones · 2025</span>
+  </div>
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-pattern"></div>
+    <div class="cover-year">2025</div>
+    <div class="cover-icon">🔧</div>
+    <h1>Carlos García<br>Fontanería &amp; Instalaciones</h1>
+    <div class="cover-subtitle">Fontanero autónomo · Málaga y Costa del Sol</div>
+    <div class="cover-badges">
+      <span class="cover-badge">📍 Málaga · Costa del Sol</span>
+      <span class="cover-badge">✅ Disponibilidad inmediata</span>
+      <span class="cover-badge">🚨 Servicio urgente 24h</span>
+    </div>
+  </div>
+
+  <!-- CONTACT STRIP -->
+  <div class="contact-strip">
+    <span>📞 +34 622 458 917</span>
+    <span>✉️ contacto@fontaneriacarlosgarcia.es</span>
+    <span>🌐 fontaneriacarlosgarcia.es</span>
+    <span>📍 Málaga · Costa del Sol</span>
+  </div>
+
+  <!-- PRESENTACIÓN -->
+  <div class="section">
+    <div class="section-label">Sobre mí</div>
+    <div class="section-title">Presentación personal</div>
+    <div class="divider"></div>
+    <div class="intro-box">
+      Carlos García es fontanero autónomo especializado en instalaciones, reparaciones y mantenimiento en Málaga y la Costa del Sol. Con años de experiencia en viviendas, locales y comunidades, ofrece un servicio cercano, rápido y profesional, cuidando cada detalle y priorizando siempre la tranquilidad del cliente. Trabajo limpio, atención directa y soluciones eficaces para el día a día.
+    </div>
+  </div>
+
+  <!-- SERVICIOS -->
+  <div class="section">
+    <div class="section-label">Qué ofrezco</div>
+    <div class="section-title">Servicios</div>
+    <div class="divider"></div>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">💧</div>
+        <div class="service-name">Reparación de fugas</div>
+        <div class="service-desc">Detección y reparación rápida de fugas de agua en cocinas, baños, terrazas y tuberías.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🚿</div>
+        <div class="service-name">Instalación de sanitarios</div>
+        <div class="service-desc">Montaje de grifos, inodoros, lavabos, duchas y todo tipo de equipamiento sanitario.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🔩</div>
+        <div class="service-name">Desatascos y mantenimiento</div>
+        <div class="service-desc">Soluciones eficaces para atascos en fregaderos, desagües y tuberías domésticas.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🏠</div>
+        <div class="service-name">Reformas de baño y cocina</div>
+        <div class="service-desc">Trabajos de fontanería para reformas integrales o parciales en viviendas y negocios.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">🌡️</div>
+        <div class="service-name">Termos y calentadores</div>
+        <div class="service-desc">Instalación, sustitución y mantenimiento de termos eléctricos y calentadores.</div>
+      </div>
+      <div class="service-card accent">
+        <div class="service-icon">🚨</div>
+        <div class="service-name">Servicio urgente</div>
+        <div class="service-desc">Atención rápida para averías y problemas que requieren solución inmediata.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POR QUÉ ELEGIRNOS -->
+  <div class="section">
+    <div class="section-label">Mis valores</div>
+    <div class="section-title">Por qué elegirme</div>
+    <div class="divider"></div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">Atención rápida y directa</div>
+        <div class="why-desc">Trato cercano y comunicación clara desde el primer contacto hasta la finalización del trabajo.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">✨</div>
+        <div class="why-title">Trabajo limpio y profesional</div>
+        <div class="why-desc">Cuidamos cada detalle para ofrecer resultados duraderos y dejar todo en perfectas condiciones.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💬</div>
+        <div class="why-title">Presupuestos sin sorpresas</div>
+        <div class="why-desc">Valoraciones honestas, precios transparentes y soluciones adaptadas a cada necesidad.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ZONA DE TRABAJO -->
+  <div class="section">
+    <div class="section-label">Cobertura</div>
+    <div class="section-title">Zona de trabajo</div>
+    <div class="divider"></div>
+    <p>Ofrezco servicio en toda la provincia de Málaga, con especial cobertura en la capital y la Costa del Sol occidental:</p>
+    <div class="zones-wrap">
+      <span class="zone-pill">📍 Málaga capital</span>
+      <span class="zone-pill">📍 Torremolinos</span>
+      <span class="zone-pill">📍 Benalmádena</span>
+      <span class="zone-pill">📍 Fuengirola</span>
+      <span class="zone-pill">📍 Marbella</span>
+      <span class="zone-pill">📍 Rincón de la Victoria</span>
+      <span class="zone-pill">📍 Costa del Sol</span>
+    </div>
+    <p class="zone-map-note">🚗 Disponibilidad inmediata en Málaga capital · Desplazamiento en el día para el resto de zonas</p>
+  </div>
+
+  <!-- CONTACTO FINAL -->
+  <div class="contact-final">
+    <div>
+      <h3>¿Hablamos?</h3>
+      <p>Solicita tu presupuesto sin compromiso. Respuesta garantizada en menos de 2 horas.</p>
+    </div>
+    <div class="contact-items">
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text">
+          <strong>Teléfono / WhatsApp</strong>
+          +34 622 458 917
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div class="contact-item-text">
+          <strong>Email</strong>
+          contacto@fontaneriacarlosgarcia.es
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">🌐</div>
+        <div class="contact-item-text">
+          <strong>Web</strong>
+          fontaneriacarlosgarcia.es
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>© 2025 Carlos García — Fontanería &amp; Instalaciones · Málaga</span>
+    <span>Dossier creado por <a href="https://impulsdigital.es" target="_blank">Impuls Digital</a></span>
+  </div>
+
+</div>
+
+<!-- PRINT BUTTON -->
+<button class="print-btn no-print" onclick="window.print()">
+  🖨️ Descargar PDF
+</button>
+
+</body>
+</html>
