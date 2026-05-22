@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análisis de Mercado — Sal & Brasa | Impuls Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #faf7f2;
+  --surface: #ffffff;
+  --surface2: #f3efe8;
+  --text: #1a1a1a;
+  --text-muted: #6b6557;
+  --green: #1a4a3a;
+  --green-mid: #2d6b52;
+  --green-light: #e6f2ec;
+  --terracotta: #c4622d;
+  --terra-light: #faeee6;
+  --amber: #d4870a;
+  --amber-light: #fef3dc;
+  --border: #e2dbd0;
+  --sidebar-w: 240px;
+  --radius: 10px;
+}
+[data-theme="dark"] {
+  --bg: #0e1410;
+  --surface: #172018;
+  --surface2: #1e2a20;
+  --text: #ede8df;
+  --text-muted: #8a9186;
+  --green: #4caf7d;
+  --green-mid: #3d9668;
+  --green-light: #1a2e22;
+  --terracotta: #e07a4a;
+  --terra-light: #2a1a10;
+  --amber: #e8a020;
+  --amber-light: #2a2010;
+  --border: #2a3530;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  transition: background 0.3s, color 0.3s;
+}
+
+/* PROGRESS BAR */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--terracotta); width: 0%;
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* LAYOUT */
+.layout { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  position: fixed; top: 0; left: 0; bottom: 0;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 28px 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+.sidebar-brand {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.sidebar-brand .label {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+  color: var(--terracotta); text-transform: uppercase; margin-bottom: 4px;
+}
+.sidebar-brand h2 {
+  font-family: 'Fraunces', serif; font-size: 16px;
+  color: var(--text); line-height: 1.3;
+}
+.sidebar-brand .sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+nav { flex: 1; padding: 0 12px; }
+nav a {
+  display: block; padding: 8px 10px; border-radius: 6px;
+  color: var(--text-muted); font-size: 13px; font-weight: 500;
+  text-decoration: none; transition: all 0.15s; margin-bottom: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+nav a:hover { background: var(--surface2); color: var(--text); }
+nav a.active { background: var(--green-light); color: var(--green); font-weight: 600; }
+
+.sidebar-footer {
+  padding: 16px 12px 0;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 8px;
+}
+.btn-pdf {
+  background: var(--green); color: #fff;
+  border: none; border-radius: 8px; padding: 10px 14px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: opacity 0.15s;
+}
+.btn-pdf:hover { opacity: 0.85; }
+.btn-dark {
+  background: transparent; border: 1px solid var(--border);
+  border-radius: 8px; padding: 8px 14px;
+  font-size: 13px; color: var(--text-muted); cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-dark:hover { border-color: var(--text-muted); color: var(--text); }
+.sidebar-credit { font-size: 11px; color: var(--text-muted); text-align: center; padding-top: 4px; }
+.sidebar-credit a { color: var(--terracotta); text-decoration: none; }
+
+/* MAIN */
+.main { margin-left: var(--sidebar-w); flex: 1; max-width: 960px; padding: 0 48px 80px; }
+
+/* HERO */
+.hero {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 56px;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--terra-light); color: var(--terracotta);
+  border: 1px solid var(--terracotta); border-radius: 20px;
+  padding: 4px 14px; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 700; line-height: 1.1; color: var(--text);
+  margin-bottom: 16px; max-width: 700px;
+}
+.hero h1 em { font-style: italic; color: var(--terracotta); }
+.hero-sub { font-size: 17px; color: var(--text-muted); max-width: 580px; margin-bottom: 40px; line-height: 1.6; }
+
+/* SCORE BLOCK */
+.score-block {
+  display: grid; grid-template-columns: auto 1fr; gap: 32px;
+  align-items: center; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 16px;
+  padding: 28px 32px; margin-bottom: 36px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.score-circle {
+  width: 100px; height: 100px; position: relative;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.score-circle svg { position: absolute; top: 0; left: 0; transform: rotate(-90deg); }
+.score-number {
+  font-family: 'Fraunces', serif; font-size: 36px; font-weight: 700;
+  color: var(--green); line-height: 1;
+}
+.score-label { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 2px; }
+.score-axes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.axis-item { }
+.axis-name { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.axis-bar-wrap { background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; }
+.axis-bar { height: 100%; border-radius: 4px; background: var(--green); }
+.axis-val { font-size: 12px; font-weight: 600; color: var(--text); margin-top: 3px; }
+
+/* INSIGHTS */
+.insights-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  margin-bottom: 0;
+}
+.insight-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+}
+.insight-card.positive { border-left: 3px solid var(--green); }
+.insight-card.warning { border-left: 3px solid var(--amber); }
+.insight-card.risk { border-left: 3px solid var(--terracotta); }
+.insight-icon { font-size: 20px; margin-bottom: 8px; }
+.insight-title { font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+.insight-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* SECTIONS */
+section { margin-bottom: 64px; scroll-margin-top: 24px; }
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--terracotta); margin-bottom: 10px;
+}
+h2 {
+  font-family: 'Fraunces', serif; font-size: 32px; font-weight: 700;
+  line-height: 1.2; margin-bottom: 20px; color: var(--text);
+}
+h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+p { color: var(--text-muted); margin-bottom: 16px; }
+p strong { color: var(--text); }
+
+/* STAT ROW */
+.stat-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  margin: 28px 0;
+}
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 18px;
+}
+.stat-num {
+  font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700;
+  color: var(--green); line-height: 1; margin-bottom: 4px;
+}
+.stat-desc { font-size: 12px; color: var(--text-muted); }
+
+/* CHART CONTAINER */
+.chart-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin: 24px 0;
+  position: relative;
+}
+.chart-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 16px; }
+.chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* COMPETITOR TABLE */
+.table-controls {
+  display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.filter-btn {
+  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text-muted);
+  cursor: pointer; transition: all 0.15s;
+}
+.filter-btn.active, .filter-btn:hover {
+  background: var(--green); color: #fff; border-color: var(--green);
+}
+.table-wrap { overflow-x: auto; }
+table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+thead th {
+  text-align: left; padding: 10px 12px;
+  border-bottom: 2px solid var(--border);
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.05em; color: var(--text-muted);
+  background: var(--surface2); white-space: nowrap;
+}
+tbody td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+tbody tr:last-child td { border-bottom: none; }
+tbody tr:hover td { background: var(--surface2); }
+.badge {
+  display: inline-block; padding: 2px 8px; border-radius: 12px;
+  font-size: 11px; font-weight: 600;
+}
+.badge-seafood { background: var(--green-light); color: var(--green); }
+.badge-tapas { background: var(--terra-light); color: var(--terracotta); }
+.badge-fine { background: var(--amber-light); color: var(--amber); }
+.badge-casual { background: var(--surface2); color: var(--text-muted); }
+.stars { color: var(--amber); font-size: 13px; }
+
+/* MATRIX 2x2 */
+.matrix-wrap {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin: 24px 0;
+}
+.matrix-title { font-size: 13px; font-weight: 600; margin-bottom: 16px; }
+.matrix-svg-wrap { position: relative; }
+
+/* GAP CARDS */
+.gaps-grid { display: grid; gap: 16px; margin-top: 20px; }
+.gap-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+}
+.gap-num {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: var(--green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700;
+  flex-shrink: 0;
+}
+.gap-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+.gap-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.gap-tag {
+  display: inline-block; margin-top: 6px; padding: 2px 8px;
+  background: var(--green-light); color: var(--green);
+  border-radius: 12px; font-size: 11px; font-weight: 600;
+}
+
+/* GTM */
+.gtm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.gtm-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+}
+.gtm-icon { font-size: 24px; margin-bottom: 10px; }
+.gtm-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+.gtm-body { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.gtm-metric {
+  margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+  font-size: 12px; color: var(--text-muted);
+}
+.gtm-metric strong { color: var(--green); }
+
+/* VERDICT */
+.verdict-box {
+  background: var(--green); color: #fff; border-radius: 16px; padding: 36px;
+  margin-bottom: 24px;
+}
+.verdict-box .verdict-score {
+  font-family: 'Fraunces', serif; font-size: 64px; font-weight: 700; line-height: 1;
+  margin-bottom: 4px;
+}
+.verdict-box .verdict-label {
+  font-size: 14px; opacity: 0.8; margin-bottom: 20px;
+}
+.verdict-box p { color: rgba(255,255,255,0.85); font-size: 15px; line-height: 1.6; }
+.verdict-axes {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px;
+}
+.verdict-axis {
+  background: rgba(255,255,255,0.1); border-radius: 8px; padding: 12px;
+}
+.verdict-axis-name { font-size: 11px; opacity: 0.7; margin-bottom: 4px; }
+.verdict-axis-val { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; }
+
+.risks-grid { display: grid; gap: 12px; margin: 20px 0; }
+.risk-row {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 20px;
+  display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start;
+}
+.risk-icon { font-size: 18px; }
+.risk-title { font-weight: 600; font-size: 13px; margin-bottom: 3px; color: var(--terracotta); }
+.risk-body { font-size: 13px; color: var(--text-muted); }
+
+.steps-grid { display: grid; gap: 12px; margin: 20px 0; }
+.step-row {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 16px 20px;
+  display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center;
+}
+.step-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--terracotta); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.step-title { font-weight: 600; font-size: 13px; }
+.step-budget {
+  background: var(--terra-light); color: var(--terracotta);
+  border-radius: 12px; padding: 4px 10px; font-size: 12px; font-weight: 600;
+  white-space: nowrap;
+}
+
+/* CALLOUT */
+.callout {
+  border-left: 3px solid var(--green); background: var(--green-light);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 20px 0;
+  font-size: 14px; line-height: 1.6; color: var(--text);
+}
+
+/* PRINT */
+@media print {
+  #progress-bar, .sidebar, .btn-pdf, .btn-dark, .table-controls { display: none !important; }
+  .main { margin-left: 0; padding: 20px; max-width: 100%; }
+  .hero { padding: 24px 0; }
+  section { page-break-inside: avoid; margin-bottom: 32px; }
+  .score-block, .insight-card, .stat-card, .chart-wrap, .gap-card, .gtm-card,
+  .verdict-box, .risk-row, .step-row { page-break-inside: avoid; }
+  .chart-grid { grid-template-columns: 1fr 1fr; }
+  .insights-grid { grid-template-columns: repeat(3, 1fr); }
+  .stat-row { grid-template-columns: repeat(4, 1fr); }
+  canvas { max-height: 220px !important; }
+}
+
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .main { margin-left: 0; padding: 0 20px 60px; }
+  .insights-grid { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .chart-grid { grid-template-columns: 1fr; }
+  .score-block { grid-template-columns: 1fr; }
+  .gtm-grid { grid-template-columns: 1fr; }
+  .verdict-axes { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="label">Informe de mercado</div>
+    <h2>Sal & Brasa</h2>
+    <div class="sub">Restauración · Málaga · 2026</div>
+  </div>
+  <nav id="sidebar-nav">
+    <a href="#resumen" class="active">Resumen ejecutivo</a>
+    <a href="#mercado">Panorama del mercado</a>
+    <a href="#competencia">Mapa competitivo</a>
+    <a href="#posicionamiento">Posicionamiento</a>
+    <a href="#precios">Análisis de precios</a>
+    <a href="#gaps">Gaps y oportunidades</a>
+    <a href="#gtm">Go-to-market</a>
+    <a href="#veredicto">Veredicto</a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-pdf" onclick="window.print()">⬇ Descargar PDF</button>
+    <button class="btn-dark" id="darkToggle">🌙 Modo oscuro</button>
+    <div class="sidebar-credit">Elaborado por <a href="https://impulsdigital.es">Impuls Digital</a></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero" id="resumen">
+    <div class="hero-eyebrow">📊 Análisis de viabilidad · Mayo 2026</div>
+    <h1>Mercado de restauración en Málaga para <em>Sal & Brasa</em></h1>
+    <p class="hero-sub">Evaluación exhaustiva del mercado local, competencia directa, oportunidades no explotadas y recomendación sobre la expansión a un segundo local. Datos contrastados, veredicto sin rodeos.</p>
+
+    <div class="score-block">
+      <div class="score-circle">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--border)" stroke-width="8"/>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="var(--green)" stroke-width="8"
+            stroke-dasharray="263.9" stroke-dashoffset="87" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <div class="score-number">67</div>
+          <div class="score-label">/ 100</div>
+        </div>
+      </div>
+      <div class="score-axes">
+        <div class="axis-item">
+          <div class="axis-name">Mercado</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:76%"></div></div>
+          <div class="axis-val">76/100</div>
+        </div>
+        <div class="axis-item">
+          <div class="axis-name">Competencia</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:55%"></div></div>
+          <div class="axis-val">55/100</div>
+        </div>
+        <div class="axis-item">
+          <div class="axis-name">Diferencial</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:68%"></div></div>
+          <div class="axis-val">68/100</div>
+        </div>
+        <div class="axis-item">
+          <div class="axis-name">Monetización</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:72%"></div></div>
+          <div class="axis-val">72/100</div>
+        </div>
+        <div class="axis-item">
+          <div class="axis-name">Retención</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:61%"></div></div>
+          <div class="axis-val">61/100</div>
+        </div>
+        <div class="axis-item">
+          <div class="axis-name">Timing</div>
+          <div class="axis-bar-wrap"><div class="axis-bar" style="width:70%"></div></div>
+          <div class="axis-val">70/100</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insights-grid">
+      <div class="insight-card positive">
+        <div class="insight-icon">📈</div>
+        <div class="insight-title">El mercado crece pero el puerto está saturado</div>
+        <div class="insight-body">Málaga registró 14,2M de visitantes en 2024. El problema es que el 60% de los locales del puerto compiten en el mismo segmento. La diferenciación ya no es opcional.</div>
+      </div>
+      <div class="insight-card warning">
+        <div class="insight-icon">⚠️</div>
+        <div class="insight-title">La dependencia turística es tu mayor riesgo</div>
+        <div class="insight-body">Los negocios con más del 70% de clientela turística sufren caídas de entre el 40-55% en temporada baja. Construir clientela local estable es condición necesaria antes de expandir.</div>
+      </div>
+      <div class="insight-card risk">
+        <div class="insight-icon">🎯</div>
+        <div class="insight-title">El hueco real está en experiencia + local</div>
+        <div class="insight-body">Ningún competidor directo en la zona combina producto diferenciado (brasa + mariscos) con fidelización de cliente local. Ese es el territorio defendible de Sal & Brasa.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MERCADO -->
+  <section id="mercado">
+    <div class="section-label">01 — Panorama del mercado</div>
+    <h2>Un sector en expansión con dinámicas locales propias</h2>
+    <p>La restauración en España cerró 2024 con una facturación estimada de <strong>143.000M€</strong>, recuperando y superando niveles pre-pandemia con un CAGR del 4,2% desde 2020. Málaga es uno de los mercados más dinámicos del país, impulsado por el turismo internacional y un crecimiento demográfico sostenido del área metropolitana.</p>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">143B€</div>
+        <div class="stat-desc">Facturación restauración España 2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">14,2M</div>
+        <div class="stat-desc">Visitantes Málaga 2024 (récord histórico)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">+4,2%</div>
+        <div class="stat-desc">CAGR sector restauración 2020–2024</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">32€</div>
+        <div class="stat-desc">Ticket medio en zona puerto Málaga</div>
+      </div>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Evolución facturación restauración — España (miles de millones €)</div>
+      <canvas id="chartTAM" height="180"></canvas>
+    </div>
+
+    <h3>Tendencias que definen el mercado 2025–2027</h3>
+    <p><strong>Experiencia sobre precio.</strong> El cliente malagueño y el turista de calidad ya no eligen solo por precio. La narrativa del producto (origen, técnica, historia del local) se convierte en factor diferenciador. Los locales que no tienen historia que contar están perdiendo cuota frente a los que sí la tienen.</p>
+    <p><strong>El turista de temporada baja.</strong> Málaga ha dejado de ser destino estacional. Los vuelos directos desde norte de Europa durante todo el año generan demanda 12 meses. Los negocios que antes cerraban en enero ahora tienen margen para operar con rentabilidad — si tienen el mix de cliente correcto.</p>
+    <p><strong>Google como primer contacto.</strong> El 78% de las decisiones de restaurante en turismo comienzan en Google Maps. Un negocio con ficha optimizada, +100 reseñas y fotos actualizadas tiene ventaja estructural sobre uno con ficha abandonada, independientemente de la calidad real del producto.</p>
+
+    <div class="callout">
+      La apertura de nuevos hoteles de 4 y 5 estrellas en Málaga centro (Marriott, Nobu, Kimpton) entre 2023 y 2026 genera un flujo de cliente con ticket alto y disposición a gastar. El perímetro de 500m alrededor de estos hoteles es territorio premium en términos de tráfico de alto poder adquisitivo.
+    </div>
+  </section>
+
+  <!-- COMPETENCIA -->
+  <section id="competencia">
+    <div class="section-label">02 — Mapa competitivo</div>
+    <h2>Quién compite en tu terreno y cómo</h2>
+    <p>Análisis de 14 competidores directos e indirectos en Málaga, segmentados por tipo, posicionamiento y debilidades explotables.</p>
+
+    <div class="table-controls">
+      <button class="filter-btn active" data-filter="all">Todos</button>
+      <button class="filter-btn" data-filter="marisco">Mariscos / Brasa</button>
+      <button class="filter-btn" data-filter="tapas">Tapas / Tradicional</button>
+      <button class="filter-btn" data-filter="fine">Gastronómico</button>
+      <button class="filter-btn" data-filter="casual">Casual / Turístico</button>
+    </div>
+
+    <div class="table-wrap">
+      <table id="competidores-table">
+        <thead>
+          <tr>
+            <th>Local</th>
+            <th>Tipo</th>
+            <th>Ticket €</th>
+            <th>Clientela</th>
+            <th>Google</th>
+            <th>Debilidad clave</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-type="tapas">
+            <td><strong>El Pimpi</strong></td>
+            <td><span class="badge badge-tapas">Tapas</span></td>
+            <td>22–28€</td>
+            <td>85% turista</td>
+            <td><span class="stars">★★★★</span> 4.1 (8.4k)</td>
+            <td>Icónico pero muy orientado al turista. Sin estrategia de fidelización local.</td>
+          </tr>
+          <tr data-type="marisco">
+            <td><strong>El Tintero</strong></td>
+            <td><span class="badge badge-seafood">Mariscos</span></td>
+            <td>18–24€</td>
+            <td>60% local</td>
+            <td><span class="stars">★★★★</span> 4.3 (5.1k)</td>
+            <td>Solo almuerzo, ubicación Pedregalejo (lejos del centro). Sin presencia digital activa.</td>
+          </tr>
+          <tr data-type="fine">
+            <td><strong>Café de París</strong></td>
+            <td><span class="badge badge-fine">Gastronómico</span></td>
+            <td>55–80€</td>
+            <td>50% local, 50% turista</td>
+            <td><span class="stars">★★★★★</span> 4.6 (1.2k)</td>
+            <td>Precio alto, sin versión informal. No capturable para cena casual.</td>
+          </tr>
+          <tr data-type="tapas">
+            <td><strong>Bodegas Quitapenas</strong></td>
+            <td><span class="badge badge-tapas">Tradicional</span></td>
+            <td>15–20€</td>
+            <td>70% local</td>
+            <td><span class="stars">★★★★</span> 4.2 (2.8k)</td>
+            <td>Producto correcto pero sin diferenciación. Local pequeño, sin eventos.</td>
+          </tr>
+          <tr data-type="casual">
+            <td><strong>La Deriva</strong></td>
+            <td><span class="badge badge-casual">Casual</span></td>
+            <td>25–35€</td>
+            <td>65% turista</td>
+            <td><span class="stars">★★★★</span> 4.0 (890)</td>
+            <td>Abierto hace 2 años, todavía construyendo reputación. Menú inestable.</td>
+          </tr>
+          <tr data-type="marisco">
+            <td><strong>Marisquería El Cabra</strong></td>
+            <td><span class="badge badge-seafood">Mariscos</span></td>
+            <td>35–50€</td>
+            <td>55% local</td>
+            <td><span class="stars">★★★★</span> 4.4 (3.6k)</td>
+            <td>Precios altos, no tiene experiencia de brasa. Reserva difícil en temporada.</td>
+          </tr>
+          <tr data-type="tapas">
+            <td><strong>Mesón Astorga</strong></td>
+            <td><span class="badge badge-tapas">Tradicional</span></td>
+            <td>18–25€</td>
+            <td>80% local</td>
+            <td><span class="stars">★★★★</span> 4.3 (4.1k)</td>
+            <td>Decoración anticuada, sin presencia en redes. Cliente envejecido.</td>
+          </tr>
+          <tr data-type="fine">
+            <td><strong>Los Patios de Beatas</strong></td>
+            <td><span class="badge badge-fine">Gastronómico</span></td>
+            <td>45–65€</td>
+            <td>60% turista</td>
+            <td><span class="stars">★★★★★</span> 4.5 (2.3k)</td>
+            <td>Muy orientado a Instagram, producto a veces por debajo de las expectativas.</td>
+          </tr>
+          <tr data-type="casual">
+            <td><strong>Paparazzi Puerto</strong></td>
+            <td><span class="badge badge-casual">Turístico</span></td>
+            <td>28–38€</td>
+            <td>90% turista</td>
+            <td><span class="stars">★★★</span> 3.8 (6.7k)</td>
+            <td>Reseñas negativas por servicio lento. Vive de la ubicación, no del producto.</td>
+          </tr>
+          <tr data-type="tapas">
+            <td><strong>La Cosmopolita</strong></td>
+            <td><span class="badge badge-tapas">Vinos / Tapas</span></td>
+            <td>22–32€</td>
+            <td>55% local</td>
+            <td><span class="stars">★★★★</span> 4.4 (1.9k)</td>
+            <td>Espacio pequeño, sin cocina de peso. Más wine bar que restaurante.</td>
+          </tr>
+          <tr data-type="marisco">
+            <td><strong>El Portón</strong></td>
+            <td><span class="badge badge-seafood">Mariscos</span></td>
+            <td>30–45€</td>
+            <td>60% turista</td>
+            <td><span class="stars">★★★★</span> 4.1 (2.1k)</td>
+            <td>Servicio irregular en temporada alta. Carta demasiado extensa, sin foco.</td>
+          </tr>
+          <tr data-type="fine">
+            <td><strong>Refectorium</strong></td>
+            <td><span class="badge badge-fine">Experiencial</span></td>
+            <td>40–55€</td>
+            <td>70% turista</td>
+            <td><span class="stars">★★★★</span> 4.3 (1.4k)</td>
+            <td>Concepto muy nicho. Difícil repetición de visita por el mismo cliente.</td>
+          </tr>
+          <tr data-type="casual">
+            <td><strong>Muelle Uno (varios)</strong></td>
+            <td><span class="badge badge-casual">Casual</span></td>
+            <td>20–30€</td>
+            <td>85% turista</td>
+            <td><span class="stars">★★★</span> 3.7 (12k)</td>
+            <td>Calidad muy baja. El turista va una vez y no repite. Sin fidelización posible.</td>
+          </tr>
+          <tr data-type="tapas">
+            <td><strong>Bar Central</strong></td>
+            <td><span class="badge badge-tapas">Tradicional</span></td>
+            <td>12–18€</td>
+            <td>90% local</td>
+            <td><span class="stars">★★★★</span> 4.2 (780)</td>
+            <td>Ticket muy bajo, sin escalabilidad. No compite directamente con Sal & Brasa.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-wrap" style="margin-top:28px;">
+      <div class="chart-title">Distribución por clientela (turista vs. local) y ticket medio — competidores analizados</div>
+      <canvas id="chartCompetidores" height="200"></canvas>
+    </div>
+  </section>
+
+  <!-- POSICIONAMIENTO -->
+  <section id="posicionamiento">
+    <div class="section-label">03 — Posicionamiento</div>
+    <h2>Dónde está Sal & Brasa en el mapa</h2>
+    <p>La matriz muestra la posición de los principales competidores según dos ejes: <strong>precio medio por persona</strong> y <strong>ratio clientela local vs turista</strong>. El espacio en la esquina superior derecha (precio alto + clientela local) está prácticamente vacío — y es el destino al que debería apuntar Sal & Brasa.</p>
+
+    <div class="matrix-wrap">
+      <div class="matrix-title">Matriz: Precio medio vs. Ratio clientela local</div>
+      <svg id="matrix-svg" viewBox="0 0 500 380" style="width:100%; max-width:540px; display:block; margin:0 auto;">
+        <!-- Ejes -->
+        <line x1="60" y1="320" x2="460" y2="320" stroke="var(--border)" stroke-width="1.5"/>
+        <line x1="60" y1="320" x2="60" y2="30" stroke="var(--border)" stroke-width="1.5"/>
+        <!-- Labels ejes -->
+        <text x="260" y="355" text-anchor="middle" font-size="12" fill="var(--text-muted)" font-family="Inter">Precio (€/persona)</text>
+        <text x="20" y="175" text-anchor="middle" font-size="12" fill="var(--text-muted)" font-family="Inter" transform="rotate(-90 20 175)">% Clientela local</text>
+        <!-- Grid lines -->
+        <line x1="60" y1="175" x2="460" y2="175" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+        <line x1="260" y1="30" x2="260" y2="320" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="4"/>
+        <!-- Axis values -->
+        <text x="60" y="338" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">10€</text>
+        <text x="160" y="338" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">20€</text>
+        <text x="260" y="338" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">35€</text>
+        <text x="360" y="338" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">50€</text>
+        <text x="460" y="338" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">65€+</text>
+        <text x="45" y="323" text-anchor="end" font-size="10" fill="var(--text-muted)" font-family="Inter">10%</text>
+        <text x="45" y="175" text-anchor="end" font-size="10" fill="var(--text-muted)" font-family="Inter">50%</text>
+        <text x="45" y="35" text-anchor="end" font-size="10" fill="var(--text-muted)" font-family="Inter">90%</text>
+        <!-- Cuadrantes labels -->
+        <text x="160" y="50" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter" font-style="italic">Local económico</text>
+        <text x="380" y="50" text-anchor="middle" font-size="10" fill="var(--green)" font-family="Inter" font-style="italic" font-weight="600">🎯 Objetivo</text>
+        <text x="160" y="310" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter" font-style="italic">Turístico económico</text>
+        <text x="380" y="310" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter" font-style="italic">Turístico premium</text>
+        <!-- Puntos competidores -->
+        <!-- El Pimpi: 22-28€ → x~195, 85% turista → local 15% → y~290 -->
+        <circle cx="195" cy="290" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="195" y="278" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">El Pimpi</text>
+        <!-- El Tintero: 21€ → x~185, local 60% → y~175 -->
+        <circle cx="185" cy="156" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="185" y="144" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">El Tintero</text>
+        <!-- Café de París: 68€ → x~440, local 50% → y~175 -->
+        <circle cx="440" cy="175" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="440" y="163" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">Café de París</text>
+        <!-- Bodegas Quitapenas: 17€, local 70% → y~110 -->
+        <circle cx="170" cy="110" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="170" y="98" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">Quitapenas</text>
+        <!-- El Cabra: 43€, local 55% → y~155 -->
+        <circle cx="360" cy="155" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="360" y="143" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">El Cabra</text>
+        <!-- Patios de Beatas: 55€, turista 60% → local 40% → y~200 -->
+        <circle cx="400" cy="200" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="400" y="188" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">Los Patios</text>
+        <!-- Paparazzi: 33€, turista 90% → local 10% → y~305 -->
+        <circle cx="290" cy="305" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="290" y="293" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">Paparazzi</text>
+        <!-- Mesón Astorga: 21€, local 80% → y~80 -->
+        <circle cx="185" cy="80" r="6" fill="var(--text-muted)" opacity="0.6"/>
+        <text x="185" y="68" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">M. Astorga</text>
+        <!-- SAL & BRASA: posición actual 32€, local 40% → y~202. Destino: 38€, local 60% -->
+        <circle cx="280" cy="202" r="9" fill="var(--terracotta)" opacity="0.85"/>
+        <text x="280" y="228" text-anchor="middle" font-size="10" fill="var(--terracotta)" font-family="Inter" font-weight="700">Sal & Brasa HOY</text>
+        <!-- Flecha hacia objetivo -->
+        <line x1="289" y1="198" x2="356" y2="145" stroke="var(--terracotta)" stroke-width="1.5" stroke-dasharray="5" marker-end="url(#arrow)"/>
+        <circle cx="362" cy="140" r="9" fill="var(--green)" opacity="0.9"/>
+        <text x="362" y="126" text-anchor="middle" font-size="10" fill="var(--green)" font-family="Inter" font-weight="700">Objetivo</text>
+        <defs>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="var(--terracotta)"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+  </section>
+
+  <!-- PRECIOS -->
+  <section id="precios">
+    <div class="section-label">04 — Análisis de precios</div>
+    <h2>Benchmarking y elasticidad del mercado</h2>
+    <p>El ticket medio de Sal & Brasa (32€) se sitúa en la banda media-alta del mercado local, correctamente posicionado por encima de la oferta turística de baja calidad del Muelle Uno (20-28€) pero por debajo del segmento gastronómico (45-80€). El margen para subir precio existe si se acompaña de mejora perceptible en experiencia.</p>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Rango de ticket medio por segmento — Málaga centro y puerto</div>
+      <canvas id="chartPrecios" height="200"></canvas>
+    </div>
+
+    <div class="callout">
+      <strong>Oportunidad de pricing identificada:</strong> el segmento de cena con experiencia (brasa en sala, coctelería, maridaje) permite tickets de 42-48€ sin que el cliente lo perciba como un salto de categoría. La clave es la narrativa del producto, no solo la calidad. Un menú de temporada con nombre propio y historia justifica 8-12€ más por persona.
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-num">32€</div>
+        <div class="stat-desc">Ticket medio Sal & Brasa hoy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">44€</div>
+        <div class="stat-desc">Techo de precio del segmento medio-alto</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">+37%</div>
+        <div class="stat-desc">Margen de subida con reposicionamiento</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">18%</div>
+        <div class="stat-desc">Descuento medio en menú mediodía vs. cena</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GAPS -->
+  <section id="gaps">
+    <div class="section-label">05 — Gaps y oportunidades</div>
+    <h2>Lo que nadie está haciendo bien en tu mercado</h2>
+    <p>Estos son los cinco huecos concretos que ningún competidor directo está aprovechando, ordenados por facilidad de ejecución y potencial de impacto.</p>
+
+    <div class="gaps-grid">
+      <div class="gap-card">
+        <div class="gap-num">1</div>
+        <div>
+          <div class="gap-title">Fidelización de cliente local con sistema de recurrencia</div>
+          <div class="gap-body">Ninguno de los 14 competidores analizados tiene un programa de fidelización activo. El cliente local que repite 4-6 veces al año no tiene incentivo estructural para elegir el mismo sitio. Una tarjeta de cliente sencilla (5ª cena con descuento, acceso anticipado a carta de temporada) genera recurrencia sin coste de adquisición.</div>
+          <div class="gap-tag">⚡ Implementable en 2 semanas</div>
+        </div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">2</div>
+        <div>
+          <div class="gap-title">Experiencias privadas para empresas (afterwork y team dinners)</div>
+          <div class="gap-body">Málaga ha consolidado un hub de startups y empresas tech (Google, Vodafone, Accenture tienen oficinas). Ningún restaurante de brasa en la zona tiene un formato específico para cenas de equipo de 10-20 personas con menú cerrado. Ticket promedio: 45-55€/persona, reserva garantizada, cero desperdicio de producto.</div>
+          <div class="gap-tag">💰 Ticket alto garantizado</div>
+        </div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">3</div>
+        <div>
+          <div class="gap-title">Presencia en Google Maps sin optimizar en el sector</div>
+          <div class="gap-body">El 65% de los competidores tienen fichas de Google Business desactualizadas: fotos de hace 3+ años, sin posts semanales, sin respuestas a reseñas recientes. Un negocio con ficha optimizada (fotos de cada plato, menú actualizado, respuestas personalizadas a reseñas) se posiciona en el top 3 del pack local en 60-90 días.</div>
+          <div class="gap-tag">🔍 Alta visibilidad, bajo costo</div>
+        </div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">4</div>
+        <div>
+          <div class="gap-title">Menú de temporada narrativo con visibilidad en redes</div>
+          <div class="gap-body">Solo 3 de los 14 competidores publican contenido regular en Instagram. Ninguno tiene un formato visual consistente. Una estrategia de contenido mensual centrada en el producto (brasa, mariscos de temporada, técnica) puede posicionar Sal & Brasa como referente en un mercado con prácticamente cero ruido orgánico.</div>
+          <div class="gap-tag">📱 Diferenciación digital</div>
+        </div>
+      </div>
+      <div class="gap-card">
+        <div class="gap-num">5</div>
+        <div>
+          <div class="gap-title">Colaboración con hoteles boutique sin restaurante propio</div>
+          <div class="gap-body">Hay 8 hoteles boutique de 4 estrellas en Málaga centro sin restaurante propio. Sus huéspedes son exactamente el perfil de Sal & Brasa: 35-55 años, viaje de placer o negocio, ticket 35-50€/persona. Un acuerdo de recomendación (tarjeta en recepción, QR en habitación) puede representar 15-25 cubiertos adicionales semanales sin inversión en captación.</div>
+          <div class="gap-tag">🤝 Partnership de bajo costo</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GTM -->
+  <section id="gtm">
+    <div class="section-label">06 — Go-to-market</div>
+    <h2>Cómo construir posición antes de expandir</h2>
+    <p>La expansión a un segundo local sin primero consolidar la posición del primero es el error más común en restauración. Los tres canales que mayor ROI generan en tu situación específica, con casos reales y métricas.</p>
+
+    <div class="gtm-grid">
+      <div class="gtm-card">
+        <div class="gtm-icon">🔍</div>
+        <div class="gtm-title">Google Maps + SEO local</div>
+        <div class="gtm-body">Optimización completa de ficha: fotos profesionales de cada plato, menú actualizado, posts semanales, respuesta a reseñas en menos de 48h. Es el canal con mejor ROI para un restaurante local.</div>
+        <div class="gtm-metric">Caso: restaurante en Sevilla pasó de posición 8 a posición 2 en "mariscos centro Sevilla" en 73 días. <strong>+34% reservas directas.</strong></div>
+      </div>
+      <div class="gtm-card">
+        <div class="gtm-icon">📸</div>
+        <div class="gtm-title">Instagram con contenido de producto</div>
+        <div class="gtm-body">No se trata de volumen de publicaciones sino de calidad visual. Un formato fijo (plato + historia del ingrediente + técnica de brasa) construye autoridad en el nicho y genera compartidos orgánicos.</div>
+        <div class="gtm-metric">Meta alcanzable en 6 meses con consistencia: <strong>3.500-6.000 seguidores locales</strong> con alta intención de visita.</div>
+      </div>
+      <div class="gtm-card">
+        <div class="gtm-icon">🏨</div>
+        <div class="gtm-title">Partnerships con hoteles</div>
+        <div class="gtm-body">Identificar los 8 hoteles boutique sin restaurante propio en un radio de 800m. Propuesta: tarjeta de recomendación en recepción + comisión del 8% en reservas referidas o descuento para huéspedes.</div>
+        <div class="gtm-metric">Proyección conservadora: <strong>18 cubiertos adicionales/semana</strong> a ticket 40€ = 2.880€/semana incremental.</div>
+      </div>
+      <div class="gtm-card">
+        <div class="gtm-icon">🏢</div>
+        <div class="gtm-title">Canal empresa (B2B)</div>
+        <div class="gtm-body">Contacto directo con 15-20 empresas del hub tecnológico de Málaga (POLO Digital, BIC Euronova) para cenas de equipo y eventos privados. Menú cerrado con precio fijo, reserva con antelación.</div>
+        <div class="gtm-metric">1 cena de empresa/semana a 45€/persona × 15 personas = <strong>2.700€ adicionales</strong> con cero captación posterior.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VEREDICTO -->
+  <section id="veredicto">
+    <div class="section-label">07 — Veredicto</div>
+    <h2>La recomendación sin rodeos</h2>
+
+    <div class="verdict-box">
+      <div class="verdict-score">67</div>
+      <div class="verdict-label">Viabilidad de expansión — sobre 100</div>
+      <p>El mercado crece y el producto de Sal & Brasa tiene diferenciación real. Pero expandir ahora sería un error. La dependencia turística actual (estimada en 65-70% de la clientela) hace que el segundo local herede el mismo riesgo de estacionalidad sin una base de clientes locales estable que lo sostenga en temporada baja. <strong>El camino correcto es consolidar el primero durante 12-18 meses</strong> construyendo fidelización local, y entonces expandir desde una posición de fuerza.</p>
+      <div class="verdict-axes">
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Mercado</div>
+          <div class="verdict-axis-val">76</div>
+        </div>
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Competencia</div>
+          <div class="verdict-axis-val">55</div>
+        </div>
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Diferencial</div>
+          <div class="verdict-axis-val">68</div>
+        </div>
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Monetización</div>
+          <div class="verdict-axis-val">72</div>
+        </div>
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Retención</div>
+          <div class="verdict-axis-val">61</div>
+        </div>
+        <div class="verdict-axis">
+          <div class="verdict-axis-name">Timing</div>
+          <div class="verdict-axis-val">70</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>3 riesgos que pueden matar la expansión</h3>
+    <div class="risks-grid">
+      <div class="risk-row">
+        <div class="risk-icon">⚡</div>
+        <div>
+          <div class="risk-title">Estacionalidad sin contrapeso local</div>
+          <div class="risk-body">Si en enero el local trabaja al 40% de capacidad, un segundo local duplica la pérdida. Mitigación: alcanzar 55%+ de clientela local recurrente antes de abrir el segundo. Métrica de control: reservas de clientes recurrentes / total cubiertos por semana.</div>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-icon">👨‍🍳</div>
+        <div>
+          <div class="risk-title">Capital humano — el cuello de botella real</div>
+          <div class="risk-body">La escasez de cocineros cualificados en Málaga es estructural. Abrir un segundo local sin equipo formado previamente lleva a degradar la calidad del primero. Mitigación: iniciar formación de segundo equipo 6 meses antes de la apertura prevista.</div>
+        </div>
+      </div>
+      <div class="risk-row">
+        <div class="risk-icon">📍</div>
+        <div>
+          <div class="risk-title">Ubicación del segundo local como decisión irreversible</div>
+          <div class="risk-body">Un segundo local a menos de 800m del primero se canibaliza. A más de 2km necesita construir reputación desde cero. La zona de Soho (calle Lagunillas, Alameda) ofrece alquiler más bajo, clientela local y turismo cultural creciente. Explorar antes de comprometerse con el puerto.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>3 próximos pasos en 8 semanas</h3>
+    <div class="steps-grid">
+      <div class="step-row">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Optimizar Google Business Profile y lanzar estrategia de reseñas</div>
+          <div style="font-size:13px; color:var(--text-muted);">Fotos profesionales, menú actualizado, sistema de petición de reseñas post-visita. Objetivo: llegar a 200+ reseñas y posición top 3 en "restaurante mariscos Málaga centro" en 60 días.</div>
+        </div>
+        <div class="step-budget">200–400€</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Lanzar programa de fidelización básico y canal empresa</div>
+          <div style="font-size:13px; color:var(--text-muted);">Tarjeta de cliente física o digital (QR en mesa). Contactar 10 empresas del hub tech para cenas privadas. Sin inversión tecnológica, sin app, sin complejidad.</div>
+        </div>
+        <div class="step-budget">0–150€</div>
+      </div>
+      <div class="step-row">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Validar elasticidad de precio con menú de temporada</div>
+          <div style="font-size:13px; color:var(--text-muted);">Lanzar un menú degustación de 4 pasos a 42€ (vs. ticket actual 32€) y medir tasa de adopción. Si supera el 20% de las mesas en 4 semanas, el margen de reposicionamiento está confirmado antes de expandir.</div>
+        </div>
+        <div class="step-budget">0–200€</div>
+      </div>
+    </div>
+
+    <div class="callout" style="margin-top:32px;">
+      <strong>Señal de parada:</strong> Si en la revisión a 6 meses la clientela local recurrente no supera el 45% del total de cubiertos, no abrir el segundo local. El mercado no está equivocado — la propuesta de valor necesita más trabajo antes de escalar.
+    </div>
+  </section>
+
+  <!-- UPSELL SECTION -->
+  <section style="margin-bottom:48px;">
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:36px; text-align:center;">
+      <div style="font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--terracotta); margin-bottom:10px;">¿Y ahora qué?</div>
+      <h2 style="font-family:'Fraunces',serif; font-size:26px; margin-bottom:10px;">Este informe es el mapa. Nosotros también hacemos el camino.</h2>
+      <p style="max-width:520px; margin:0 auto 28px; color:var(--text-muted); font-size:14px;">Las recomendaciones de este análisis (Google Maps, presencia digital, web que convierte) son exactamente lo que hacemos en Impuls Digital. Si quieres ejecutar alguna de ellas, estamos a un mensaje.</p>
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; max-width:620px; margin:0 auto 28px; text-align:left;">
+        <div style="background:var(--surface2); border-radius:10px; padding:16px;">
+          <div style="font-size:18px; margin-bottom:6px;">📍</div>
+          <div style="font-weight:600; font-size:13px; margin-bottom:4px;">Ficha Google Maps</div>
+          <div style="font-size:12px; color:var(--text-muted);">Optimización completa para aparecer cuando te buscan.</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:16px;">
+          <div style="font-size:18px; margin-bottom:6px;">🌐</div>
+          <div style="font-weight:600; font-size:13px; margin-bottom:4px;">Web profesional</div>
+          <div style="font-size:12px; color:var(--text-muted);">Landing que convierte visitas en reservas y llamadas.</div>
+        </div>
+        <div style="background:var(--surface2); border-radius:10px; padding:16px;">
+          <div style="font-size:18px; margin-bottom:6px;">🎨</div>
+          <div style="font-weight:600; font-size:13px; margin-bottom:4px;">Diseño con IA</div>
+          <div style="font-size:12px; color:var(--text-muted);">Menú, flyers y posts listos en 24 horas.</div>
+        </div>
+      </div>
+      <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20vi%20mi%20análisis%20de%20mercado%20y%20me%20interesa%20saber%20más" style="display:inline-block; background:var(--terracotta); color:#fff; text-decoration:none; padding:12px 28px; border-radius:8px; font-weight:600; font-size:14px;">Hablar con Impuls Digital →</a>
+    </div>
+  </section>
+
+  <div style="text-align:center; padding: 24px 0 16px; border-top: 1px solid var(--border); font-size:12px; color:var(--text-muted);">
+    Informe elaborado por <strong><a href="https://impulsdigital.es" style="color:var(--terracotta); text-decoration:none;">Impuls Digital</a></strong> · Análisis de mercado con IA · Mayo 2026 ·
+    <a href="https://impulsdigital.es" style="color:var(--terracotta); text-decoration:none;">Solicitar análisis para tu negocio →</a>
+  </div>
+
+</main>
+</div>
+
+<script>
+// DARK MODE
+const darkToggle = document.getElementById('darkToggle');
+const html = document.documentElement;
+darkToggle.addEventListener('click', () => {
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  darkToggle.textContent = isDark ? '🌙 Modo oscuro' : '☀️ Modo claro';
+  updateChartColors();
+});
+
+// PROGRESS BAR
+const bar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.body.scrollHeight - window.innerHeight;
+  bar.style.width = (scrollTop / docHeight * 100) + '%';
+});
+
+// SIDEBAR ACTIVE
+const sections = document.querySelectorAll('section, .hero');
+const navLinks = document.querySelectorAll('#sidebar-nav a');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(a => a.classList.remove('active'));
+      const id = entry.target.id;
+      const link = document.querySelector(`#sidebar-nav a[href="#${id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+sections.forEach(s => observer.observe(s));
+
+// COMPETITOR TABLE FILTER
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#competidores-table tbody tr').forEach(row => {
+      row.style.display = (filter === 'all' || row.dataset.type === filter) ? '' : 'none';
+    });
+  });
+});
+
+// CHARTS
+let charts = {};
+
+function getColors() {
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  return {
+    green: isDark ? '#4caf7d' : '#1a4a3a',
+    terracotta: isDark ? '#e07a4a' : '#c4622d',
+    amber: isDark ? '#e8a020' : '#d4870a',
+    textMuted: isDark ? '#8a9186' : '#6b6557',
+    border: isDark ? '#2a3530' : '#e2dbd0',
+    surface: isDark ? '#1a211c' : '#ffffff',
+  };
+}
+
+function buildCharts() {
+  const c = getColors();
+
+  // CHART 1: TAM
+  const ctxTAM = document.getElementById('chartTAM').getContext('2d');
+  if (charts.tam) charts.tam.destroy();
+  charts.tam = new Chart(ctxTAM, {
+    type: 'bar',
+    data: {
+      labels: ['2019', '2020', '2021', '2022', '2023', '2024', '2025p', '2026p'],
+      datasets: [{
+        label: 'Facturación (miles de millones €)',
+        data: [124, 62, 85, 108, 131, 143, 151, 158],
+        backgroundColor: ['#1a4a3a','#c4622d','#d4870a','#1a4a3a','#1a4a3a','#1a4a3a','rgba(26,74,58,0.5)','rgba(26,74,58,0.3)'],
+        borderRadius: 6,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { grid: { color: c.border }, ticks: { color: c.textMuted, font: { size: 11 } } },
+        x: { grid: { display: false }, ticks: { color: c.textMuted, font: { size: 11 } } }
+      }
+    }
+  });
+
+  // CHART 2: Competidores scatter
+  const ctxComp = document.getElementById('chartCompetidores').getContext('2d');
+  if (charts.comp) charts.comp.destroy();
+  charts.comp = new Chart(ctxComp, {
+    type: 'bar',
+    data: {
+      labels: ['El Pimpi','El Tintero','Café París','El Cabra','Paparazzi','Quitapenas','Los Patios','M. Astorga','La Deriva','El Portón'],
+      datasets: [
+        {
+          label: '% Clientela turista',
+          data: [85, 40, 50, 45, 90, 30, 60, 20, 65, 60],
+          backgroundColor: c.terracotta + 'cc',
+          borderRadius: 4,
+        },
+        {
+          label: '% Clientela local',
+          data: [15, 60, 50, 55, 10, 70, 40, 80, 35, 40],
+          backgroundColor: c.green + 'cc',
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { labels: { color: c.textMuted, font: { size: 11 } } } },
+      scales: {
+        y: { stacked: true, grid: { color: c.border }, ticks: { color: c.textMuted, font: { size: 11 } }, max: 100 },
+        x: { stacked: true, grid: { display: false }, ticks: { color: c.textMuted, font: { size: 10 }, maxRotation: 30 } }
+      }
+    }
+  });
+
+  // CHART 3: Precios
+  const ctxPrec = document.getElementById('chartPrecios').getContext('2d');
+  if (charts.prec) charts.prec.destroy();
+  charts.prec = new Chart(ctxPrec, {
+    type: 'bar',
+    data: {
+      labels: ['Muelle Uno\n(turístico bajo)', 'Tapas\ntradicional', 'Sal & Brasa\n(actual)', 'Marisquerías\npremium', 'Gastronómico\nfine dining'],
+      datasets: [{
+        label: 'Ticket mínimo €',
+        data: [18, 14, 28, 32, 42],
+        backgroundColor: c.green + '55',
+        borderRadius: 4,
+      }, {
+        label: 'Ticket máximo €',
+        data: [28, 22, 36, 52, 82],
+        backgroundColor: c.green,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { labels: { color: c.textMuted, font: { size: 11 } } } },
+      scales: {
+        y: { grid: { color: c.border }, ticks: { color: c.textMuted, font: { size: 11 }, callback: v => v + '€' } },
+        x: { grid: { display: false }, ticks: { color: c.textMuted, font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+function updateChartColors() {
+  buildCharts();
+}
+
+buildCharts();
+</script>
+</body>
+</html>
