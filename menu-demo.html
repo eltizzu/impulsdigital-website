@@ -4,790 +4,827 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Demo Menú con IA | Impuls Digital</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-html { scroll-behavior:smooth; }
-body { background:#0a0a0a; font-family:'Inter', sans-serif; min-height:100vh; }
+body { background:#141414; font-family:'Inter', sans-serif; min-height:100vh; }
 
 /* TOP BAR */
 .top-bar {
-  background:#111; border-bottom:1px solid #1e1e1e;
-  padding:13px 24px;
+  background:#0d0d0d; border-bottom:1px solid #1e1e1e;
+  padding:12px 24px;
   display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
 }
 .top-brand { color:#fff; font-size:0.78rem; font-weight:600; letter-spacing:0.04em; }
 .top-brand span { color:#4ade80; }
-.top-cta {
-  background:#4ade80; color:#111;
-  font-size:0.78rem; font-weight:700;
-  padding:8px 18px; border-radius:20px;
-  text-decoration:none; transition:opacity 0.2s;
-}
-.top-cta:hover { opacity:0.85; }
+.top-cta { background:#4ade80; color:#111; font-size:0.78rem; font-weight:700; padding:8px 18px; border-radius:20px; text-decoration:none; }
 
 /* HERO */
-.demo-hero {
-  text-align:center;
-  padding:52px 24px 36px;
+.demo-hero { text-align:center; padding:44px 24px 24px; }
+.demo-hero h1 { font-family:'Bebas Neue', sans-serif; font-size:clamp(2.4rem, 8vw, 4.5rem); color:#fff; letter-spacing:0.02em; line-height:0.95; margin-bottom:12px; }
+.demo-hero h1 em { color:#F7C200; font-style:normal; }
+.demo-note {
+  display:inline-block; background:#1e1e1e; border:1px solid #2a2a2a;
+  color:#666; font-size:0.75rem; padding:8px 16px; border-radius:20px; margin-bottom:28px;
+  line-height:1.5;
 }
-.demo-hero h1 {
-  font-family:'Bebas Neue', sans-serif;
-  font-size:clamp(2.6rem, 9vw, 5rem);
-  color:#fff; letter-spacing:0.02em; line-height:0.95;
-  margin-bottom:14px;
-}
-.demo-hero h1 span { color:#FF6B00; }
-.demo-hero p {
-  color:#666; font-size:0.9rem; max-width:460px;
-  margin:0 auto 32px; line-height:1.7;
-}
+.demo-note span { color:#aaa; }
 
 /* TABS */
-.tabs {
-  display:flex; justify-content:center; gap:8px;
-  flex-wrap:wrap; padding:0 16px; margin-bottom:40px;
-}
-.tab-btn {
-  padding:10px 22px; border-radius:30px;
-  font-size:0.82rem; font-weight:600;
-  cursor:pointer; border:2px solid #2a2a2a;
-  background:transparent; color:#666;
-  transition:all 0.2s; letter-spacing:0.01em;
-}
-.tab-btn:hover { border-color:#444; color:#aaa; }
-.tab-btn.active { border-color:#FF6B00; background:#FF6B00; color:#fff; }
-
-/* VIEWS */
+.tabs { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; padding:0 16px; margin-bottom:36px; }
+.tab-btn { padding:10px 22px; border-radius:30px; font-size:0.82rem; font-weight:600; cursor:pointer; border:2px solid #2a2a2a; background:transparent; color:#555; transition:all 0.2s; }
+.tab-btn.active { border-color:#F7C200; background:#F7C200; color:#111; }
 .view { display:none; }
 .view.active { display:block; }
 
-/* ===================================================
-   VIEW 1 — BOLD BRASERÍA
-=================================================== */
-.bold-wrap { max-width:700px; margin:0 auto 48px; padding:0 16px; }
-.bold-card { background:#111; border:1px solid #1e1e1e; border-radius:16px; overflow:hidden; }
+/* ============================================================
+   STYLE 1 — DARK + GOLD (horizontal poster, King Burger style)
+   ============================================================ */
+.dark-wrap { max-width:900px; margin:0 auto; padding:0 16px 56px; }
+.style-label { text-align:center; color:#333; font-size:0.7rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:600; margin-bottom:14px; }
 
-.bold-header {
-  background:#111; padding:48px 40px 36px;
-  border-bottom:3px solid #FF6B00; position:relative; overflow:hidden;
+.dark-poster {
+  background:#111;
+  border:1px solid #222;
+  border-radius:6px;
+  overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.7);
 }
-.bold-header::before {
-  content:''; position:absolute; top:-80px; right:-80px;
-  width:280px; height:280px; border-radius:50%;
-  background:radial-gradient(circle, rgba(255,107,0,0.12) 0%, transparent 70%);
+
+/* POSTER HEADER */
+.dp-header {
+  display:grid; grid-template-columns:280px 1fr;
+  min-height:260px;
+  border-bottom:4px solid #F7C200;
 }
-.bold-rest-tag {
-  display:inline-block; background:#FF6B00; color:#fff;
-  font-size:0.65rem; font-weight:700; letter-spacing:0.14em;
-  text-transform:uppercase; padding:4px 12px; border-radius:4px; margin-bottom:16px;
+@media(max-width:600px) { .dp-header { grid-template-columns:1fr; } }
+
+.dp-left {
+  background:#0a0a0a; padding:32px 28px;
+  display:flex; flex-direction:column; justify-content:space-between;
+  border-right:1px solid #1a1a1a;
+  position:relative; overflow:hidden;
 }
-.bold-rest-name {
+.dp-left::before {
+  content:''; position:absolute; top:-40px; left:-40px;
+  width:180px; height:180px; border-radius:50%;
+  background:radial-gradient(circle, rgba(247,194,0,0.06) 0%, transparent 70%);
+}
+.dp-rest-tag {
+  display:inline-block; border:1px solid #333; color:#555;
+  font-size:0.62rem; letter-spacing:0.14em; text-transform:uppercase;
+  font-weight:700; padding:4px 12px; margin-bottom:14px; border-radius:2px;
+}
+.dp-rest-name {
   font-family:'Bebas Neue', sans-serif;
-  font-size:clamp(3.2rem, 11vw, 6.5rem);
-  color:#fff; line-height:0.88; letter-spacing:0.02em; margin-bottom:8px;
+  font-size:clamp(2.8rem, 8vw, 4.8rem);
+  color:#F7C200; line-height:0.88; letter-spacing:0.02em;
 }
-.bold-rest-sub {
-  color:#666; font-size:0.82rem; letter-spacing:0.1em;
-  text-transform:uppercase; font-weight:500;
+.dp-rest-sub {
+  color:#444; font-size:0.75rem; letter-spacing:0.1em;
+  text-transform:uppercase; font-weight:600; margin-top:10px;
 }
-.bold-meta {
-  display:flex; gap:20px; margin-top:22px; flex-wrap:wrap;
-}
-.bold-meta-item {
-  color:#555; font-size:0.78rem;
-  display:flex; align-items:center; gap:6px;
-}
+.dp-rest-info { color:#333; font-size:0.72rem; line-height:1.7; margin-top:8px; }
+.dp-accent-line { width:48px; height:3px; background:#F7C200; margin:14px 0; }
 
-/* Category */
-.bold-cat { padding:30px 40px 22px; border-bottom:1px solid #161616; }
-.bold-cat:last-of-type { border-bottom:none; }
-.bold-cat-title {
-  font-family:'Bebas Neue', sans-serif; font-size:1.5rem;
-  color:#FF6B00; letter-spacing:0.08em; margin-bottom:3px;
-  display:flex; align-items:center; gap:10px;
-}
-.bold-cat-sub {
-  color:#444; font-size:0.74rem; letter-spacing:0.07em;
-  text-transform:uppercase; margin-bottom:18px; font-weight:500;
-}
-
-/* Item */
-.bold-item {
-  display:flex; align-items:flex-start; gap:14px;
-  padding:13px 0; border-bottom:1px solid #161616;
-}
-.bold-item:last-child { border-bottom:none; }
-.bold-item-icon {
-  width:52px; height:52px; background:#161616; border-radius:10px;
+/* SVG ILLUSTRATION AREA */
+.dp-illustration {
+  background:#0d0d0d; position:relative;
   display:flex; align-items:center; justify-content:center;
-  font-size:2rem; flex-shrink:0;
+  padding:24px;
 }
-.bold-item-body { flex:1; }
-.bold-item-top {
-  display:flex; justify-content:space-between; align-items:flex-start;
-  gap:12px; margin-bottom:4px;
-}
-.bold-item-name { font-weight:700; color:#fff; font-size:0.92rem; line-height:1.3; flex:1; }
-.bold-item-price {
-  font-family:'Bebas Neue', sans-serif; font-size:1.3rem;
-  color:#F5C800; letter-spacing:0.04em; white-space:nowrap;
-}
-.bold-item-desc { color:#555; font-size:0.78rem; line-height:1.5; }
-.bold-item-tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:7px; }
-.tag {
-  font-size:0.65rem; padding:2px 8px; border-radius:4px;
-  font-weight:700; letter-spacing:0.05em; text-transform:uppercase;
-}
-.tag-star  { background:#1c1c00; color:#F5C800; border:1px solid #353500; }
-.tag-hot   { background:#2a0e00; color:#FF6B00; border:1px solid #3d1a00; }
-.tag-veg   { background:#071a07; color:#4ade80; border:1px solid #143314; }
-.tag-gf    { background:#0a0e1e; color:#818cf8; border:1px solid #1a2040; }
-
-/* Footer */
-.bold-footer {
-  background:#0a0a0a; padding:22px 40px;
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:14px; border-top:1px solid #1a1a1a;
-}
-.bold-qr-row { display:flex; align-items:center; gap:12px; }
-.bold-qr-box {
-  width:52px; height:52px; border:2px solid #222; border-radius:8px;
+.dp-illustration-inner {
+  position:relative; width:100%; max-width:380px;
   display:flex; align-items:center; justify-content:center;
-  font-size:1.4rem; color:#333;
-}
-.bold-qr-text { color:#555; font-size:0.76rem; line-height:1.5; }
-.bold-qr-text strong { color:#888; display:block; }
-.bold-credit { color:#2a2a2a; font-size:0.68rem; }
-.bold-credit a { color:#4ade80; text-decoration:none; }
-
-/* ===================================================
-   VIEW 2 — ELEGANT FINE DINING
-=================================================== */
-.elegant-wrap { max-width:700px; margin:0 auto 48px; padding:0 16px; }
-.elegant-card { background:#FAFAF5; border-radius:16px; overflow:hidden; box-shadow:0 8px 50px rgba(0,0,0,0.4); }
-
-.elegant-header {
-  background:#1E3A2F; padding:56px 48px 44px;
-  text-align:center; position:relative; overflow:hidden;
-}
-.elegant-header::after {
-  content:''; position:absolute; bottom:-1px; left:0; right:0; height:42px;
-  background:linear-gradient(to bottom right, transparent 49.5%, #FAFAF5 50%);
-}
-.elegant-rest-tag {
-  display:inline-block; border:1px solid rgba(212,175,55,0.35);
-  color:rgba(212,175,55,0.85); font-size:0.67rem; letter-spacing:0.18em;
-  text-transform:uppercase; padding:5px 16px; border-radius:2px;
-  margin-bottom:20px; font-weight:500;
-}
-.elegant-rest-name {
-  font-family:'Fraunces', serif;
-  font-size:clamp(2.4rem, 8vw, 4.2rem);
-  color:#fff; line-height:1; font-weight:700; margin-bottom:8px;
-}
-.elegant-rest-sub {
-  font-family:'Fraunces', serif; font-style:italic;
-  color:rgba(255,255,255,0.55); font-size:1.05rem; margin-bottom:28px;
-}
-.elegant-ornament {
-  display:flex; align-items:center; gap:14px;
-  justify-content:center; margin-bottom:18px;
-}
-.elegant-orn-line { width:60px; height:1px; background:rgba(212,175,55,0.25); }
-.elegant-orn-dot { color:rgba(212,175,55,0.4); font-size:0.8rem; }
-.elegant-meta {
-  display:flex; gap:22px; justify-content:center; flex-wrap:wrap;
-}
-.elegant-meta-item { color:rgba(255,255,255,0.4); font-size:0.76rem; letter-spacing:0.05em; }
-
-.elegant-body { padding:40px 48px 32px; }
-
-.elegant-cat { margin-bottom:38px; }
-.elegant-cat-head {
-  display:flex; align-items:center; gap:14px; margin-bottom:18px;
-}
-.elegant-cat-line { flex:1; height:1px; background:#E8E8E0; }
-.elegant-cat-title {
-  font-family:'Fraunces', serif; font-size:1rem; color:#1E3A2F;
-  font-weight:700; letter-spacing:0.07em; text-transform:uppercase;
-  white-space:nowrap; display:flex; align-items:center; gap:8px;
 }
 
-.elegant-item {
-  display:flex; justify-content:space-between; align-items:flex-start;
-  gap:20px; padding:13px 0; border-bottom:1px dashed #E5E5DB;
+/* Decorative circles */
+.dp-deco-circle {
+  position:absolute; border-radius:50%; border:1px solid #1e1e1e;
 }
-.elegant-item:last-child { border-bottom:none; }
-.elegant-item-left { flex:1; }
-.elegant-item-name-row {
-  display:flex; align-items:center; gap:9px; margin-bottom:4px; flex-wrap:wrap;
-}
-.elegant-item-name { font-weight:600; color:#1A1A1A; font-size:0.93rem; }
-.ebadge {
-  font-size:0.6rem; padding:2px 7px; border-radius:3px;
-  font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
-}
-.ebadge-sig { background:#EDF5F0; color:#1E3A2F; border:1px solid #C2D9CB; }
-.ebadge-new { background:#FFF6E6; color:#9A6500; border:1px solid #FFDB8A; }
-.elegant-item-desc { color:#999; font-size:0.78rem; line-height:1.55; font-style:italic; }
-.elegant-item-price {
-  font-family:'Fraunces', serif; font-size:1.05rem;
-  font-weight:700; color:#1E3A2F; white-space:nowrap; padding-top:2px;
-}
+.dp-deco-circle-1 { width:220px; height:220px; top:50%; left:50%; transform:translate(-50%,-50%); }
+.dp-deco-circle-2 { width:300px; height:300px; top:50%; left:50%; transform:translate(-50%,-50%); border-style:dashed; border-color:#1a1a1a; }
 
-.elegant-footer {
-  background:#1E3A2F; padding:22px 48px;
-  display:flex; align-items:center; justify-content:space-between;
-  flex-wrap:wrap; gap:14px;
-}
-.elegant-footer-note { color:rgba(255,255,255,0.35); font-size:0.75rem; font-style:italic; }
-.elegant-footer-right { display:flex; align-items:center; gap:12px; }
-.elegant-qr-box {
-  width:46px; height:46px; border:1px solid rgba(255,255,255,0.15); border-radius:6px;
-  display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:rgba(255,255,255,0.25);
-}
-.elegant-footer-credit { color:rgba(255,255,255,0.3); font-size:0.7rem; line-height:1.5; }
-.elegant-footer-credit a { color:rgba(74,222,128,0.6); text-decoration:none; }
-
-/* ===================================================
-   VIEW 3 — QR MOBILE
-=================================================== */
-.mobile-wrap {
-  display:flex; flex-direction:column;
-  align-items:center; padding:0 16px 48px; gap:20px;
-}
-.mobile-note {
-  color:#555; font-size:0.82rem; text-align:center;
-  max-width:380px; line-height:1.7;
-}
-.phone-shell {
-  width:290px; height:590px;
-  background:#1a1a1a; border:2.5px solid #2a2a2a; border-radius:38px;
-  overflow:hidden; position:relative;
-  box-shadow:0 24px 70px rgba(0,0,0,0.7), inset 0 0 0 1px #1e1e1e;
-}
-.phone-notch {
-  position:absolute; top:0; left:50%; transform:translateX(-50%);
-  width:90px; height:26px; background:#1a1a1a;
-  border-radius:0 0 18px 18px; z-index:10;
-}
-.phone-scroll {
-  width:100%; height:100%; overflow-y:scroll;
-  scrollbar-width:none; padding-top:28px;
-}
-.phone-scroll::-webkit-scrollbar { display:none; }
-
-.p-hero { background:#FF6B00; padding:22px 18px 18px; text-align:center; }
-.p-rest-name {
-  font-family:'Bebas Neue', sans-serif; font-size:2.2rem;
-  color:#fff; letter-spacing:0.04em; line-height:1; margin-bottom:3px;
-}
-.p-rest-sub { color:rgba(255,255,255,0.7); font-size:0.62rem; letter-spacing:0.1em; text-transform:uppercase; }
-.p-nav {
-  background:#161616; display:flex; gap:5px;
-  padding:8px 14px; overflow-x:auto; scrollbar-width:none;
-  border-bottom:1px solid #222;
-}
-.p-nav::-webkit-scrollbar { display:none; }
-.p-pill {
-  background:#222; color:#777; font-size:0.6rem; padding:5px 11px;
-  border-radius:20px; white-space:nowrap; font-weight:600;
-}
-.p-pill.active { background:#FF6B00; color:#fff; }
-.p-cat-head {
-  font-family:'Bebas Neue', sans-serif; font-size:0.95rem;
-  color:#FF6B00; letter-spacing:0.1em;
-  padding:10px 16px 3px; background:#111;
-}
-.p-item { display:flex; gap:10px; padding:12px 16px; border-bottom:1px solid #1a1a1a; }
-.p-item-icon {
-  width:42px; height:42px; background:#1a1a1a; border-radius:9px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem; flex-shrink:0;
-}
-.p-item-body { flex:1; }
-.p-item-top { display:flex; justify-content:space-between; margin-bottom:3px; }
-.p-item-name { color:#fff; font-size:0.72rem; font-weight:600; line-height:1.3; flex:1; padding-right:6px; }
-.p-item-price { color:#F5C800; font-size:0.72rem; font-weight:700; white-space:nowrap; }
-.p-item-desc { color:#444; font-size:0.6rem; line-height:1.4; }
-
-.qr-block { text-align:center; max-width:360px; }
-.qr-label {
-  color:#555; font-size:0.72rem; letter-spacing:0.1em;
-  text-transform:uppercase; font-weight:600; margin-bottom:10px;
-}
-.qr-box {
-  width:110px; height:110px; border:2px dashed #2a2a2a; border-radius:12px;
+/* PHOTO PLACEHOLDER (where real food photo would go) */
+.dp-photo-placeholder {
+  width:220px; height:220px; border-radius:50%;
+  background:linear-gradient(135deg, #1e1200 0%, #2a1800 40%, #3a2200 70%, #1a1000 100%);
+  border:2px solid #2a2a2a;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  gap:5px; margin:0 auto 14px; color:#333;
+  gap:8px; position:relative; overflow:hidden;
 }
-.qr-box-icon { font-size:2rem; }
-.qr-box-text { font-size:0.62rem; }
-.qr-note { color:#444; font-size:0.76rem; line-height:1.65; }
+.dp-photo-placeholder::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(circle at 30% 30%, rgba(247,194,0,0.05) 0%, transparent 60%);
+}
+.dp-photo-text { color:#333; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; text-align:center; line-height:1.5; }
+.dp-photo-icon { color:#2a2a2a; font-size:2.5rem; }
 
-/* ===================================================
-   BOTTOM CTA
-=================================================== */
-.demo-bottom {
-  background:#0f0f0f; border-top:1px solid #1a1a1a;
-  padding:44px 24px; text-align:center;
+/* SPOTLIGHT BADGE */
+.dp-spotlight {
+  position:absolute; top:-12px; right:-12px;
+  width:80px; height:80px; background:#F7C200; border-radius:50%;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
 }
-.demo-price-badge {
-  display:inline-block; background:#161616; border:1px solid #2a2a2a;
-  color:#F5C800; font-size:0.76rem; font-weight:700;
-  padding:6px 18px; border-radius:20px; margin-bottom:20px; letter-spacing:0.04em;
-}
-.demo-bottom h2 {
-  font-family:'Bebas Neue', sans-serif; font-size:2.2rem;
-  color:#fff; letter-spacing:0.04em; margin-bottom:10px;
-}
-.demo-bottom p {
-  color:#555; font-size:0.86rem; max-width:420px;
-  margin:0 auto 26px; line-height:1.7;
-}
-.wa-btn {
-  display:inline-flex; align-items:center; gap:10px;
-  background:#25D366; color:#fff; font-weight:700; font-size:0.9rem;
-  padding:14px 30px; border-radius:30px; text-decoration:none;
-  transition:opacity 0.2s;
-}
-.wa-btn:hover { opacity:0.88; }
+.dp-spotlight-text { font-family:'Bebas Neue', sans-serif; font-size:0.72rem; color:#111; letter-spacing:0.06em; line-height:1.2; }
+.dp-spotlight-price { font-family:'Bebas Neue', sans-serif; font-size:1.4rem; color:#111; letter-spacing:0.02em; line-height:1; }
 
-@media(max-width:600px) {
-  .bold-header, .bold-cat, .bold-footer { padding-left:22px; padding-right:22px; }
-  .elegant-body { padding:30px 22px 24px; }
-  .elegant-header { padding:40px 22px 36px; }
-  .elegant-footer { padding:20px 22px; }
+/* POSTER BODY — menu items */
+.dp-body { padding:28px 32px; }
+.dp-menu-grid { display:grid; grid-template-columns:1fr 1px 1fr 1px 1fr; gap:0 24px; }
+@media(max-width:600px) { .dp-menu-grid { grid-template-columns:1fr; } }
+.dp-divider-col { background:#1e1e1e; }
+
+.dp-section {}
+.dp-section-head {
+  display:flex; align-items:center; gap:10px; margin-bottom:16px;
 }
+.dp-section-title {
+  font-family:'Bebas Neue', sans-serif; font-size:1.3rem;
+  color:#fff; letter-spacing:0.08em;
+}
+.dp-section-flag {
+  background:#F7C200; width:8px; height:20px; border-radius:2px;
+}
+.dp-section-line { flex:1; height:1px; background:#1e1e1e; }
+
+.dp-item { margin-bottom:12px; }
+.dp-item-row {
+  display:flex; align-items:baseline; gap:6px;
+}
+.dp-item-name { color:#ccc; font-size:0.82rem; font-weight:600; flex:1; }
+.dp-item-dots { flex:1; border-bottom:1px dotted #2a2a2a; margin:0 4px 3px; min-width:10px; max-width:40px; }
+.dp-item-price { font-family:'Bebas Neue', sans-serif; font-size:1.1rem; color:#F7C200; white-space:nowrap; }
+.dp-item-desc { color:#3a3a3a; font-size:0.7rem; line-height:1.4; margin-top:2px; }
+.dp-item-badge {
+  display:inline-block; font-size:0.58rem; font-weight:800;
+  text-transform:uppercase; letter-spacing:0.06em; padding:1px 6px; border-radius:2px; margin-top:3px;
+}
+.badge-hit  { background:#E63F22; color:#fff; }
+.badge-sig  { background:#F7C200; color:#111; }
+.badge-new  { background:#1e1e1e; color:#666; border:1px solid #2a2a2a; }
+
+/* POSTER FOOTER */
+.dp-footer {
+  background:#0a0a0a; border-top:1px solid #1a1a1a;
+  padding:18px 32px;
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+}
+.dp-qr-area { display:flex; align-items:center; gap:12px; }
+.dp-qr-box {
+  width:48px; height:48px; border:1px solid #222; border-radius:6px;
+  display:flex; align-items:center; justify-content:center;
+}
+/* QR SVG inline */
+.dp-qr-text { color:#333; font-size:0.72rem; line-height:1.5; }
+.dp-qr-text strong { color:#555; display:block; }
+.dp-credit { color:#222; font-size:0.68rem; }
+.dp-credit a { color:#4ade80; text-decoration:none; }
+
+/* ============================================================
+   STYLE 2 — YELLOW + DARK (vertical split, modern Canva style)
+   ============================================================ */
+.yellow-wrap { max-width:750px; margin:0 auto; padding:0 16px 56px; }
+
+.yellow-poster {
+  display:grid; grid-template-columns:260px 1fr;
+  border-radius:6px; overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.7);
+  min-height:700px;
+}
+@media(max-width:580px) { .yellow-poster { grid-template-columns:1fr; } }
+
+/* LEFT YELLOW COLUMN */
+.yp-left {
+  background:#F7C200; padding:32px 24px;
+  display:flex; flex-direction:column; gap:0;
+}
+.yp-logo { margin-bottom:20px; }
+.yp-logo-icon {
+  width:48px; height:48px; background:#111; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; margin-bottom:8px;
+}
+.yp-logo-name { font-family:'Bebas Neue', sans-serif; font-size:1.2rem; color:#111; letter-spacing:0.06em; }
+.yp-logo-tag { font-size:0.62rem; color:#8a7a00; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+
+.yp-title-block { margin-bottom:auto; }
+.yp-menu-word { font-family:'Bebas Neue', sans-serif; font-size:5rem; color:#111; line-height:0.88; letter-spacing:0.04em; }
+.yp-rest-name-yellow { font-family:'Bebas Neue', sans-serif; font-size:2.2rem; color:rgba(0,0,0,0.25); line-height:1; letter-spacing:0.04em; margin-top:4px; }
+
+/* FOOD ILLUSTRATION AREA — yellow column */
+.yp-food-area {
+  background:rgba(0,0,0,0.06); border-radius:8px;
+  padding:20px; margin:20px 0;
+  display:flex; align-items:center; justify-content:center;
+  min-height:180px; position:relative;
+}
+.yp-photo-hint {
+  text-align:center; color:rgba(0,0,0,0.35);
+  font-size:0.7rem; font-weight:700; letter-spacing:0.08em;
+  text-transform:uppercase; line-height:1.6;
+}
+
+.yp-info { margin-top:auto; padding-top:20px; border-top:2px solid rgba(0,0,0,0.1); }
+.yp-info p { font-size:0.72rem; color:rgba(0,0,0,0.5); font-weight:600; line-height:1.7; }
+.yp-info strong { color:#111; }
+.yp-web { font-family:'Bebas Neue', sans-serif; font-size:0.9rem; color:rgba(0,0,0,0.35); letter-spacing:0.08em; margin-top:8px; }
+
+/* RIGHT DARK COLUMN */
+.yp-right { background:#111; padding:32px 28px; }
+.yp-section { margin-bottom:24px; }
+.yp-section-head {
+  background:#F7C200; padding:7px 14px; margin-bottom:14px; border-radius:3px;
+  display:inline-block;
+}
+.yp-section-title { font-family:'Bebas Neue', sans-serif; font-size:1.1rem; color:#111; letter-spacing:0.1em; }
+
+.yp-item { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:10px; padding-bottom:10px; border-bottom:1px solid #1a1a1a; }
+.yp-item:last-child { border-bottom:none; }
+.yp-item-left { flex:1; }
+.yp-item-name { font-weight:700; color:#fff; font-size:0.88rem; line-height:1.3; margin-bottom:2px; }
+.yp-item-desc { color:#3a3a3a; font-size:0.72rem; line-height:1.4; }
+.yp-item-price { font-family:'Bebas Neue', sans-serif; font-size:1.2rem; color:#F7C200; white-space:nowrap; padding-top:1px; }
+
+.yp-tag { display:inline-block; font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; padding:1px 6px; border-radius:2px; margin-top:3px; }
+.yp-tag-hit { background:#E63F22; color:#fff; }
+.yp-tag-new { background:#F7C200; color:#111; }
+
+/* Two-column items for smaller sections */
+.yp-2col { display:grid; grid-template-columns:1fr 1fr; gap:10px 16px; }
+
+/* ============================================================
+   VIEW 3 — MOBILE QR
+   ============================================================ */
+.mobile-wrap { display:flex; flex-direction:column; align-items:center; padding:0 16px 56px; gap:20px; }
+.mobile-note { color:#444; font-size:0.82rem; text-align:center; max-width:380px; line-height:1.7; }
+.phone-shell {
+  width:285px; height:580px; background:#1a1a1a; border:2.5px solid #2a2a2a; border-radius:38px;
+  overflow:hidden; position:relative; box-shadow:0 24px 70px rgba(0,0,0,0.7);
+}
+.phone-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:88px; height:25px; background:#1a1a1a; border-radius:0 0 18px 18px; z-index:10; }
+.phone-scroll { width:100%; height:100%; overflow-y:scroll; scrollbar-width:none; padding-top:26px; }
+.phone-scroll::-webkit-scrollbar { display:none; }
+.p-hero { background:#F7C200; padding:20px 18px 16px; text-align:center; }
+.p-name { font-family:'Bebas Neue', sans-serif; font-size:2rem; color:#111; letter-spacing:0.04em; line-height:1; margin-bottom:2px; }
+.p-sub { color:rgba(0,0,0,0.45); font-size:0.6rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; }
+.p-nav { background:#0d0d0d; display:flex; gap:4px; padding:8px 12px; overflow-x:auto; scrollbar-width:none; }
+.p-nav::-webkit-scrollbar { display:none; }
+.p-pill { background:#1a1a1a; color:#555; font-size:0.58rem; padding:4px 10px; border-radius:20px; white-space:nowrap; font-weight:700; text-transform:uppercase; letter-spacing:0.04em; }
+.p-pill.active { background:#F7C200; color:#111; }
+.p-cat-head { font-family:'Bebas Neue', sans-serif; font-size:0.85rem; color:#F7C200; letter-spacing:0.1em; padding:9px 14px 3px; background:#0d0d0d; }
+.p-item { display:flex; gap:10px; padding:11px 14px; border-bottom:1px solid #1a1a1a; }
+.p-img { width:42px; height:42px; background:#1e1e1e; border-radius:6px; flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.p-body { flex:1; }
+.p-row { display:flex; justify-content:space-between; margin-bottom:2px; }
+.p-iname { color:#ddd; font-size:0.7rem; font-weight:700; flex:1; padding-right:4px; }
+.p-iprice { color:#F7C200; font-size:0.7rem; font-weight:800; white-space:nowrap; }
+.p-idesc { color:#333; font-size:0.58rem; line-height:1.4; }
+
+.qr-block { text-align:center; max-width:320px; }
+.qr-label { color:#333; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; font-weight:700; margin-bottom:10px; }
+.qr-box { width:100px; height:100px; border:2px dashed #222; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; margin:0 auto 12px; color:#2a2a2a; font-size:0.62rem; }
+.qr-note { color:#333; font-size:0.75rem; line-height:1.65; }
+
+/* BOTTOM CTA */
+.demo-bottom { background:#0d0d0d; border-top:1px solid #1a1a1a; padding:44px 24px; text-align:center; }
+.demo-price-badge { display:inline-block; background:#1a1a1a; border:1px solid #2a2a2a; color:#F7C200; font-size:0.76rem; font-weight:700; padding:6px 18px; border-radius:20px; margin-bottom:18px; }
+.demo-bottom h2 { font-family:'Bebas Neue', sans-serif; font-size:2.2rem; color:#fff; letter-spacing:0.04em; margin-bottom:8px; }
+.demo-bottom p { color:#444; font-size:0.86rem; max-width:420px; margin:0 auto 24px; line-height:1.7; }
+.wa-btn { display:inline-flex; align-items:center; gap:10px; background:#25D366; color:#fff; font-weight:700; font-size:0.9rem; padding:14px 30px; border-radius:30px; text-decoration:none; }
+
+/* QR SVG */
+.qr-svg rect { fill:#F7C200; }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="top-bar">
-  <div class="top-brand">Impuls Digital · <span>Demo — Diseño de Menú con IA</span></div>
-  <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20vi%20el%20demo%20del%20men%C3%BA%20y%20me%20interesa.%20%C2%BFMe%20cont%C3%A1s%20m%C3%A1s%3F" class="top-cta">149€ — Quiero el mío</a>
+  <div class="top-brand">Impuls Digital · <span>Demo — Diseño de Menú</span></div>
+  <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20quiero%20un%20men%C3%BA%20dise%C3%B1ado" class="top-cta">149€ — Quiero el mío</a>
 </div>
 
-<!-- HERO -->
 <div class="demo-hero">
-  <h1>UN MENÚ QUE<br><span>ENTRA POR LOS OJOS</span></h1>
-  <p>Para imprimir, con código QR o los dos. Tres estilos distintos para que veas cómo quedaría — el tuyo se diseña desde cero, adaptado a tu identidad.</p>
+  <h1>DISEÑO GRÁFICO<br><em>PARA TU CARTA</em></h1>
+  <div class="demo-note">
+    <span>Nota:</span> Esta demo muestra composición, tipografía y estilo visual. El entregable real incluye fotos de tus platos, ilustraciones personalizadas y archivo editable.
+  </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
-  <button class="tab-btn active" onclick="switchTab('bold')">🔥 Brasería Bold</button>
-  <button class="tab-btn" onclick="switchTab('elegant')">🌿 Fine Dining Elegante</button>
-  <button class="tab-btn" onclick="switchTab('mobile')">📱 Versión QR Digital</button>
+  <button class="tab-btn active" onclick="switchTab('dark')">Dark &amp; Gold</button>
+  <button class="tab-btn" onclick="switchTab('yellow')">Yellow Modern</button>
+  <button class="tab-btn" onclick="switchTab('mobile')">Digital QR</button>
 </div>
 
-<!-- ========= VIEW 1: BOLD ========= -->
-<div id="view-bold" class="view active">
-  <div class="bold-wrap">
-    <div class="bold-card">
-      <!-- Header -->
-      <div class="bold-header">
-        <div class="bold-rest-tag">Parrilla & Brasa · Málaga Centro</div>
-        <div class="bold-rest-name">LA LEÑA</div>
-        <div class="bold-rest-sub">Carne con carácter desde 2019</div>
-        <div class="bold-meta">
-          <div class="bold-meta-item">📍 C/ Alcazabilla 12</div>
-          <div class="bold-meta-item">⏰ Lun–Dom 13:00–24:00</div>
-          <div class="bold-meta-item">📞 952 000 000</div>
-        </div>
-      </div>
+<!-- ======================================
+     STYLE 1 — DARK & GOLD POSTER
+====================================== -->
+<div id="view-dark" class="view active">
+  <div class="dark-wrap">
+    <div class="style-label">Diseño horizontal — Para imprimir o formato digital</div>
+    <div class="dark-poster">
 
-      <!-- ENTRANTES -->
-      <div class="bold-cat">
-        <div class="bold-cat-title">🥗 ENTRANTES</div>
-        <div class="bold-cat-sub">Para picar mientras esperas</div>
-
-        <div class="bold-item">
-          <div class="bold-item-icon">🫒</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Aceitunas aliñadas del mercado</div>
-              <div class="bold-item-price">4,50€</div>
-            </div>
-            <div class="bold-item-desc">Ajo, comino y naranja. Receta de la casa desde siempre.</div>
-            <div class="bold-item-tags"><span class="tag tag-veg">🌱 Vegano</span></div>
+      <!-- HEADER: left info + right illustration -->
+      <div class="dp-header">
+        <div class="dp-left">
+          <div>
+            <div class="dp-rest-tag">Hamburguesas & Brasa</div>
+            <div class="dp-rest-name">KING<br>BURGER</div>
+            <div class="dp-accent-line"></div>
+            <div class="dp-rest-sub">Málaga Centro · Desde 2018</div>
+            <div class="dp-rest-info">C/ Alcazabilla 12<br>Lun–Dom 12:00–01:00<br>952 000 000</div>
+          </div>
+          <div>
+            <div style="font-size:0.65rem;color:#2a2a2a;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;">kingburger.es</div>
           </div>
         </div>
 
-        <div class="bold-item">
-          <div class="bold-item-icon">🥩</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Croquetas de rabo de toro</div>
-              <div class="bold-item-price">9,00€</div>
-            </div>
-            <div class="bold-item-desc">Bechamel de Jerez, pimentón ahumado. 6 unidades.</div>
-            <div class="bold-item-tags"><span class="tag tag-star">⭐ Firma</span></div>
-          </div>
-        </div>
+        <div class="dp-illustration">
+          <!-- Decorative circles -->
+          <div class="dp-deco-circle dp-deco-circle-1"></div>
+          <div class="dp-deco-circle dp-deco-circle-2"></div>
 
-        <div class="bold-item">
-          <div class="bold-item-icon">🍢</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Pinchitos morunos con miel de caña</div>
-              <div class="bold-item-price">11,00€</div>
-            </div>
-            <div class="bold-item-desc">Cerdo adobado con especias árabes, miel y lima. 4 unidades.</div>
-            <div class="bold-item-tags"><span class="tag tag-hot">🔥 Popular</span></div>
-          </div>
-        </div>
-      </div>
+          <div class="dp-illustration-inner">
+            <!-- SVG BURGER ILLUSTRATION -->
+            <svg viewBox="0 0 240 210" width="220" height="192" style="position:relative;z-index:1;">
+              <!-- Shadow -->
+              <ellipse cx="120" cy="200" rx="90" ry="10" fill="rgba(0,0,0,0.5)"/>
+              <!-- Bun top -->
+              <ellipse cx="120" cy="58" rx="92" ry="50" fill="#c97e38"/>
+              <ellipse cx="120" cy="46" rx="88" ry="40" fill="#e8984a"/>
+              <ellipse cx="120" cy="38" rx="84" ry="34" fill="#f0a855"/>
+              <!-- Sesame seeds -->
+              <ellipse cx="88" cy="28" rx="9" ry="6" fill="#c07030" transform="rotate(-10 88 28)"/>
+              <ellipse cx="118" cy="22" rx="9" ry="6" fill="#c07030"/>
+              <ellipse cx="148" cy="28" rx="9" ry="6" fill="#c07030" transform="rotate(10 148 28)"/>
+              <ellipse cx="100" cy="34" rx="7" ry="4" fill="#c07030" transform="rotate(-5 100 34)"/>
+              <ellipse cx="136" cy="32" rx="7" ry="4" fill="#c07030" transform="rotate(5 136 32)"/>
+              <!-- Lettuce (wavy) -->
+              <path d="M28 90 Q38 80 54 88 Q68 76 84 86 Q98 74 114 84 Q128 72 144 82 Q158 72 174 80 Q190 76 212 90 L212 98 L28 98Z" fill="#3d8a30"/>
+              <path d="M28 90 Q38 84 54 88 Q68 80 84 86 Q98 78 114 84 Q128 76 144 82 Q158 76 174 80 Q190 78 212 90" fill="none" stroke="#4fa040" stroke-width="1.5"/>
+              <!-- Tomato -->
+              <rect x="32" y="98" width="176" height="18" rx="5" fill="#cc2a1a"/>
+              <rect x="32" y="98" width="176" height="8" rx="5" fill="#e03a28"/>
+              <!-- Onion rings -->
+              <rect x="38" y="116" width="164" height="8" rx="4" fill="rgba(200,180,255,0.15)" stroke="rgba(200,180,255,0.2)" stroke-width="1"/>
+              <!-- Cheese -->
+              <path d="M28 124 L212 124 L218 130 L212 136 L28 136 L22 130Z" fill="#f0c820"/>
+              <!-- Patty -->
+              <rect x="28" y="136" width="184" height="26" rx="8" fill="#5a2e10"/>
+              <rect x="28" y="136" width="184" height="12" rx="8" fill="#6e3a1a"/>
+              <!-- Grill marks -->
+              <line x1="70" y1="138" x2="70" y2="160" stroke="#4a2008" stroke-width="3" stroke-linecap="round"/>
+              <line x1="100" y1="138" x2="100" y2="160" stroke="#4a2008" stroke-width="3" stroke-linecap="round"/>
+              <line x1="130" y1="138" x2="130" y2="160" stroke="#4a2008" stroke-width="3" stroke-linecap="round"/>
+              <line x1="160" y1="138" x2="160" y2="160" stroke="#4a2008" stroke-width="3" stroke-linecap="round"/>
+              <!-- Bottom bun -->
+              <rect x="28" y="162" width="184" height="28" rx="10" fill="#d08838"/>
+              <rect x="28" y="162" width="184" height="14" rx="10" fill="#e09848"/>
+            </svg>
 
-      <!-- PARRILLA -->
-      <div class="bold-cat">
-        <div class="bold-cat-title">🔥 PARRILLA</div>
-        <div class="bold-cat-sub">Brasa de encina · Punto de cocción a elegir</div>
-
-        <div class="bold-item">
-          <div class="bold-item-icon">🥩</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Secreto ibérico a la brasa</div>
-              <div class="bold-item-price">18,00€</div>
+            <!-- Spotlight badge -->
+            <div class="dp-spotlight" style="position:absolute;top:10px;right:10px;">
+              <div class="dp-spotlight-text">DESDE</div>
+              <div class="dp-spotlight-price">9€</div>
             </div>
-            <div class="bold-item-desc">Secreto de cerdo ibérico, mojo verde de cilantro y papas arrugadas. 300g.</div>
-            <div class="bold-item-tags"><span class="tag tag-star">⭐ Firma</span><span class="tag tag-gf">Sin gluten</span></div>
-          </div>
-        </div>
-
-        <div class="bold-item">
-          <div class="bold-item-icon">🐄</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Entrecot de Ávila D.O. — 350g</div>
-              <div class="bold-item-price">26,00€</div>
-            </div>
-            <div class="bold-item-desc">Madurado 21 días, sal Maldon y chimichurri de la casa.</div>
-            <div class="bold-item-tags"><span class="tag tag-hot">🔥 Top ventas</span><span class="tag tag-gf">Sin gluten</span></div>
-          </div>
-        </div>
-
-        <div class="bold-item">
-          <div class="bold-item-icon">🐑</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Costillas de cordero con romero</div>
-              <div class="bold-item-price">22,00€</div>
-            </div>
-            <div class="bold-item-desc">Costillar lechal, aceite de romero y puré de boniato. 400g.</div>
-            <div class="bold-item-tags"><span class="tag tag-star">⭐ Firma</span></div>
           </div>
         </div>
       </div>
 
-      <!-- BEBIDAS -->
-      <div class="bold-cat">
-        <div class="bold-cat-title">🍷 BEBIDAS</div>
-        <div class="bold-cat-sub">Vinos por copa · Cervezas artesanales · Cócteles de temporada</div>
+      <!-- MENU ITEMS GRID -->
+      <div class="dp-body">
+        <div class="dp-menu-grid">
 
-        <div class="bold-item">
-          <div class="bold-item-icon">🍷</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Ribera del Duero joven · Copa</div>
-              <div class="bold-item-price">5,50€</div>
+          <!-- BURGERS -->
+          <div class="dp-section">
+            <div class="dp-section-head">
+              <div class="dp-section-flag"></div>
+              <div class="dp-section-title">BURGERS</div>
+              <div class="dp-section-line"></div>
             </div>
-            <div class="bold-item-desc">Notas de cereza negra y especias suaves. Temperatura ideal de servicio.</div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">La Bestia Clásica</span><span class="dp-item-dots"></span><span class="dp-item-price">9,50€</span></div>
+              <div class="dp-item-desc">200g madurada, cheddar, lechuga, salsa de la casa</div>
+              <span class="dp-item-badge badge-sig">Estrella</span>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">La Doble Muerte</span><span class="dp-item-dots"></span><span class="dp-item-price">13,50€</span></div>
+              <div class="dp-item-desc">2×150g, doble cheddar, bacon, cebolla caramelizada</div>
+              <span class="dp-item-badge badge-hit">Brutal</span>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">La Pollo Crispy</span><span class="dp-item-dots"></span><span class="dp-item-price">10,50€</span></div>
+              <div class="dp-item-desc">Pechuga empanada, coleslaw casero, miel picante</div>
+              <span class="dp-item-badge badge-new">Nuevo</span>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">La Vegana</span><span class="dp-item-dots"></span><span class="dp-item-price">9,00€</span></div>
+              <div class="dp-item-desc">Hamburgesa de legumbres, aguacate, tomate cherry</div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">La BBQ Ranch</span><span class="dp-item-dots"></span><span class="dp-item-price">11,00€</span></div>
+              <div class="dp-item-desc">Carne, salsa BBQ ahumada, jalapeños, ranch</div>
+            </div>
           </div>
-        </div>
 
-        <div class="bold-item">
-          <div class="bold-item-icon">🍺</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Cerveza artesanal del Puerto · 33cl</div>
-              <div class="bold-item-price">4,00€</div>
+          <div class="dp-divider-col"></div>
+
+          <!-- SIDES + BEBIDAS -->
+          <div class="dp-section">
+            <div class="dp-section-head">
+              <div class="dp-section-flag"></div>
+              <div class="dp-section-title">SIDES</div>
+              <div class="dp-section-line"></div>
             </div>
-            <div class="bold-item-desc">Rubia de trigo producida en Málaga. Fresca y con cuerpo.</div>
-            <div class="bold-item-tags"><span class="tag tag-hot">🔥 Local</span></div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Patatas fritas</span><span class="dp-item-dots"></span><span class="dp-item-price">3,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Patatas con cheddar</span><span class="dp-item-dots"></span><span class="dp-item-price">4,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Aros de cebolla</span><span class="dp-item-dots"></span><span class="dp-item-price">5,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Alitas BBQ · 8 ud</span><span class="dp-item-dots"></span><span class="dp-item-price">11,00€</span></div>
+              <span class="dp-item-badge badge-hit">Top</span>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Nachos con jalapeños</span><span class="dp-item-dots"></span><span class="dp-item-price">7,50€</span></div>
+            </div>
+
+            <div class="dp-section-head" style="margin-top:20px;">
+              <div class="dp-section-flag"></div>
+              <div class="dp-section-title">BEBIDAS</div>
+              <div class="dp-section-line"></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Refrescos 33cl</span><span class="dp-item-dots"></span><span class="dp-item-price">2,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Cerveza artesanal</span><span class="dp-item-dots"></span><span class="dp-item-price">4,00€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Milkshake · 4 sabores</span><span class="dp-item-dots"></span><span class="dp-item-price">5,50€</span></div>
+            </div>
           </div>
-        </div>
 
-        <div class="bold-item">
-          <div class="bold-item-icon">🥂</div>
-          <div class="bold-item-body">
-            <div class="bold-item-top">
-              <div class="bold-item-name">Sangría de la casa · Jarra 1L</div>
-              <div class="bold-item-price">14,00€</div>
+          <div class="dp-divider-col"></div>
+
+          <!-- EXTRAS + POSTRES -->
+          <div class="dp-section">
+            <div class="dp-section-head">
+              <div class="dp-section-flag"></div>
+              <div class="dp-section-title">EXTRAS</div>
+              <div class="dp-section-line"></div>
             </div>
-            <div class="bold-item-desc">Vino tinto, naranja, canela y un toque de brandy.</div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Extra carne 150g</span><span class="dp-item-dots"></span><span class="dp-item-price">+3,00€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Extra queso</span><span class="dp-item-dots"></span><span class="dp-item-price">+1,00€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Extra bacon</span><span class="dp-item-dots"></span><span class="dp-item-price">+1,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Extra aguacate</span><span class="dp-item-dots"></span><span class="dp-item-price">+1,50€</span></div>
+            </div>
+
+            <div class="dp-section-head" style="margin-top:20px;">
+              <div class="dp-section-flag"></div>
+              <div class="dp-section-title">POSTRES</div>
+              <div class="dp-section-line"></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Brownie con helado</span><span class="dp-item-dots"></span><span class="dp-item-price">5,50€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Cheesecake del día</span><span class="dp-item-dots"></span><span class="dp-item-price">5,00€</span></div>
+            </div>
+            <div class="dp-item">
+              <div class="dp-item-row"><span class="dp-item-name">Oreo Milkshake</span><span class="dp-item-dots"></span><span class="dp-item-price">5,50€</span></div>
+              <span class="dp-item-badge badge-sig">Favorito</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Footer -->
-      <div class="bold-footer">
-        <div class="bold-qr-row">
-          <div class="bold-qr-box">▦</div>
-          <div class="bold-qr-text">
-            <strong>Menú digital disponible</strong>
-            Escanea para ver la carta completa
+      <!-- FOOTER -->
+      <div class="dp-footer">
+        <div class="dp-qr-area">
+          <!-- SVG QR placeholder -->
+          <div class="dp-qr-box">
+            <svg width="36" height="36" viewBox="0 0 36 36">
+              <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="#F7C200" stroke-width="1.5"/>
+              <rect x="5" y="5" width="8" height="8" rx="1" fill="#F7C200"/>
+              <rect x="20" y="2" width="14" height="14" rx="2" fill="none" stroke="#F7C200" stroke-width="1.5"/>
+              <rect x="23" y="5" width="8" height="8" rx="1" fill="#F7C200"/>
+              <rect x="2" y="20" width="14" height="14" rx="2" fill="none" stroke="#F7C200" stroke-width="1.5"/>
+              <rect x="5" y="23" width="8" height="8" rx="1" fill="#F7C200"/>
+              <rect x="20" y="20" width="4" height="4" rx="1" fill="#F7C200"/>
+              <rect x="26" y="20" width="4" height="4" rx="1" fill="#F7C200"/>
+              <rect x="20" y="26" width="4" height="4" rx="1" fill="#F7C200"/>
+              <rect x="26" y="26" width="4" height="4" rx="1" fill="#F7C200"/>
+              <rect x="23" y="23" width="4" height="4" rx="1" fill="#2a2a2a"/>
+            </svg>
           </div>
+          <div class="dp-qr-text"><strong>Menú digital con QR</strong>Escanea para ver la carta completa</div>
         </div>
-        <div class="bold-credit">Diseñado por <a href="https://impulsdigital.es">Impuls Digital</a></div>
+        <div class="dp-credit">Diseñado por <a href="https://impulsdigital.es">Impuls Digital</a></div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ========= VIEW 2: ELEGANT ========= -->
-<div id="view-elegant" class="view">
-  <div class="elegant-wrap">
-    <div class="elegant-card">
-      <div class="elegant-header">
-        <div class="elegant-rest-tag">Cocina Malagueña · Desde 1987</div>
-        <div class="elegant-rest-name">Bodega Picasso</div>
-        <div class="elegant-rest-sub">Tradición con alma contemporánea</div>
-        <div class="elegant-ornament">
-          <div class="elegant-orn-line"></div>
-          <div class="elegant-orn-dot">✦</div>
-          <div class="elegant-orn-line"></div>
+<!-- ======================================
+     STYLE 2 — YELLOW MODERN
+====================================== -->
+<div id="view-yellow" class="view">
+  <div class="yellow-wrap">
+    <div class="style-label">Diseño vertical — Para imprimir en A4 o publicar en redes</div>
+    <div class="yellow-poster">
+
+      <!-- LEFT YELLOW -->
+      <div class="yp-left">
+        <div class="yp-logo">
+          <div class="yp-logo-icon">
+            <svg viewBox="0 0 32 32" width="28" height="28">
+              <circle cx="16" cy="16" r="14" fill="#F7C200"/>
+              <text x="16" y="21" text-anchor="middle" font-family="'Bebas Neue'" font-size="16" fill="#111">KB</text>
+            </svg>
+          </div>
+          <div class="yp-logo-name">KING BURGER</div>
+          <div class="yp-logo-tag">Málaga · Hamburguesas &amp; Brasa</div>
         </div>
-        <div class="elegant-meta">
-          <div class="elegant-meta-item">📍 Plaza de la Merced, 3 · Málaga</div>
-          <div class="elegant-meta-item">⏰ Mar–Dom · 12:30–16:00 · 20:00–23:30</div>
+
+        <div class="yp-title-block">
+          <div class="yp-menu-word">MENÚ</div>
+          <div class="yp-rest-name-yellow">KING<br>BURGER</div>
+        </div>
+
+        <!-- Photo area: where real food image goes -->
+        <div class="yp-food-area">
+          <!-- SVG Burger illustration — compact version -->
+          <svg viewBox="0 0 180 150" width="170" height="140">
+            <ellipse cx="90" cy="142" rx="70" ry="8" fill="rgba(0,0,0,0.15)"/>
+            <ellipse cx="90" cy="44" rx="70" ry="38" fill="#c97e38"/>
+            <ellipse cx="90" cy="34" rx="66" ry="30" fill="#e8984a"/>
+            <ellipse cx="90" cy="27" rx="62" ry="24" fill="#f0a855"/>
+            <ellipse cx="68" cy="20" rx="7" ry="4" fill="#c07030" transform="rotate(-10 68 20)"/>
+            <ellipse cx="90" cy="16" rx="7" ry="4" fill="#c07030"/>
+            <ellipse cx="112" cy="20" rx="7" ry="4" fill="#c07030" transform="rotate(10 112 20)"/>
+            <path d="M20 68 Q30 60 44 66 Q56 56 70 64 Q82 54 96 62 Q108 52 122 60 Q136 52 150 58 Q162 58 160 68 L20 68Z" fill="#3d8a30"/>
+            <rect x="24" y="68" width="132" height="14" rx="4" fill="#cc2a1a"/>
+            <rect x="24" y="68" width="132" height="7" rx="4" fill="#e03a28"/>
+            <path d="M20 82 L160 82 L165 87 L160 92 L20 92 L15 87Z" fill="#f0c820"/>
+            <rect x="22" y="92" width="136" height="20" rx="6" fill="#5a2e10"/>
+            <rect x="22" y="92" width="136" height="9" rx="6" fill="#6e3a1a"/>
+            <line x1="55" y1="94" x2="55" y2="110" stroke="#4a2008" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="80" y1="94" x2="80" y2="110" stroke="#4a2008" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="105" y1="94" x2="105" y2="110" stroke="#4a2008" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="130" y1="94" x2="130" y2="110" stroke="#4a2008" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="22" y="112" width="136" height="22" rx="8" fill="#d08838"/>
+            <rect x="22" y="112" width="136" height="11" rx="8" fill="#e09848"/>
+          </svg>
+        </div>
+
+        <div class="yp-info">
+          <p>
+            <strong>C/ Alcazabilla 12 · Málaga</strong><br>
+            Lun–Dom 12:00–01:00<br>
+            952 000 000
+          </p>
+          <div class="yp-web">KINGBURGER.ES</div>
         </div>
       </div>
 
-      <div class="elegant-body">
-        <!-- ENTRANTES DEL MAR -->
-        <div class="elegant-cat">
-          <div class="elegant-cat-head">
-            <div class="elegant-cat-line"></div>
-            <div class="elegant-cat-title">🌊 Entrantes del Mar</div>
-            <div class="elegant-cat-line"></div>
-          </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Gazpachuelo malagueño</div>
-                <span class="ebadge ebadge-sig">Receta histórica</span>
-              </div>
-              <div class="elegant-item-desc">Caldo de pescado, patata, mayonesa de la casa y gambas blancas de Málaga</div>
+      <!-- RIGHT DARK -->
+      <div class="yp-right">
+        <div class="yp-section">
+          <div class="yp-section-head"><div class="yp-section-title">BURGERS CLÁSICAS</div></div>
+          <div class="yp-item">
+            <div class="yp-item-left">
+              <div class="yp-item-name">La Bestia Clásica</div>
+              <div class="yp-item-desc">200g madurada · cheddar · lechuga · salsa de la casa</div>
+              <span class="yp-tag yp-tag-new">Estrella</span>
             </div>
-            <div class="elegant-item-price">9,50€</div>
+            <div class="yp-item-price">9,50€</div>
           </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Espetos de sardinas a la brasa</div>
-                <span class="ebadge ebadge-new">Temporada</span>
-              </div>
-              <div class="elegant-item-desc">Sardinas del Mediterráneo, sal gruesa y limón de Nerja. 6 unidades.</div>
+          <div class="yp-item">
+            <div class="yp-item-left">
+              <div class="yp-item-name">La Doble Muerte</div>
+              <div class="yp-item-desc">2×150g · doble cheddar · bacon · cebolla caramelizada</div>
+              <span class="yp-tag yp-tag-hit">Brutal</span>
             </div>
-            <div class="elegant-item-price">12,00€</div>
+            <div class="yp-item-price">13,50€</div>
           </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Pulpo a la malagueña</div>
-              </div>
-              <div class="elegant-item-desc">Pimentón de la Vera, aceite virgen extra Mágina y patata panadero</div>
+          <div class="yp-item">
+            <div class="yp-item-left">
+              <div class="yp-item-name">La Pollo Crispy</div>
+              <div class="yp-item-desc">Pechuga empanada · coleslaw · miel picante</div>
             </div>
-            <div class="elegant-item-price">16,50€</div>
+            <div class="yp-item-price">10,50€</div>
           </div>
         </div>
 
-        <!-- PRINCIPALES -->
-        <div class="elegant-cat">
-          <div class="elegant-cat-head">
-            <div class="elegant-cat-line"></div>
-            <div class="elegant-cat-title">🍽️ Principales</div>
-            <div class="elegant-cat-line"></div>
-          </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Fideuá de gambas y calamar</div>
-                <span class="ebadge ebadge-sig">Firma</span>
-              </div>
-              <div class="elegant-item-desc">Alioli de ajo negro, bisqué casero y azafrán manchego</div>
+        <div class="yp-section">
+          <div class="yp-section-head"><div class="yp-section-title">SPECIALTY BURGERS</div></div>
+          <div class="yp-item">
+            <div class="yp-item-left">
+              <div class="yp-item-name">La BBQ Ranch</div>
+              <div class="yp-item-desc">Carne · BBQ ahumada · jalapeños · ranch</div>
             </div>
-            <div class="elegant-item-price">18,00€</div>
+            <div class="yp-item-price">11,00€</div>
           </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Rabo de toro estofado</div>
-              </div>
-              <div class="elegant-item-desc">Cocción lenta de 8 horas, vino de Antequera y puré de coliflor asada</div>
+          <div class="yp-item">
+            <div class="yp-item-left">
+              <div class="yp-item-name">La Vegana Power</div>
+              <div class="yp-item-desc">Legumbres · aguacate · tomate cherry · mayonesa vegana</div>
             </div>
-            <div class="elegant-item-price">21,00€</div>
-          </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Lubina a la sal con salmorejo</div>
-                <span class="ebadge ebadge-new">Nuevo</span>
-              </div>
-              <div class="elegant-item-desc">Lubina entera del Mediterráneo y salmorejo de tomate rosa de temporada</div>
-            </div>
-            <div class="elegant-item-price">24,00€</div>
+            <div class="yp-item-price">9,00€</div>
           </div>
         </div>
 
-        <!-- POSTRES -->
-        <div class="elegant-cat">
-          <div class="elegant-cat-head">
-            <div class="elegant-cat-line"></div>
-            <div class="elegant-cat-title">🍮 Postres</div>
-            <div class="elegant-cat-line"></div>
-          </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Bienmesabe con helado de vainilla</div>
-                <span class="ebadge ebadge-sig">Tradicional</span>
-              </div>
-              <div class="elegant-item-desc">Crema de almendra y miel, helado artesanal de vainilla de Madagascar</div>
+        <div class="yp-section">
+          <div class="yp-section-head"><div class="yp-section-title">SIDES</div></div>
+          <div class="yp-2col">
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Patatas fritas</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">3,50€</div>
             </div>
-            <div class="elegant-item-price">7,50€</div>
-          </div>
-          <div class="elegant-item">
-            <div class="elegant-item-left">
-              <div class="elegant-item-name-row">
-                <div class="elegant-item-name">Tarta de queso payoyo</div>
-              </div>
-              <div class="elegant-item-desc">Membrillo casero y nueces caramelizadas de Ronda</div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Patatas cheddar</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">4,50€</div>
             </div>
-            <div class="elegant-item-price">7,00€</div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Aros de cebolla</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">5,50€</div>
+            </div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Nachos</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">7,50€</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="elegant-footer">
-        <div class="elegant-footer-note">Alérgenos disponibles en barra · IVA incluido en todos los precios</div>
-        <div class="elegant-footer-right">
-          <div class="elegant-qr-box">▦</div>
-          <div class="elegant-footer-credit">Carta digital con QR<br><a href="https://impulsdigital.es">impulsdigital.es</a></div>
+        <div class="yp-section">
+          <div class="yp-section-head"><div class="yp-section-title">DRINKS</div></div>
+          <div class="yp-2col">
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Refresco 33cl</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">2,50€</div>
+            </div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Cerveza artesanal</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">4,00€</div>
+            </div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Milkshake</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">5,50€</div>
+            </div>
+            <div class="yp-item" style="border:none;padding:0;margin:0 0 8px;">
+              <div class="yp-item-left"><div class="yp-item-name">Agua mineral</div></div>
+              <div class="yp-item-price" style="font-size:1rem;">1,50€</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding-top:16px;border-top:1px solid #1a1a1a;display:flex;align-items:center;gap:10px;">
+          <svg width="40" height="40" viewBox="0 0 36 36" style="flex-shrink:0;">
+            <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+            <rect x="5" y="5" width="8" height="8" rx="1" fill="#333"/>
+            <rect x="20" y="2" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+            <rect x="23" y="5" width="8" height="8" rx="1" fill="#333"/>
+            <rect x="2" y="20" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+            <rect x="5" y="23" width="8" height="8" rx="1" fill="#333"/>
+            <rect x="20" y="20" width="4" height="4" rx="1" fill="#333"/>
+            <rect x="26" y="20" width="4" height="4" rx="1" fill="#333"/>
+            <rect x="20" y="26" width="4" height="4" rx="1" fill="#333"/>
+            <rect x="26" y="26" width="4" height="4" rx="1" fill="#333"/>
+          </svg>
+          <div>
+            <div style="color:#333;font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Carta digital disponible</div>
+            <div style="color:#222;font-size:0.65rem;">Escanea el QR para ver más · kingburger.es</div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ========= VIEW 3: QR DIGITAL ========= -->
+<!-- ======================================
+     VIEW 3 — DIGITAL QR
+====================================== -->
 <div id="view-mobile" class="view">
   <div class="mobile-wrap">
-    <div class="mobile-note">El cliente escanea el QR de la mesa con su móvil — sin apps, sin descargas, funciona en cualquier teléfono. Se incluye el código QR listo para imprimir y pegar.</div>
+    <div class="mobile-note">El cliente escanea el QR de la mesa con la cámara del móvil — sin apps, sin registro. Se incluye el QR listo para imprimir.</div>
 
     <div class="phone-shell">
       <div class="phone-notch"></div>
       <div class="phone-scroll">
         <div class="p-hero">
-          <div class="p-rest-name">LA LEÑA</div>
-          <div class="p-rest-sub">Parrilla & Brasa · Málaga</div>
+          <div class="p-name">KING BURGER</div>
+          <div class="p-sub">Hamburguesas & Brasa · Málaga</div>
         </div>
         <div class="p-nav">
-          <div class="p-pill active">🥗 Entrantes</div>
-          <div class="p-pill">🔥 Parrilla</div>
-          <div class="p-pill">🍷 Bebidas</div>
-          <div class="p-pill">🍮 Postres</div>
+          <div class="p-pill active">Burgers</div>
+          <div class="p-pill">Sides</div>
+          <div class="p-pill">Bebidas</div>
+          <div class="p-pill">Postres</div>
         </div>
-
-        <div class="p-cat-head">🥗 ENTRANTES</div>
+        <div class="p-cat-head">BURGERS</div>
         <div class="p-item">
-          <div class="p-item-icon">🫒</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Aceitunas aliñadas</div>
-              <div class="p-item-price">4,50€</div>
-            </div>
-            <div class="p-item-desc">Ajo, comino y naranja. Receta de la casa.</div>
+          <div class="p-img">
+            <svg viewBox="0 0 32 24" width="28" height="21">
+              <ellipse cx="16" cy="7" rx="12" ry="6" fill="#e8984a"/>
+              <path d="M4 12 Q8 10 12 12 Q16 10 20 12 Q24 10 28 12 L28 14 L4 14Z" fill="#3d8a30"/>
+              <rect x="4" y="14" width="24" height="3" rx="1" fill="#cc2a1a"/>
+              <path d="M3 17 L29 17 L30 18.5 L29 20 L3 20 L2 18.5Z" fill="#f0c820"/>
+              <rect x="4" y="20" width="24" height="4" rx="3" fill="#d08838"/>
+            </svg>
+          </div>
+          <div class="p-body">
+            <div class="p-row"><div class="p-iname">La Bestia Clásica</div><div class="p-iprice">9,50€</div></div>
+            <div class="p-idesc">200g madurada · cheddar · salsa de la casa</div>
           </div>
         </div>
         <div class="p-item">
-          <div class="p-item-icon">🥩</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Croquetas rabo de toro</div>
-              <div class="p-item-price">9,00€</div>
-            </div>
-            <div class="p-item-desc">Bechamel de Jerez · ⭐ Firma de la casa</div>
+          <div class="p-img" style="background:#2a0000;">
+            <svg viewBox="0 0 32 24" width="28" height="21">
+              <ellipse cx="16" cy="7" rx="12" ry="6" fill="#c07030"/>
+              <rect x="4" y="13" width="24" height="3" rx="1" fill="#cc2a1a"/>
+              <rect x="3" y="16" width="26" height="2" rx="1" fill="#f0c820"/>
+              <rect x="3" y="16" width="26" height="2" rx="1" fill="#f0c820"/>
+              <rect x="4" y="18" width="24" height="3" rx="1" fill="#6e3a1a"/>
+              <rect x="4" y="21" width="24" height="3" rx="3" fill="#d08838"/>
+            </svg>
+          </div>
+          <div class="p-body">
+            <div class="p-row"><div class="p-iname">La Doble Muerte</div><div class="p-iprice">13,50€</div></div>
+            <div class="p-idesc">2×150g · doble cheddar · bacon · cebolla</div>
           </div>
         </div>
         <div class="p-item">
-          <div class="p-item-icon">🍢</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Pinchitos morunos</div>
-              <div class="p-item-price">11,00€</div>
-            </div>
-            <div class="p-item-desc">Especias árabes, miel de caña y lima. 4 ud.</div>
+          <div class="p-img" style="background:#1a1500;">
+            <svg viewBox="0 0 32 24" width="28" height="21">
+              <ellipse cx="16" cy="9" rx="11" ry="7" fill="#c8a060"/>
+              <rect x="5" y="15" width="22" height="3" rx="1" fill="#c8a060"/>
+              <rect x="5" y="18" width="22" height="4" rx="3" fill="#d09050"/>
+            </svg>
+          </div>
+          <div class="p-body">
+            <div class="p-row"><div class="p-iname">La Pollo Crispy</div><div class="p-iprice">10,50€</div></div>
+            <div class="p-idesc">Empanada · coleslaw · miel picante</div>
           </div>
         </div>
-
-        <div class="p-cat-head">🔥 PARRILLA</div>
+        <div class="p-cat-head">SIDES</div>
         <div class="p-item">
-          <div class="p-item-icon">🥩</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Secreto ibérico</div>
-              <div class="p-item-price">18,00€</div>
-            </div>
-            <div class="p-item-desc">Mojo verde, papas arrugadas. Sin gluten.</div>
+          <div class="p-img" style="background:#1a1000;">
+            <svg viewBox="0 0 32 28" width="28" height="24">
+              <rect x="6" y="4" width="5" height="20" rx="2" fill="#f0c820"/>
+              <rect x="13" y="7" width="5" height="17" rx="2" fill="#f5d040"/>
+              <rect x="20" y="5" width="5" height="19" rx="2" fill="#f0c820"/>
+              <rect x="5" y="22" width="22" height="4" rx="2" fill="#c8821a"/>
+            </svg>
           </div>
-        </div>
-        <div class="p-item">
-          <div class="p-item-icon">🐄</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Entrecot Ávila D.O.</div>
-              <div class="p-item-price">26,00€</div>
-            </div>
-            <div class="p-item-desc">Madurado 21 días, sal Maldon, chimichurri.</div>
+          <div class="p-body">
+            <div class="p-row"><div class="p-iname">Patatas con cheddar</div><div class="p-iprice">4,50€</div></div>
           </div>
         </div>
         <div class="p-item">
-          <div class="p-item-icon">🐑</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Costillas de cordero</div>
-              <div class="p-item-price">22,00€</div>
-            </div>
-            <div class="p-item-desc">Romero, aceite virgen, puré de boniato.</div>
+          <div class="p-img" style="background:#1a0a00;">
+            <svg viewBox="0 0 32 24" width="28" height="21">
+              <ellipse cx="10" cy="12" rx="7" ry="5" fill="none" stroke="#e8984a" stroke-width="3"/>
+              <ellipse cx="22" cy="12" rx="7" ry="5" fill="none" stroke="#e8984a" stroke-width="3"/>
+              <ellipse cx="16" cy="9" rx="5" ry="3" fill="none" stroke="#e8984a" stroke-width="2"/>
+            </svg>
           </div>
-        </div>
-
-        <div class="p-cat-head">🍷 BEBIDAS</div>
-        <div class="p-item">
-          <div class="p-item-icon">🍷</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Ribera del Duero · Copa</div>
-              <div class="p-item-price">5,50€</div>
-            </div>
-            <div class="p-item-desc">Joven, cerezas negras y especias suaves.</div>
-          </div>
-        </div>
-        <div class="p-item">
-          <div class="p-item-icon">🍺</div>
-          <div class="p-item-body">
-            <div class="p-item-top">
-              <div class="p-item-name">Cerveza artesanal local</div>
-              <div class="p-item-price">4,00€</div>
-            </div>
-            <div class="p-item-desc">Rubia de trigo del Puerto de Málaga.</div>
+          <div class="p-body">
+            <div class="p-row"><div class="p-iname">Aros de cebolla</div><div class="p-iprice">5,50€</div></div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="qr-block">
-      <div class="qr-label">QR para imprimir en la mesa</div>
+      <div class="qr-label">QR para la mesa</div>
       <div class="qr-box">
-        <span class="qr-box-icon">▦</span>
-        <span class="qr-box-text">Código QR</span>
+        <svg width="60" height="60" viewBox="0 0 36 36">
+          <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+          <rect x="5" y="5" width="8" height="8" rx="1" fill="#333"/>
+          <rect x="20" y="2" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+          <rect x="23" y="5" width="8" height="8" rx="1" fill="#333"/>
+          <rect x="2" y="20" width="14" height="14" rx="2" fill="none" stroke="#333" stroke-width="1.5"/>
+          <rect x="5" y="23" width="8" height="8" rx="1" fill="#333"/>
+          <rect x="20" y="20" width="4" height="4" rx="1" fill="#333"/>
+          <rect x="26" y="20" width="4" height="4" rx="1" fill="#333"/>
+          <rect x="20" y="26" width="4" height="4" rx="1" fill="#333"/>
+          <rect x="26" y="26" width="4" height="4" rx="1" fill="#333"/>
+        </svg>
       </div>
-      <div class="qr-note">Se escanea desde cualquier cámara de móvil. Sin apps, sin registro. Funciona en iOS y Android. Incluido en el servicio.</div>
+      <div class="qr-note">El cliente lo escanea desde la cámara sin instalar nada. Funciona en iOS y Android. QR incluido en el servicio.</div>
     </div>
   </div>
 </div>
@@ -796,18 +833,14 @@ body { background:#0a0a0a; font-family:'Inter', sans-serif; min-height:100vh; }
 <div class="demo-bottom">
   <div class="demo-price-badge">149€ · Entrega en 48–72h · 2 revisiones incluidas</div>
   <h2>¿CÓMO LO QUERÉS?</h2>
-  <p>Para imprimir, con QR digital o los dos. Diseñado desde cero con los colores y la personalidad de tu negocio — no una plantilla genérica con tu nombre.</p>
-  <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20vi%20el%20demo%20del%20men%C3%BA%20y%20me%20interesa%20uno%20para%20mi%20negocio.%20%C2%BFMe%20cont%C3%A1s%20m%C3%A1s%3F" class="wa-btn">
-    <span>💬</span> Hablamos por WhatsApp
-  </a>
+  <p>Con fotos reales de tus platos y la identidad visual de tu negocio el resultado es mucho más impactante. Hablamos y lo diseñamos juntos.</p>
+  <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20vi%20el%20demo%20del%20men%C3%BA%20y%20me%20interesa" class="wa-btn">💬 Hablamos por WhatsApp</a>
 </div>
 
 <script>
 function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-    btn.classList.remove('active');
-    if (['bold','elegant','mobile'][i] === id) btn.classList.add('active');
-  });
+  const ids = ['dark','yellow','mobile'];
+  document.querySelectorAll('.tab-btn').forEach((btn,i) => btn.classList.toggle('active', ids[i] === id));
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById('view-' + id).classList.add('active');
 }
