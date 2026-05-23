@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>La Brasa - Demo Carta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #1A2E1A;
+      --cream: #F5F0E8;
+      --cream-soft: rgba(245, 240, 232, 0.78);
+      --cream-faint: rgba(245, 240, 232, 0.12);
+      --amber: #D4874E;
+      --amber-soft: rgba(212, 135, 78, 0.64);
+      --ink-muted: rgba(245, 240, 232, 0.56);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: #102010;
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: start center;
+      padding: 34px 18px;
+      background:
+        radial-gradient(circle at 18% 12%, rgba(212, 135, 78, 0.11), transparent 34%),
+        radial-gradient(circle at 82% 72%, rgba(245, 240, 232, 0.06), transparent 31%),
+        #102010;
+      color: var(--cream);
+      font-family: "Lato", Arial, sans-serif;
+    }
+
+    .menu-sheet {
+      position: relative;
+      width: min(100%, 700px);
+      min-height: 990px;
+      padding: 58px 56px 38px;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.045), transparent 36%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.18)),
+        var(--green);
+      border: 1px solid rgba(212, 135, 78, 0.72);
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+      isolation: isolate;
+    }
+
+    .menu-sheet::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 1px solid rgba(245, 240, 232, 0.26);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .paper-grain {
+      position: absolute;
+      inset: 0;
+      opacity: 0.28;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(92deg, transparent 0 22px, rgba(255, 255, 255, 0.025) 23px, transparent 24px),
+        linear-gradient(0deg, transparent 0 18px, rgba(0, 0, 0, 0.04) 19px, transparent 20px);
+      background-size: 64px 64px, 52px 52px;
+      mix-blend-mode: overlay;
+    }
+
+    .watermark {
+      position: absolute;
+      left: 50%;
+      top: 47%;
+      z-index: 0;
+      transform: translate(-50%, -50%) rotate(-90deg);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(6.8rem, 20vw, 12.4rem);
+      font-weight: 700;
+      letter-spacing: 0;
+      color: rgba(245, 240, 232, 0.055);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .frame-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 4;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 34px;
+    }
+
+    .kicker {
+      margin: 0 0 12px;
+      color: var(--amber);
+      font-size: 0.74rem;
+      font-weight: 900;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(4rem, 13vw, 6.9rem);
+      font-weight: 700;
+      line-height: 0.86;
+      letter-spacing: 0;
+      color: var(--cream);
+    }
+
+    .subtitle {
+      width: fit-content;
+      margin: 18px auto 0;
+      padding: 8px 23px 0;
+      border-top: 1px solid var(--amber);
+      color: var(--cream-soft);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.08rem;
+      font-style: italic;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+      margin: 0 0 34px;
+    }
+
+    .section:nth-of-type(even) {
+      grid-template-columns: minmax(0, 1fr) 190px;
+    }
+
+    .section:nth-of-type(even) .art {
+      order: 2;
+    }
+
+    .section:nth-of-type(even) .section-copy {
+      order: 1;
+    }
+
+    .section-title {
+      width: fit-content;
+      margin: 0 0 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--amber);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: clamp(2.15rem, 6vw, 3.45rem);
+      font-weight: 600;
+      line-height: 0.95;
+      letter-spacing: 0;
+      color: var(--cream);
+    }
+
+    .menu-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .dish {
+      display: grid;
+      gap: 4px;
+    }
+
+    .dish-line {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .dish-name,
+    .dish-price {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.07rem;
+      font-weight: 600;
+      color: var(--cream);
+      line-height: 1.1;
+    }
+
+    .dish-name {
+      white-space: nowrap;
+    }
+
+    .leader {
+      flex: 1;
+      min-width: 26px;
+      height: 1px;
+      transform: translateY(-3px);
+      background-image: radial-gradient(circle, rgba(245, 240, 232, 0.55) 1px, transparent 1.5px);
+      background-size: 7px 1px;
+      background-repeat: repeat-x;
+    }
+
+    .dish-price {
+      color: var(--amber);
+      white-space: nowrap;
+    }
+
+    .dish-description {
+      max-width: 330px;
+      margin: 0;
+      color: var(--cream-soft);
+      font-size: 0.77rem;
+      font-weight: 300;
+      line-height: 1.45;
+    }
+
+    .art {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      color: var(--cream);
+      filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.18));
+    }
+
+    .art svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .art .cream-line {
+      fill: none;
+      stroke: var(--cream);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .art .amber-line {
+      fill: none;
+      stroke: var(--amber);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .art .cream-fill {
+      fill: rgba(245, 240, 232, 0.12);
+      stroke: var(--cream);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .art .amber-fill {
+      fill: rgba(212, 135, 78, 0.18);
+      stroke: var(--amber);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .footer {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+      margin-top: 4px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(212, 135, 78, 0.46);
+    }
+
+    .qr {
+      width: 92px;
+      height: 92px;
+    }
+
+    .scan {
+      margin: 0;
+      color: var(--cream);
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 1.25rem;
+      font-style: italic;
+      line-height: 1.16;
+    }
+
+    .disclaimer {
+      margin: 8px 0 0;
+      color: var(--ink-muted);
+      font-size: 0.68rem;
+      line-height: 1.45;
+      letter-spacing: 0.03em;
+    }
+
+    @media (max-width: 620px) {
+      body {
+        padding: 16px 10px;
+      }
+
+      .menu-sheet {
+        padding: 42px 30px 30px;
+      }
+
+      .menu-sheet::before {
+        inset: 13px;
+      }
+
+      .section,
+      .section:nth-of-type(even) {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .section:nth-of-type(even) .art,
+      .section:nth-of-type(even) .section-copy {
+        order: initial;
+      }
+
+      .art {
+        width: min(70%, 230px);
+        margin: 0 auto -8px;
+      }
+
+      .dish-name,
+      .dish-price {
+        font-size: 0.98rem;
+      }
+
+      .dish-name {
+        white-space: normal;
+      }
+
+      .footer {
+        grid-template-columns: 78px minmax(0, 1fr);
+      }
+
+      .qr {
+        width: 78px;
+        height: 78px;
+      }
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    @media print {
+      html,
+      body {
+        background: var(--green);
+      }
+
+      body {
+        padding: 0;
+      }
+
+      .menu-sheet {
+        width: 210mm;
+        min-height: 297mm;
+        max-width: none;
+        box-shadow: none;
+        border: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="menu-sheet" aria-label="Carta demo de La Brasa">
+    <div class="paper-grain"></div>
+    <div class="watermark">La Brasa</div>
+
+    <svg class="frame-svg" viewBox="0 0 700 1020" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M34 31 C108 21 166 32 230 27 C315 20 389 20 468 28 C541 35 605 22 667 33" fill="none" stroke="rgba(212,135,78,.8)" stroke-width="1.4"/>
+      <path d="M34 990 C118 997 178 987 250 993 C337 1002 416 1001 495 992 C571 984 621 999 667 988" fill="none" stroke="rgba(212,135,78,.8)" stroke-width="1.4"/>
+      <path d="M29 43 C21 142 33 223 27 317 C20 434 20 548 28 653 C35 760 22 860 32 977" fill="none" stroke="rgba(212,135,78,.8)" stroke-width="1.4"/>
+      <path d="M670 43 C679 151 666 233 673 344 C681 462 679 575 672 684 C664 801 679 892 668 977" fill="none" stroke="rgba(212,135,78,.8)" stroke-width="1.4"/>
+      <path d="M52 54 C69 44 84 44 99 55 C82 60 70 73 60 91 C50 78 44 66 52 54Z" fill="none" stroke="rgba(245,240,232,.42)" stroke-width="1.1"/>
+      <path d="M648 54 C631 44 616 44 601 55 C618 60 630 73 640 91 C650 78 656 66 648 54Z" fill="none" stroke="rgba(245,240,232,.42)" stroke-width="1.1"/>
+      <path d="M52 966 C69 976 84 976 99 965 C82 960 70 947 60 929 C50 942 44 954 52 966Z" fill="none" stroke="rgba(245,240,232,.42)" stroke-width="1.1"/>
+      <path d="M648 966 C631 976 616 976 601 965 C618 960 630 947 640 929 C650 942 656 954 648 966Z" fill="none" stroke="rgba(245,240,232,.42)" stroke-width="1.1"/>
+      <path d="M350 28 C343 43 333 48 318 46 C332 56 340 67 344 84 C353 68 365 58 382 54 C366 49 356 42 350 28Z" fill="rgba(212,135,78,.18)" stroke="rgba(212,135,78,.78)" stroke-width="1.1"/>
+      <path d="M350 992 C343 977 333 972 318 974 C332 964 340 953 344 936 C353 952 365 962 382 966 C366 971 356 978 350 992Z" fill="rgba(212,135,78,.18)" stroke="rgba(212,135,78,.78)" stroke-width="1.1"/>
+    </svg>
+
+    <div class="content">
+      <header>
+        <p class="kicker">Cocina española contemporánea</p>
+        <h1>La Brasa</h1>
+        <p class="subtitle">Carta de temporada</p>
+      </header>
+
+      <section class="section">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 220 220" role="img">
+            <path class="amber-line" stroke-width="1.6" d="M37 150 C48 185 174 188 185 149 C169 168 62 170 37 150Z"/>
+            <path class="cream-fill" stroke-width="2.2" d="M31 137 C39 110 74 101 112 103 C151 105 183 113 191 138 C196 157 171 175 113 177 C58 179 25 160 31 137Z"/>
+            <path class="cream-line" stroke-width="1.5" d="M48 136 C74 150 151 151 177 136"/>
+            <path class="amber-line" stroke-width="3.1" d="M62 132 C80 119 98 131 114 119 C132 106 148 120 163 112"/>
+            <path class="amber-line" stroke-width="2.3" d="M58 143 C76 132 91 143 109 133 C126 123 145 137 166 126"/>
+            <path class="cream-line" stroke-width="1.4" d="M75 121 C87 112 96 119 108 111 C119 104 133 109 141 101"/>
+            <path class="cream-line" stroke-width="1.4" d="M83 146 C98 137 112 149 128 139 C143 130 155 139 171 130"/>
+            <path class="amber-fill" stroke-width="1.3" d="M106 122 C115 116 124 122 122 131 C119 141 104 138 101 130 C100 127 102 124 106 122Z"/>
+            <path class="amber-fill" stroke-width="1.1" d="M145 126 C153 122 160 128 157 136 C154 145 141 140 140 132 C140 130 142 128 145 126Z"/>
+            <path class="cream-line" stroke-width="1.6" d="M42 151 C69 165 151 166 181 150"/>
+            <path class="amber-line" stroke-width="1.3" d="M68 93 C60 80 65 70 76 59"/>
+            <path class="amber-line" stroke-width="1.3" d="M106 94 C95 79 101 66 112 54"/>
+            <path class="amber-line" stroke-width="1.3" d="M145 97 C137 84 143 73 154 63"/>
+            <path class="cream-line" stroke-width="1" d="M49 118 C34 107 39 89 58 88"/>
+            <path class="cream-line" stroke-width="1" d="M169 116 C190 103 181 84 161 87"/>
+            <path class="amber-line" stroke-width="1.2" d="M92 84 C96 78 103 75 110 76"/>
+            <path class="amber-line" stroke-width="1.2" d="M126 86 C132 81 139 80 146 84"/>
+          </svg>
+        </div>
+        <div class="section-copy">
+          <h2 class="section-title">Entrantes</h2>
+          <div class="menu-list">
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Pan de masa madre y alioli ahumado</span><span class="leader"></span><span class="dish-price">6,50</span></div>
+              <p class="dish-description">Horneado diario con aceite de oliva virgen, sal de escamas y ajo asado.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Croquetas de jamón ibérico</span><span class="leader"></span><span class="dish-price">9,80</span></div>
+              <p class="dish-description">Bechamel lenta, virutas de bellota y rebozado crujiente.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Tomate antiguo con ventresca</span><span class="leader"></span><span class="dish-price">12,40</span></div>
+              <p class="dish-description">Tomate de huerta, cebolla encurtida, albahaca y jugo de aceituna.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Berenjena lacada a la brasa</span><span class="leader"></span><span class="dish-price">10,90</span></div>
+              <p class="dish-description">Miel de caña, yogur cítrico, almendra tostada y hierbas frescas.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 220 220" role="img">
+            <path class="cream-line" stroke-width="2.1" d="M108 49 C141 48 164 56 171 75 C178 98 153 121 117 121 C79 122 51 101 55 77 C58 58 77 51 108 49Z"/>
+            <path class="amber-fill" stroke-width="1.5" d="M67 76 C86 66 135 65 159 76 C153 94 139 107 116 110 C94 113 75 101 67 76Z"/>
+            <path class="cream-line" stroke-width="1.2" d="M69 82 C91 96 137 97 158 82"/>
+            <path class="cream-line" stroke-width="2" d="M110 121 C109 142 105 160 95 174"/>
+            <path class="cream-line" stroke-width="2" d="M118 121 C119 143 124 160 136 174"/>
+            <path class="cream-line" stroke-width="2.2" d="M83 177 C101 170 127 171 148 178"/>
+            <path class="cream-line" stroke-width="1.5" d="M93 184 C108 188 130 188 143 184"/>
+            <path class="amber-line" stroke-width="1.2" d="M77 88 C90 82 102 82 114 88"/>
+            <path class="amber-line" stroke-width="1.2" d="M121 86 C132 82 144 83 154 90"/>
+            <path class="cream-line" stroke-width="1.1" d="M60 69 C48 58 52 43 64 35"/>
+            <path class="cream-line" stroke-width="1.1" d="M165 66 C178 51 173 37 158 31"/>
+            <path class="amber-line" stroke-width="1.3" d="M75 37 C82 29 93 26 104 31"/>
+            <path class="amber-line" stroke-width="1.3" d="M128 31 C140 25 152 27 160 35"/>
+            <path class="cream-line" stroke-width="1" d="M82 128 C70 137 65 149 70 160"/>
+            <path class="cream-line" stroke-width="1" d="M150 125 C163 135 169 149 164 162"/>
+            <path class="amber-line" stroke-width="1.4" d="M97 58 C104 55 116 55 124 58"/>
+            <path class="amber-line" stroke-width="1.4" d="M86 69 C100 62 127 61 145 68"/>
+          </svg>
+        </div>
+        <div class="section-copy">
+          <h2 class="section-title">Principales</h2>
+          <div class="menu-list">
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Arroz meloso de setas y romero</span><span class="leader"></span><span class="dish-price">18,90</span></div>
+              <p class="dish-description">Fondo tostado, parmesano curado, boletus y aceite verde.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Presa ibérica con pimientos asados</span><span class="leader"></span><span class="dish-price">24,50</span></div>
+              <p class="dish-description">Corte jugoso a la parrilla, patata rota y jugo de vino tinto.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Lubina al carbón con hinojo</span><span class="leader"></span><span class="dish-price">22,80</span></div>
+              <p class="dish-description">Piel crujiente, crema ligera de limón y verduras de mercado.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Canelón de rabo de toro</span><span class="leader"></span><span class="dish-price">19,70</span></div>
+              <p class="dish-description">Pasta fresca, bechamel trufada y reducción de su propio guiso.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Verduras de temporada en rescoldo</span><span class="leader"></span><span class="dish-price">16,20</span></div>
+              <p class="dish-description">Calabaza, puerro, zanahoria morada, romesco y hojas amargas.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="art" aria-hidden="true">
+          <svg viewBox="0 0 220 220" role="img">
+            <path class="cream-line" stroke-width="2" d="M45 142 C58 121 90 111 119 115 C153 119 178 133 184 153 C167 174 69 177 45 142Z"/>
+            <path class="cream-line" stroke-width="1.3" d="M58 145 C83 158 145 160 174 149"/>
+            <path class="amber-fill" stroke-width="1.6" d="M76 120 C79 101 96 90 117 93 C138 96 153 112 151 131 C132 139 98 138 76 120Z"/>
+            <path class="cream-line" stroke-width="1.3" d="M84 116 C102 126 129 128 145 119"/>
+            <path class="amber-line" stroke-width="2" d="M93 93 C96 78 111 71 128 77"/>
+            <path class="cream-line" stroke-width="1.3" d="M119 76 C128 63 144 63 153 73"/>
+            <path class="amber-line" stroke-width="1.3" d="M68 139 C76 130 86 128 96 134"/>
+            <path class="amber-line" stroke-width="1.3" d="M143 137 C154 131 164 134 172 143"/>
+            <path class="cream-line" stroke-width="1" d="M94 107 C101 103 109 103 116 107"/>
+            <path class="cream-line" stroke-width="1" d="M123 109 C131 105 139 107 145 113"/>
+            <path class="amber-line" stroke-width="1.2" d="M103 145 C113 140 125 140 136 146"/>
+            <path class="cream-line" stroke-width="1" d="M67 98 C53 88 51 72 62 61"/>
+            <path class="cream-line" stroke-width="1" d="M161 103 C178 92 180 77 169 65"/>
+            <path class="amber-line" stroke-width="1.1" d="M82 66 C92 59 106 59 117 68"/>
+            <path class="amber-line" stroke-width="1.1" d="M132 62 C144 56 157 58 166 68"/>
+            <path class="cream-line" stroke-width="1.2" d="M55 166 C85 182 145 183 177 166"/>
+          </svg>
+        </div>
+        <div class="section-copy">
+          <h2 class="section-title">Postres</h2>
+          <div class="menu-list">
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Tarta fluida de queso</span><span class="leader"></span><span class="dish-price">7,90</span></div>
+              <p class="dish-description">Queso crema, base tostada y confitura de higos al brandy.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Crema catalana quemada</span><span class="leader"></span><span class="dish-price">6,80</span></div>
+              <p class="dish-description">Vainilla natural, piel de naranja y cristal de azúcar ámbar.</p>
+            </article>
+            <article class="dish">
+              <div class="dish-line"><span class="dish-name">Chocolate, aceite y sal</span><span class="leader"></span><span class="dish-price">8,20</span></div>
+              <p class="dish-description">Bizcocho húmedo, ganache intenso y helado de aceite de oliva.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <svg class="qr" viewBox="0 0 92 92" aria-hidden="true">
+          <rect x="4" y="4" width="84" height="84" rx="6" fill="none" stroke="rgba(212,135,78,.86)" stroke-width="1.5"/>
+          <rect x="13" y="13" width="20" height="20" fill="none" stroke="#F5F0E8" stroke-width="3"/>
+          <rect x="59" y="13" width="20" height="20" fill="none" stroke="#F5F0E8" stroke-width="3"/>
+          <rect x="13" y="59" width="20" height="20" fill="none" stroke="#F5F0E8" stroke-width="3"/>
+          <rect x="19" y="19" width="8" height="8" fill="#D4874E"/>
+          <rect x="65" y="19" width="8" height="8" fill="#D4874E"/>
+          <rect x="19" y="65" width="8" height="8" fill="#D4874E"/>
+          <rect x="42" y="16" width="5" height="13" fill="#F5F0E8"/>
+          <rect x="48" y="30" width="5" height="8" fill="#D4874E"/>
+          <rect x="39" y="42" width="10" height="5" fill="#F5F0E8"/>
+          <rect x="53" y="42" width="7" height="7" fill="#D4874E"/>
+          <rect x="66" y="42" width="12" height="5" fill="#F5F0E8"/>
+          <rect x="42" y="55" width="5" height="22" fill="#D4874E"/>
+          <rect x="52" y="58" width="8" height="8" fill="#F5F0E8"/>
+          <rect x="64" y="64" width="5" height="15" fill="#F5F0E8"/>
+          <rect x="73" y="56" width="6" height="6" fill="#D4874E"/>
+          <rect x="52" y="72" width="7" height="7" fill="#D4874E"/>
+          <path d="M7 45 C18 38 25 43 33 39 C40 36 44 30 48 20" fill="none" stroke="rgba(212,135,78,.42)" stroke-width="1"/>
+          <path d="M86 45 C75 51 70 48 62 53 C54 58 52 67 48 81" fill="none" stroke="rgba(212,135,78,.42)" stroke-width="1"/>
+        </svg>
+        <div>
+          <p class="scan">Escanea para ver la carta digital</p>
+          <p class="disclaimer">Demo visual. El diseño final incluye tus fotos reales, precios y carta completa.</p>
+        </div>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>

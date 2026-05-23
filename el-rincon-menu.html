@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Rincón - Carta Editorial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #111111;
+      --white: #FFFFFF;
+      --yellow: #FFD600;
+      --red: #E53935;
+      --gray: #5F5F5F;
+      --rule: #D9D9D9;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #e9e9e9;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: start center;
+      padding: 32px 18px;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+        #eeeeee;
+      background-size: 28px 28px;
+      color: var(--black);
+      font-family: "Inter", Arial, sans-serif;
+    }
+
+    .menu {
+      width: min(100%, 760px);
+      min-height: 1080px;
+      display: grid;
+      grid-template-columns: 15% 85%;
+      background: var(--white);
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
+    }
+
+    .spine {
+      position: relative;
+      background: var(--black);
+      min-height: 100%;
+    }
+
+    .spine-name {
+      position: sticky;
+      top: 36px;
+      height: 620px;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(3.5rem, 11vw, 6.6rem);
+      line-height: 0.82;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .spine-mark {
+      position: absolute;
+      left: 50%;
+      bottom: 30px;
+      width: 54px;
+      transform: translateX(-50%);
+    }
+
+    .page {
+      position: relative;
+      padding: 42px 42px 0;
+      background:
+        linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(17, 17, 17, 0.11) calc(100% - 1px)),
+        var(--white);
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      padding-bottom: 22px;
+      border-bottom: 8px solid var(--black);
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin: 0 0 12px;
+      padding: 4px 10px 3px;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 420px;
+      color: var(--black);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(5.5rem, 17vw, 9.3rem);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 0.77;
+      text-transform: uppercase;
+    }
+
+    .issue {
+      width: 116px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border: 2px solid var(--black);
+      color: var(--black);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.35rem;
+      line-height: 0.95;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 178px;
+      gap: 22px;
+      align-items: center;
+      margin: 18px 0 28px;
+    }
+
+    .intro p {
+      margin: 0;
+      max-width: 420px;
+      color: var(--gray);
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .stamp {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 112px;
+      background: var(--yellow);
+      border: 2px solid var(--black);
+      color: var(--black);
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 1.18rem;
+      font-style: italic;
+      text-align: center;
+      line-height: 1.02;
+      transform: rotate(2deg);
+    }
+
+    .stamp::after {
+      content: "";
+      position: absolute;
+      inset: 8px;
+      border: 1px solid var(--black);
+      pointer-events: none;
+    }
+
+    .section {
+      margin: 0 0 31px;
+    }
+
+    .banner {
+      width: 100%;
+      height: 174px;
+      margin: 0 0 18px;
+      border: 2px solid var(--black);
+      background: var(--yellow);
+      overflow: hidden;
+    }
+
+    .banner svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 12px 3px;
+      background: var(--yellow);
+      color: var(--black);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: 1.32rem;
+      line-height: 1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--black);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(3.2rem, 9vw, 5.1rem);
+      font-weight: 400;
+      line-height: 0.84;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .items {
+      display: grid;
+      gap: 15px;
+    }
+
+    .item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      padding-bottom: 13px;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .dish-name {
+      margin: 0 0 5px;
+      color: var(--black);
+      font-family: "DM Serif Display", Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.02;
+    }
+
+    .description {
+      margin: 0;
+      max-width: 460px;
+      color: var(--gray);
+      font-size: 0.73rem;
+      line-height: 1.45;
+    }
+
+    .price {
+      min-width: 58px;
+      padding: 7px 10px 6px;
+      border-radius: 999px;
+      background: var(--yellow);
+      color: var(--black);
+      font-size: 0.82rem;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .yellow-rule {
+      width: 100%;
+      height: 2px;
+      margin: 29px 0 31px;
+      background: var(--yellow);
+    }
+
+    .footer {
+      margin: 42px -42px 0;
+      padding: 24px 42px 26px;
+      display: grid;
+      grid-template-columns: 1fr 150px;
+      gap: 22px;
+      align-items: center;
+      background: var(--black);
+      color: var(--white);
+    }
+
+    .footer p {
+      margin: 0;
+      max-width: 500px;
+      color: var(--white);
+      font-size: 0.83rem;
+      font-weight: 700;
+      line-height: 1.45;
+      letter-spacing: 0.01em;
+    }
+
+    .footer svg {
+      width: 150px;
+      height: 74px;
+    }
+
+    .ink {
+      fill: var(--black);
+    }
+
+    .paper {
+      fill: var(--white);
+    }
+
+    .sun {
+      fill: var(--yellow);
+    }
+
+    .red {
+      fill: var(--red);
+    }
+
+    .stroke {
+      fill: none;
+      stroke: var(--black);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .white-stroke {
+      fill: none;
+      stroke: var(--white);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 660px) {
+      body {
+        padding: 14px 8px;
+      }
+
+      .menu {
+        grid-template-columns: 70px minmax(0, 1fr);
+      }
+
+      .spine-name {
+        font-size: 4.1rem;
+      }
+
+      .page {
+        padding: 28px 22px 0;
+      }
+
+      .masthead,
+      .intro {
+        grid-template-columns: 1fr;
+      }
+
+      .issue {
+        width: 92px;
+      }
+
+      .banner {
+        height: 142px;
+      }
+
+      .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .price {
+        justify-self: start;
+      }
+
+      .footer {
+        margin-left: -22px;
+        margin-right: -22px;
+        padding-left: 22px;
+        padding-right: 22px;
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="menu" aria-label="Carta de El Rincón">
+    <aside class="spine" aria-hidden="true">
+      <div class="spine-name">El Rincón</div>
+      <svg class="spine-mark" viewBox="0 0 60 120">
+        <circle cx="30" cy="26" r="18" fill="#FFD600"/>
+        <path d="M15 65 C25 51 38 51 47 66 C38 82 23 82 15 65Z" fill="#FFFFFF"/>
+        <path d="M25 91 L35 91 L35 112 L25 112Z" fill="#FFD600"/>
+      </svg>
+    </aside>
+
+    <article class="page">
+      <header class="masthead">
+        <div>
+          <p class="eyebrow">Tapas bar · edición de muestra</p>
+          <h1>El Rincón</h1>
+        </div>
+        <div class="issue">Carta<br>2026</div>
+      </header>
+
+      <section class="intro">
+        <p>Una composición editorial de alto contraste para presentar tapas, platos de brasa y postres con ritmo de revista gastronómica: limpia, gráfica y preparada para impresión.</p>
+        <div class="stamp">Hecho para<br>abrir apetito</div>
+      </section>
+
+      <section class="section">
+        <div class="banner" aria-hidden="true">
+          <svg viewBox="0 0 650 174" preserveAspectRatio="none">
+            <rect width="650" height="174" fill="#FFD600"/>
+            <circle cx="102" cy="88" r="62" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+            <circle cx="102" cy="88" r="37" fill="#FFD600" stroke="#111111" stroke-width="4"/>
+            <ellipse cx="101" cy="90" rx="24" ry="15" fill="#E53935"/>
+            <path d="M62 78 C80 59 111 58 139 79 C124 76 110 82 96 92 C84 100 71 98 62 78Z" fill="#111111"/>
+            <path d="M191 42 C246 18 315 29 350 77 C293 70 245 82 210 125 C189 99 181 72 191 42Z" fill="#111111"/>
+            <path d="M220 50 C252 39 292 43 320 68 C277 66 240 75 215 101 C204 82 204 63 220 50Z" fill="#FFFFFF"/>
+            <circle cx="418" cy="92" r="42" fill="#E53935" stroke="#111111" stroke-width="5"/>
+            <circle cx="417" cy="91" r="15" fill="#FFD600" stroke="#111111" stroke-width="4"/>
+            <path d="M459 48 C491 24 547 34 571 69 C531 63 493 79 469 119 C454 97 447 66 459 48Z" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+            <path d="M489 61 C513 53 539 58 554 73" class="stroke" stroke-width="4"/>
+            <path d="M36 138 C105 157 174 146 231 121" class="stroke" stroke-width="5"/>
+            <path d="M366 134 C421 155 521 151 617 118" class="stroke" stroke-width="5"/>
+          </svg>
+        </div>
+        <div class="section-heading">
+          <span class="pill">01</span>
+          <h2>Tapas frías</h2>
+        </div>
+        <div class="items">
+          <article class="item">
+            <div><h3 class="dish-name">Ensaladilla de la casa</h3><p class="description">Patata cremosa, ventresca, aceituna manzanilla y picos crujientes.</p></div>
+            <span class="price">7,50</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Anchoas con mantequilla ahumada</h3><p class="description">Pan fino tostado, anchoa del Cantábrico y ralladura de limón.</p></div>
+            <span class="price">9,80</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Salmorejo amarillo</h3><p class="description">Tomate dorado, aceite picual, huevo curado y polvo de jamón.</p></div>
+            <span class="price">6,90</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Boquerones, piparra y naranja</h3><p class="description">Marinado cítrico, aceite verde y almendra laminada.</p></div>
+            <span class="price">8,40</span>
+          </article>
+        </div>
+      </section>
+
+      <div class="yellow-rule"></div>
+
+      <section class="section">
+        <div class="banner" aria-hidden="true">
+          <svg viewBox="0 0 650 174" preserveAspectRatio="none">
+            <rect width="650" height="174" fill="#FFFFFF"/>
+            <rect x="0" y="0" width="650" height="174" fill="#FFFFFF"/>
+            <path d="M40 124 C102 69 175 54 247 88 C181 102 128 131 88 164 Z" fill="#FFD600" stroke="#111111" stroke-width="5"/>
+            <path d="M107 113 C145 83 191 78 226 91" class="stroke" stroke-width="5"/>
+            <circle cx="151" cy="83" r="17" fill="#E53935" stroke="#111111" stroke-width="4"/>
+            <circle cx="215" cy="114" r="13" fill="#111111"/>
+            <path d="M302 44 C361 20 423 44 445 98 C407 128 335 129 295 91 C290 73 291 57 302 44Z" fill="#111111"/>
+            <path d="M323 55 C364 42 407 57 425 94 C390 110 346 109 318 86 C315 74 316 63 323 55Z" fill="#FFD600"/>
+            <path d="M351 81 C374 73 396 78 411 93" class="stroke" stroke-width="4"/>
+            <path d="M500 34 C535 31 573 56 588 93 C555 101 522 91 497 65 Z" fill="#E53935" stroke="#111111" stroke-width="5"/>
+            <path d="M492 111 C534 95 587 106 623 139 C578 158 528 151 492 111Z" fill="#FFD600" stroke="#111111" stroke-width="5"/>
+            <path d="M533 118 C558 114 585 122 604 137" class="stroke" stroke-width="4"/>
+            <path d="M23 37 C73 54 113 50 151 24" class="stroke" stroke-width="5"/>
+            <path d="M462 29 C504 11 555 14 626 40" class="stroke" stroke-width="5"/>
+          </svg>
+        </div>
+        <div class="section-heading">
+          <span class="pill">02</span>
+          <h2>Tapas calientes</h2>
+        </div>
+        <div class="items">
+          <article class="item">
+            <div><h3 class="dish-name">Croqueta negra de calamar</h3><p class="description">Bechamel de tinta, alioli de lima y pan rallado grueso.</p></div>
+            <span class="price">8,20</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Tortilla vaga de cebolla dulce</h3><p class="description">Huevo campero, patata confitada y aceite de guindilla.</p></div>
+            <span class="price">9,40</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Bravas de autor</h3><p class="description">Patata rota, salsa roja intensa, mayonesa de ajo tostado.</p></div>
+            <span class="price">7,80</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Gambas al ajillo seco</h3><p class="description">Plancha fuerte, ajo crujiente, perejil y pan de cristal.</p></div>
+            <span class="price">12,50</span>
+          </article>
+        </div>
+      </section>
+
+      <div class="yellow-rule"></div>
+
+      <section class="section">
+        <div class="banner" aria-hidden="true">
+          <svg viewBox="0 0 650 174" preserveAspectRatio="none">
+            <rect width="650" height="174" fill="#111111"/>
+            <path d="M42 87 C88 28 161 24 205 78 C159 133 89 137 42 87Z" fill="#FFFFFF"/>
+            <circle cx="132" cy="84" r="19" fill="#E53935"/>
+            <path d="M65 86 C101 62 145 60 183 80" class="stroke" stroke-width="5"/>
+            <path d="M68 99 C102 117 146 116 179 94" class="stroke" stroke-width="5"/>
+            <path d="M244 45 C308 25 370 39 413 82 C376 130 308 146 248 115 C234 90 234 63 244 45Z" fill="#FFD600" stroke="#FFFFFF" stroke-width="5"/>
+            <path d="M274 65 C313 48 360 59 391 86" class="white-stroke" stroke-width="5"/>
+            <path d="M274 104 C315 119 357 111 389 88" class="white-stroke" stroke-width="5"/>
+            <path d="M467 33 C533 24 594 62 616 119 C558 142 486 126 448 77 C447 57 453 42 467 33Z" fill="#FFFFFF"/>
+            <path d="M493 54 C527 48 566 65 594 102" class="stroke" stroke-width="5"/>
+            <circle cx="540" cy="88" r="14" fill="#E53935"/>
+            <path d="M31 145 C83 158 143 158 209 141" class="white-stroke" stroke-width="5"/>
+            <path d="M426 33 C489 11 558 14 632 43" class="white-stroke" stroke-width="5"/>
+          </svg>
+        </div>
+        <div class="section-heading">
+          <span class="pill">03</span>
+          <h2>Carnes y pescados</h2>
+        </div>
+        <div class="items">
+          <article class="item">
+            <div><h3 class="dish-name">Secreto ibérico lacado</h3><p class="description">Glaseado rojo, cogollos a la brasa y jugo de pimentón.</p></div>
+            <span class="price">17,90</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Merluza con pilpil amarillo</h3><p class="description">Lomo jugoso, emulsión de azafrán y chips de ajo.</p></div>
+            <span class="price">18,60</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Albóndigas de ternera vieja</h3><p class="description">Salsa oscura, patata paja y encurtidos de temporada.</p></div>
+            <span class="price">14,80</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Pulpo marcado con mojo rojo</h3><p class="description">Patata aplastada, aceite picante y sal gruesa.</p></div>
+            <span class="price">19,50</span>
+          </article>
+        </div>
+      </section>
+
+      <div class="yellow-rule"></div>
+
+      <section class="section">
+        <div class="banner" aria-hidden="true">
+          <svg viewBox="0 0 650 174" preserveAspectRatio="none">
+            <rect width="650" height="174" fill="#FFD600"/>
+            <path d="M57 129 C96 91 164 89 206 125 C167 157 98 158 57 129Z" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+            <path d="M81 119 C104 102 158 101 184 120" class="stroke" stroke-width="5"/>
+            <path d="M104 93 C115 62 154 60 169 92 C152 105 121 105 104 93Z" fill="#E53935" stroke="#111111" stroke-width="5"/>
+            <path d="M281 31 L421 50 L390 142 L253 121Z" fill="#111111"/>
+            <path d="M304 54 L389 65 L371 116 L284 104Z" fill="#FFFFFF"/>
+            <circle cx="342" cy="87" r="19" fill="#FFD600" stroke="#111111" stroke-width="5"/>
+            <path d="M470 54 C513 20 585 39 609 91 C570 131 500 129 465 85 C460 72 462 62 470 54Z" fill="#FFFFFF" stroke="#111111" stroke-width="5"/>
+            <path d="M494 76 C521 62 560 68 588 93" class="stroke" stroke-width="5"/>
+            <circle cx="537" cy="92" r="12" fill="#E53935"/>
+            <path d="M33 46 C80 28 121 30 166 49" class="stroke" stroke-width="5"/>
+            <path d="M436 135 C492 154 558 152 624 122" class="stroke" stroke-width="5"/>
+          </svg>
+        </div>
+        <div class="section-heading">
+          <span class="pill">04</span>
+          <h2>Postres</h2>
+        </div>
+        <div class="items">
+          <article class="item">
+            <div><h3 class="dish-name">Flan negro de vainilla</h3><p class="description">Caramelo profundo, nata apenas montada y sal marina.</p></div>
+            <span class="price">6,90</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Torrija amarilla</h3><p class="description">Brioche, crema de limón, canela y helado de leche fresca.</p></div>
+            <span class="price">7,50</span>
+          </article>
+          <article class="item">
+            <div><h3 class="dish-name">Chocolate rojo y aceite</h3><p class="description">Ganache intenso, frambuesa, aceite virgen y escamas de sal.</p></div>
+            <span class="price">8,10</span>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <p>Diseño de muestra · El archivo final incluye tus fotos, precios reales y es 100% editable</p>
+        <svg viewBox="0 0 150 74" aria-hidden="true">
+          <circle cx="31" cy="37" r="22" fill="#FFD600"/>
+          <path d="M76 15 C105 12 130 30 138 56 C111 67 82 58 68 32 C69 24 71 18 76 15Z" fill="#FFFFFF"/>
+          <path d="M86 28 C103 25 119 32 130 48" class="white-stroke" stroke-width="0"/>
+          <path d="M86 28 C103 25 119 32 130 48" fill="none" stroke="#111111" stroke-linecap="round" stroke-width="4"/>
+          <rect x="17" y="32" width="54" height="10" fill="#E53935"/>
+          <path d="M8 61 C44 70 86 69 137 55" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="4"/>
+        </svg>
+      </footer>
+    </article>
+  </main>
+</body>
+</html>
