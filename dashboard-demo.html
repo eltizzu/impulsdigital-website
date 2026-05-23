@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard con IA — Impuls Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09090f;
+      --bg2: #0e0e1a;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.07);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --muted2: #64748b;
+      --purple: #7c3aed;
+      --purple-l: #a78bfa;
+      --cyan: #06b6d4;
+      --cyan-l: #22d3ee;
+      --green: #10b981;
+      --green-l: #34d399;
+      --amber: #f59e0b;
+      --red: #f43f5e;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── TOP BAR ── */
+    .topbar {
+      background: rgba(14,14,26,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .back-link {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--text); }
+    .topbar-brand {
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+    .topbar-brand span { color: var(--purple-l); }
+    .topbar-divider { width: 1px; height: 20px; background: var(--border); }
+    .topbar-title { font-size: 0.82rem; color: var(--muted); font-weight: 500; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .live-dot {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--green-l);
+      font-weight: 600;
+    }
+    .live-dot::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .period-tabs {
+      display: flex;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .ptab {
+      padding: 5px 14px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted2);
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      transition: all 0.15s;
+    }
+    .ptab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .ptab.active {
+      background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(6,182,212,0.15));
+      color: var(--purple-l);
+    }
+    .cta-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(22,163,74,0.25);
+      transition: all 0.2s;
+    }
+    .cta-btn:hover { box-shadow: 0 0 28px rgba(22,163,74,0.45); transform: translateY(-1px); }
+
+    /* ── MAIN LAYOUT ── */
+    .dash-wrap { padding: 24px; max-width: 1200px; margin: 0 auto; }
+
+    /* ── KPI CARDS ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .kpi:hover { border-color: rgba(255,255,255,0.14); }
+    .kpi::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+    }
+    .kpi.purple::before { background: linear-gradient(90deg, var(--purple), var(--purple-l)); }
+    .kpi.cyan::before   { background: linear-gradient(90deg, var(--cyan), var(--cyan-l)); }
+    .kpi.green::before  { background: linear-gradient(90deg, var(--green), var(--green-l)); }
+    .kpi.amber::before  { background: linear-gradient(90deg, var(--amber), #fbbf24); }
+    .kpi-icon { font-size: 1.2rem; margin-bottom: 10px; }
+    .kpi-label { font-size: 0.7rem; color: var(--muted2); font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .kpi-value { font-size: 1.9rem; font-weight: 900; letter-spacing: -0.05em; line-height: 1; margin-bottom: 6px; }
+    .kpi.purple .kpi-value { background: linear-gradient(135deg, var(--purple-l), var(--cyan-l)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .kpi.cyan .kpi-value { color: var(--cyan-l); }
+    .kpi.green .kpi-value { color: var(--green-l); }
+    .kpi.amber .kpi-value { color: #fbbf24; }
+    .kpi-delta {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 99px;
+    }
+    .kpi-delta.up { background: rgba(16,185,129,0.12); color: var(--green-l); }
+    .kpi-delta.down { background: rgba(244,63,94,0.12); color: #fb7185; }
+    .kpi-sub { font-size: 0.65rem; color: var(--muted2); margin-top: 4px; }
+
+    /* ── CHART ROW ── */
+    .chart-row {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .chart-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+    }
+    .chart-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+    .chart-head-left h3 { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .chart-head-left p { font-size: 0.68rem; color: var(--muted2); margin-top: 2px; }
+    .chart-legend { display: flex; gap: 12px; }
+    .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.65rem; color: var(--muted); }
+    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* Bar chart */
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 120px;
+      padding-bottom: 24px;
+      position: relative;
+    }
+    .bar-chart::after {
+      content: '';
+      position: absolute;
+      bottom: 24px; left: 0; right: 0;
+      height: 1px;
+      background: var(--border);
+    }
+    .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .bar-stack { width: 100%; display: flex; flex-direction: column; align-items: stretch; border-radius: 5px 5px 0 0; overflow: hidden; }
+    .bar-seg { transition: all 0.3s; }
+    .bar-day { font-size: 0.52rem; color: var(--muted2); font-weight: 500; }
+    .bar-tooltip { font-size: 0.52rem; color: var(--muted); font-weight: 600; position: absolute; top: -16px; }
+
+    /* Line chart (mini sparkline using CSS) */
+    .line-chart-wrap { height: 120px; position: relative; display: flex; align-items: flex-end; }
+    svg.sparkline { width: 100%; height: 100%; overflow: visible; }
+
+    /* Donut chart */
+    .donut-wrap { display: flex; align-items: center; gap: 20px; }
+    .donut-svg { flex-shrink: 0; }
+    .donut-legend { display: flex; flex-direction: column; gap: 8px; }
+    .donut-item { display: flex; align-items: center; gap: 8px; }
+    .donut-color { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
+    .donut-label { font-size: 0.65rem; color: var(--muted); }
+    .donut-pct { font-size: 0.7rem; font-weight: 700; color: var(--text); margin-left: auto; }
+
+    /* ── BOTTOM ROW ── */
+    .bottom-row {
+      display: grid;
+      grid-template-columns: 5fr 3fr;
+      gap: 14px;
+    }
+
+    /* Reservations table */
+    .table-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .table-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .table-head h3 { font-size: 0.85rem; font-weight: 700; }
+    .table-head p { font-size: 0.68rem; color: var(--muted2); margin-top: 2px; }
+    .badge-count {
+      background: rgba(124,58,237,0.2);
+      color: var(--purple-l);
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 99px;
+      border: 1px solid rgba(124,58,237,0.3);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead th {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 10px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+    }
+    tbody tr:last-child { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.02); }
+    tbody td {
+      padding: 11px 20px;
+      font-size: 0.72rem;
+      color: var(--text);
+    }
+    .td-name { font-weight: 600; }
+    .td-time { color: var(--muted); }
+    .td-pax { color: var(--muted); text-align: center; }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 99px;
+    }
+    .status-badge.confirmada { background: rgba(16,185,129,0.12); color: var(--green-l); border: 1px solid rgba(16,185,129,0.2); }
+    .status-badge.pendiente  { background: rgba(245,158,11,0.12); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+    .status-badge.cancelada  { background: rgba(244,63,94,0.1); color: #fb7185; border: 1px solid rgba(244,63,94,0.2); }
+    .origin-tag { font-size: 0.62rem; color: var(--muted2); }
+
+    /* AI Insights panel */
+    .ai-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+    .ai-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ai-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(6,182,212,0.2));
+      border: 1px solid rgba(124,58,237,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .ai-header-text h3 { font-size: 0.82rem; font-weight: 700; }
+    .ai-header-text p { font-size: 0.64rem; color: var(--muted2); margin-top: 1px; }
+    .ai-insights { padding: 14px 18px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .insight {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .insight-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+    .insight-icon { font-size: 0.85rem; }
+    .insight-type { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+    .insight-type.opp   { color: var(--green-l); }
+    .insight-type.alert { color: #fbbf24; }
+    .insight-type.trend { color: var(--purple-l); }
+    .insight-text { font-size: 0.68rem; color: var(--muted); line-height: 1.45; }
+    .insight-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--cyan-l);
+      margin-top: 6px;
+      cursor: pointer;
+    }
+    .ai-footer {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .ai-powered { font-size: 0.62rem; color: var(--muted2); display: flex; align-items: center; gap: 5px; }
+    .ai-powered span {
+      background: linear-gradient(135deg, var(--purple-l), var(--cyan-l));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-row { grid-template-columns: 1fr; }
+      .bottom-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .topbar { padding: 0 14px; }
+      .topbar-divider, .topbar-title { display: none; }
+      .period-tabs { display: none; }
+      .dash-wrap { padding: 14px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .cta-btn .cta-text { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="topbar-left">
+    <a href="index.html" class="back-link">← Volver</a>
+    <div class="topbar-brand">Impuls<span>.</span></div>
+    <div class="topbar-divider"></div>
+    <div class="topbar-title">Dashboard Hostelería · Demo</div>
+  </div>
+  <div class="topbar-right">
+    <div class="live-dot">En vivo</div>
+    <div class="period-tabs">
+      <button class="ptab" onclick="setPeriod('hoy',this)">Hoy</button>
+      <button class="ptab active" onclick="setPeriod('semana',this)">Semana</button>
+      <button class="ptab" onclick="setPeriod('mes',this)">Mes</button>
+    </div>
+    <a href="https://wa.me/34692388908?text=Vi%20el%20dashboard%20demo%20y%20me%20interesa" target="_blank" class="cta-btn">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a5.526 5.526 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.562 4.14 1.544 5.874L.057 23.428a.75.75 0 0 0 .916.916l5.554-1.487A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.694 9.694 0 0 1-4.93-1.347l-.353-.21-3.297.883.882-3.297-.21-.353A9.694 9.694 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+      <span class="cta-text">Quiero este dashboard</span>
+    </a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="dash-wrap">
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi purple">
+      <div class="kpi-icon">🍽️</div>
+      <div class="kpi-label">Reservas totales</div>
+      <div class="kpi-value">248</div>
+      <span class="kpi-delta up">↑ 14% vs semana ant.</span>
+      <div class="kpi-sub">38 para hoy · 12 pendientes</div>
+    </div>
+    <div class="kpi cyan">
+      <div class="kpi-icon">💰</div>
+      <div class="kpi-label">Facturación</div>
+      <div class="kpi-value">€9.840</div>
+      <span class="kpi-delta up">↑ 22% vs semana ant.</span>
+      <div class="kpi-sub">Ticket medio: €39,68</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-icon">⭐</div>
+      <div class="kpi-label">Valoración media</div>
+      <div class="kpi-value">4,7</div>
+      <span class="kpi-delta up">↑ 0,3 pts este mes</span>
+      <div class="kpi-sub">127 reseñas · Google Maps</div>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-icon">👥</div>
+      <div class="kpi-label">Comensales</div>
+      <div class="kpi-value">1.024</div>
+      <span class="kpi-delta down">↓ 3% vs semana ant.</span>
+      <div class="kpi-sub">Ocupación media: 78%</div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="chart-row">
+
+    <!-- Bar chart: Facturación diaria -->
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-head-left">
+          <h3>Facturación diaria</h3>
+          <p>Semana actual vs semana anterior</p>
+        </div>
+        <div class="chart-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:linear-gradient(135deg,#7c3aed,#22d3ee);"></div>Esta semana</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(255,255,255,0.15);"></div>Sem. anterior</div>
+        </div>
+      </div>
+      <div class="bar-chart" id="barChart"></div>
+    </div>
+
+    <!-- Donut: Origen reservas -->
+    <div class="chart-card">
+      <div class="chart-head">
+        <div class="chart-head-left">
+          <h3>Origen de reservas</h3>
+          <p>Distribución de canales</p>
+        </div>
+      </div>
+      <div class="donut-wrap">
+        <svg class="donut-svg" viewBox="0 0 100 100" width="110" height="110">
+          <!-- Base circle -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="14"/>
+          <!-- Segments: Web 40%, WhatsApp 28%, Directo 20%, Otras 12% -->
+          <!-- Total circumference = 2*π*38 ≈ 238.76 -->
+          <!-- Web: 40% = 95.5 -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="url(#dg1)" stroke-width="14"
+            stroke-dasharray="95.5 143.26" stroke-dashoffset="0" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+          <!-- WhatsApp: 28% = 66.85, offset = -95.5 -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#25d366" stroke-width="14"
+            stroke-dasharray="66.85 171.91" stroke-dashoffset="-95.5" stroke-linecap="round" transform="rotate(-90 50 50)" opacity="0.9"/>
+          <!-- Directo: 20% = 47.75, offset = -162.35 -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#22d3ee" stroke-width="14"
+            stroke-dasharray="47.75 191.01" stroke-dashoffset="-162.35" stroke-linecap="round" transform="rotate(-90 50 50)" opacity="0.75"/>
+          <!-- Otras: 12% = 28.65, offset = -210.1 -->
+          <circle cx="50" cy="50" r="38" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="14"
+            stroke-dasharray="28.65 210.11" stroke-dashoffset="-210.1" stroke-linecap="round" transform="rotate(-90 50 50)"/>
+          <defs>
+            <linearGradient id="dg1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#7c3aed"/>
+              <stop offset="100%" stop-color="#a78bfa"/>
+            </linearGradient>
+          </defs>
+          <!-- Center label -->
+          <text x="50" y="47" text-anchor="middle" fill="#f1f5f9" font-family="Inter,sans-serif" font-size="10" font-weight="900">248</text>
+          <text x="50" y="57" text-anchor="middle" fill="#64748b" font-family="Inter,sans-serif" font-size="5.5" font-weight="600">RESERVAS</text>
+        </svg>
+        <div class="donut-legend">
+          <div class="donut-item">
+            <div class="donut-color" style="background:linear-gradient(135deg,#7c3aed,#a78bfa);"></div>
+            <span class="donut-label">Web propia</span>
+            <span class="donut-pct">40%</span>
+          </div>
+          <div class="donut-item">
+            <div class="donut-color" style="background:#25d366;"></div>
+            <span class="donut-label">WhatsApp</span>
+            <span class="donut-pct">28%</span>
+          </div>
+          <div class="donut-item">
+            <div class="donut-color" style="background:#22d3ee;"></div>
+            <span class="donut-label">Directo</span>
+            <span class="donut-pct">20%</span>
+          </div>
+          <div class="donut-item">
+            <div class="donut-color" style="background:rgba(255,255,255,0.2);"></div>
+            <span class="donut-label">Otras</span>
+            <span class="donut-pct">12%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="bottom-row">
+
+    <!-- Reservations table -->
+    <div class="table-card">
+      <div class="table-head">
+        <div>
+          <h3>Reservas de hoy</h3>
+          <p>Servicio de comida y cena · Martes 23 mayo</p>
+        </div>
+        <span class="badge-count">38 reservas</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Hora</th>
+            <th style="text-align:center;">Pax</th>
+            <th>Mesa</th>
+            <th>Origen</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-name">García Martínez</td>
+            <td class="td-time">13:00</td>
+            <td class="td-pax">4</td>
+            <td>Mesa 7</td>
+            <td><span class="origin-tag">Web</span></td>
+            <td><span class="status-badge confirmada">✓ Confirmada</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Rodríguez, Ana</td>
+            <td class="td-time">13:30</td>
+            <td class="td-pax">2</td>
+            <td>Mesa 3</td>
+            <td><span class="origin-tag">WhatsApp</span></td>
+            <td><span class="status-badge confirmada">✓ Confirmada</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">López Grupo</td>
+            <td class="td-time">14:00</td>
+            <td class="td-pax">8</td>
+            <td>Salón</td>
+            <td><span class="origin-tag">Tel.</span></td>
+            <td><span class="status-badge pendiente">⏳ Pendiente</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Fernández, Mario</td>
+            <td class="td-time">14:15</td>
+            <td class="td-pax">3</td>
+            <td>Mesa 12</td>
+            <td><span class="origin-tag">Web</span></td>
+            <td><span class="status-badge confirmada">✓ Confirmada</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Pérez, Carmen</td>
+            <td class="td-time">21:00</td>
+            <td class="td-pax">2</td>
+            <td>Mesa 5</td>
+            <td><span class="origin-tag">Web</span></td>
+            <td><span class="status-badge confirmada">✓ Confirmada</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Sánchez Familia</td>
+            <td class="td-time">21:30</td>
+            <td class="td-pax">5</td>
+            <td>Mesa 9</td>
+            <td><span class="origin-tag">WhatsApp</span></td>
+            <td><span class="status-badge pendiente">⏳ Pendiente</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Jiménez, Pablo</td>
+            <td class="td-time">22:00</td>
+            <td class="td-pax">2</td>
+            <td>Mesa 2</td>
+            <td><span class="origin-tag">Tel.</span></td>
+            <td><span class="status-badge cancelada">✕ Cancelada</span></td>
+          </tr>
+          <tr>
+            <td class="td-name">Torres & Vega</td>
+            <td class="td-time">22:30</td>
+            <td class="td-pax">6</td>
+            <td>Mesa 14</td>
+            <td><span class="origin-tag">Web</span></td>
+            <td><span class="status-badge confirmada">✓ Confirmada</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AI Insights -->
+    <div class="ai-panel">
+      <div class="ai-header">
+        <div class="ai-icon">✦</div>
+        <div class="ai-header-text">
+          <h3>Insights IA</h3>
+          <p>Análisis automático · actualizado hace 2 min</p>
+        </div>
+      </div>
+      <div class="ai-insights">
+        <div class="insight">
+          <div class="insight-top">
+            <span class="insight-icon">📈</span>
+            <span class="insight-type opp">Oportunidad</span>
+          </div>
+          <div class="insight-text">Los viernes a las 21:30 tienes un 94% de ocupación. Considera añadir un turno extra o lista de espera para maximizar ingresos.</div>
+          <div class="insight-action">Ver detalle →</div>
+        </div>
+        <div class="insight">
+          <div class="insight-top">
+            <span class="insight-icon">⚠️</span>
+            <span class="insight-type alert">Alerta</span>
+          </div>
+          <div class="insight-text">3 cancelaciones de último minuto esta semana. El 67% vino por teléfono. Activar recordatorio automático por WhatsApp reduciría un 40% las no-shows.</div>
+          <div class="insight-action">Configurar →</div>
+        </div>
+        <div class="insight">
+          <div class="insight-top">
+            <span class="insight-icon">🌟</span>
+            <span class="insight-type trend">Tendencia</span>
+          </div>
+          <div class="insight-text">Tu valoración en Google subió 0,3 puntos este mes. Los clientes mencionan "trato excelente" y "menú creativo". Responde a las 4 reseñas sin contestar.</div>
+          <div class="insight-action">Ver reseñas →</div>
+        </div>
+      </div>
+      <div class="ai-footer">
+        <div class="ai-powered">Potenciado por <span>Impuls Digital IA</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ── Bar chart data ──
+  const days = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const current  = [820, 940, 780, 1050, 1680, 1920, 650];
+  const previous = [700, 810, 820, 880, 1420, 1750, 590];
+  const maxVal = 2000;
+
+  function buildBarChart() {
+    const el = document.getElementById('barChart');
+    el.innerHTML = '';
+    days.forEach((d, i) => {
+      const col = document.createElement('div');
+      col.className = 'bar-col';
+      const currH = Math.round((current[i] / maxVal) * 96);
+      const prevH = Math.round((previous[i] / maxVal) * 96);
+      col.innerHTML = `
+        <div style="position:relative;width:100%;display:flex;align-items:flex-end;gap:2px;height:96px;">
+          <div style="flex:1;height:${prevH}px;background:rgba(255,255,255,0.1);border-radius:4px 4px 0 0;"></div>
+          <div style="flex:1;height:${currH}px;background:linear-gradient(to top,#7c3aed,#22d3ee);border-radius:4px 4px 0 0;opacity:${i===5?'1':'0.75'};"></div>
+        </div>
+        <div class="bar-day">${d}</div>
+      `;
+      el.appendChild(col);
+    });
+  }
+
+  // Period switcher (visual only for demo)
+  const periodData = {
+    hoy:    { reservas:'38', factura:'€1.412', rating:'4,7', pax:'142', delta1:'↑ 8%', delta2:'↑ 11%' },
+    semana: { reservas:'248', factura:'€9.840', rating:'4,7', pax:'1.024', delta1:'↑ 14%', delta2:'↑ 22%' },
+    mes:    { reservas:'1.087', factura:'€43.260', rating:'4,7', pax:'4.480', delta1:'↑ 19%', delta2:'↑ 28%' },
+  };
+
+  function setPeriod(p, btn) {
+    document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const d = periodData[p];
+    const kpis = document.querySelectorAll('.kpi-value');
+    const deltas = document.querySelectorAll('.kpi-delta');
+    kpis[0].textContent = d.reservas;
+    kpis[1].textContent = d.factura;
+    kpis[3].textContent = d.pax;
+    deltas[0].textContent = d.delta1 + ' vs período ant.';
+    deltas[1].textContent = d.delta2 + ' vs período ant.';
+  }
+
+  buildBarChart();
+</script>
+</body>
+</html>

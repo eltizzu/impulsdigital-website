@@ -231,17 +231,64 @@
       position: absolute;
       width: 700px; height: 700px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(124,58,237,0.22) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(124,58,237,0.35) 0%, transparent 70%);
       top: -200px; left: -200px;
+      filter: blur(80px);
       pointer-events: none;
     }
     .hero-glow-2 {
       position: absolute;
       width: 600px; height: 600px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(6,182,212,0.15) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(6,182,212,0.25) 0%, transparent 70%);
       bottom: -150px; right: -100px;
+      filter: blur(80px);
       pointer-events: none;
+    }
+
+    /* ─── MESH GRADIENT BLOBS ─── */
+    .mesh-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .mesh-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      mix-blend-mode: screen;
+    }
+    .mesh-blob-1 {
+      width: 650px; height: 650px;
+      background: radial-gradient(circle, rgba(124,58,237,0.28) 0%, transparent 70%);
+      top: -5%; left: -8%;
+      opacity: 0.9;
+    }
+    .mesh-blob-2 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(6,182,212,0.22) 0%, transparent 70%);
+      top: 15%; right: 5%;
+      opacity: 0.9;
+    }
+    .mesh-blob-3 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(249,115,22,0.18) 0%, transparent 70%);
+      top: 55%; left: 20%;
+      opacity: 0.85;
+    }
+    .mesh-blob-4 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+      top: 70%; right: -5%;
+      opacity: 0.8;
+    }
+    .mesh-blob-5 {
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, rgba(6,182,212,0.14) 0%, transparent 70%);
+      top: 40%; left: 42%;
+      opacity: 0.7;
     }
     .hero-inner {
       display: grid;
@@ -470,18 +517,28 @@
     .vc1-dish span { font-size: 0.54rem; color: rgba(245,240,232,0.75); }
     .vc1-dish b { font-size: 0.54rem; color: #D4874E; font-weight: 600; }
 
-    /* Card 2 — El Rincón editorial */
-    .vc2 { background: #fff; display: grid; grid-template-columns: 18% 82%; }
-    .vc2-spine { background: #111; display: flex; align-items: center; justify-content: center; }
-    .vc2-spine-text { color: #fff; font-size: 0.7rem; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; writing-mode: vertical-rl; transform: rotate(180deg); }
-    .vc2-body { padding: 12px 10px; }
-    .vc2-pill { display: inline-block; background: #FFD600; color: #111; font-size: 0.5rem; font-weight: 900; letter-spacing: 0.15em; text-transform: uppercase; padding: 2px 6px; margin-bottom: 4px; }
-    .vc2-htitle { font-size: 1.1rem; font-weight: 900; color: #111; letter-spacing: -0.02em; line-height: 1; margin-bottom: 8px; }
-    .vc2-sec-label { display: inline-block; background: #FFD600; color: #111; font-size: 0.55rem; font-weight: 800; text-transform: uppercase; padding: 2px 7px; margin-bottom: 5px; }
-    .vc2-sec-title { font-size: 0.85rem; font-weight: 900; color: #111; text-transform: uppercase; letter-spacing: -0.01em; margin-bottom: 5px; }
-    .vc2-item { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #e5e5e5; padding-bottom: 3px; margin-bottom: 3px; }
-    .vc2-item-name { font-size: 0.52rem; font-weight: 600; color: #111; }
-    .vc2-item-price { font-size: 0.52rem; font-weight: 800; background: #FFD600; color: #111; padding: 1px 5px; border-radius: 99px; white-space: nowrap; }
+    /* Card 2 — Análisis de Mercado */
+    .vc2 { background: #07071a; }
+    .vc2-header { padding: 12px 14px 8px; border-bottom: 1px solid rgba(124,58,237,0.2); display: flex; align-items: center; justify-content: space-between; }
+    .vc2-title { font-size: 0.55rem; font-weight: 700; color: #c4b5fd; letter-spacing: 0.06em; text-transform: uppercase; }
+    .vc2-live { font-size: 0.45rem; color: #10b981; font-weight: 600; }
+    .vc2-body { padding: 10px 14px; }
+    .vc2-score-wrap { text-align: center; padding: 10px 0 8px; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 8px; }
+    .vc2-score-num { font-size: 2.4rem; font-weight: 900; letter-spacing: -0.05em; background: linear-gradient(135deg, #a78bfa, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .vc2-score-label { font-size: 0.45rem; color: #64748b; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 2px; }
+    .vc2-comp-title { font-size: 0.46rem; color: #64748b; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 5px; }
+    .vc2-comp-row { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+    .vc2-comp-name { font-size: 0.46rem; color: #94a3b8; width: 52px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .vc2-comp-bar-wrap { flex: 1; height: 5px; background: rgba(255,255,255,0.06); border-radius: 99px; }
+    .vc2-comp-bar { height: 100%; border-radius: 99px; }
+    .vc2-comp-score { font-size: 0.44rem; color: #94a3b8; font-weight: 600; min-width: 20px; text-align: right; }
+    .vc2-chips { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 8px; }
+    .vc2-chip { font-size: 0.42rem; font-weight: 600; padding: 2px 6px; border-radius: 99px; }
+    .vc2-chip.green { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+    .vc2-chip.yellow { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.25); }
+    .vc2-chip.purple { background: rgba(124,58,237,0.15); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.25); }
+    .vc2-footer { margin-top: 8px; padding-top: 7px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .vc2-footer-text { font-size: 0.45rem; color: #64748b; font-weight: 600; }
 
     /* Card 3 — Dashboard */
     .vc3 { background: #0e0e1a; }
@@ -1006,10 +1063,19 @@
 </head>
 <body>
 
+<!-- ═══ MESH GRADIENT BACKGROUND ═══ -->
+<div class="mesh-bg" aria-hidden="true">
+  <div class="mesh-blob mesh-blob-1"></div>
+  <div class="mesh-blob mesh-blob-2"></div>
+  <div class="mesh-blob mesh-blob-3"></div>
+  <div class="mesh-blob mesh-blob-4"></div>
+  <div class="mesh-blob mesh-blob-5"></div>
+</div>
+
 <!-- ═══ NAV ═══ -->
 <nav class="nav" id="navbar">
   <div class="container nav-inner">
-    <a href="#" class="nav-logo">Impuls<span>.</span></a>
+    <a href="#" class="nav-logo"><span style="font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.03em;">Impuls<span style="color:#a78bfa;">.</span></span></a>
     <ul class="nav-links">
       <li><a href="#webs">Webs</a></li>
       <li><a href="#ia">Servicios IA</a></li>
@@ -1094,24 +1160,42 @@
               </div>
             </div>
 
-            <!-- Card 2: El Rincón editorial (black/yellow) -->
+            <!-- Card 2: Análisis de Mercado IA -->
             <div class="vr-card vc2">
-              <div class="vc2-spine">
-                <div class="vc2-spine-text" style="font-family:'Bebas Neue',sans-serif;font-size:0.8rem;letter-spacing:0.1em;">El Rincón</div>
+              <div class="vc2-header">
+                <div class="vc2-title">Análisis de Mercado</div>
+                <div class="vc2-live">● IA</div>
               </div>
               <div class="vc2-body">
-                <div class="vc2-pill">Tapas Bar</div>
-                <div class="vc2-htitle" style="font-family:'Bebas Neue',sans-serif;">El<br>Rincón</div>
-                <div class="vc2-sec-label">01</div>
-                <div class="vc2-sec-title" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;">Tapas frías</div>
-                <div class="vc2-item"><span class="vc2-item-name">Ensaladilla</span><span class="vc2-item-price">7,50</span></div>
-                <div class="vc2-item"><span class="vc2-item-name">Anchoas</span><span class="vc2-item-price">9,80</span></div>
-                <div class="vc2-item"><span class="vc2-item-name">Salmorejo</span><span class="vc2-item-price">6,90</span></div>
-                <div style="height:6px;background:#FFD600;margin:8px 0 6px;"></div>
-                <div class="vc2-sec-label">02</div>
-                <div class="vc2-sec-title" style="font-family:'Bebas Neue',sans-serif;font-size:0.7rem;">Tapas calientes</div>
-                <div class="vc2-item"><span class="vc2-item-name">Croqueta negra</span><span class="vc2-item-price">8,20</span></div>
-                <div class="vc2-item"><span class="vc2-item-name">Bravas de autor</span><span class="vc2-item-price">7,80</span></div>
+                <div class="vc2-score-wrap">
+                  <div class="vc2-score-num">87<span style="font-size:1rem;opacity:0.6">/100</span></div>
+                  <div class="vc2-score-label">Score de visibilidad</div>
+                </div>
+                <div class="vc2-comp-title">Competidores detectados</div>
+                <div class="vc2-comp-row">
+                  <div class="vc2-comp-name">Tu negocio</div>
+                  <div class="vc2-comp-bar-wrap"><div class="vc2-comp-bar" style="width:87%;background:linear-gradient(90deg,#7c3aed,#22d3ee);"></div></div>
+                  <div class="vc2-comp-score" style="color:#a78bfa;">87</div>
+                </div>
+                <div class="vc2-comp-row">
+                  <div class="vc2-comp-name">Competidor A</div>
+                  <div class="vc2-comp-bar-wrap"><div class="vc2-comp-bar" style="width:61%;background:rgba(255,255,255,0.15);"></div></div>
+                  <div class="vc2-comp-score">61</div>
+                </div>
+                <div class="vc2-comp-row">
+                  <div class="vc2-comp-name">Competidor B</div>
+                  <div class="vc2-comp-bar-wrap"><div class="vc2-comp-bar" style="width:44%;background:rgba(255,255,255,0.1);"></div></div>
+                  <div class="vc2-comp-score">44</div>
+                </div>
+                <div class="vc2-chips">
+                  <span class="vc2-chip green">SEO +32%</span>
+                  <span class="vc2-chip purple">Reseñas ×2</span>
+                  <span class="vc2-chip yellow">Ficha incompleta</span>
+                  <span class="vc2-chip green">Maps top 3</span>
+                </div>
+                <div class="vc2-footer">
+                  <span class="vc2-footer-text">⚡ Entregado en 48h</span>
+                </div>
               </div>
             </div>
 
@@ -1346,7 +1430,7 @@
         </ul>
         <div class="service-price">490€ <span>pago único</span></div>
         <div class="card-actions">
-          <a href="analisis-mercado-demo.html" class="btn btn-secondary" target="_blank" style="font-size:0.82rem;">Ver demo</a>
+          <a href="dashboard-demo.html" class="btn btn-secondary" target="_blank" style="font-size:0.82rem;">Ver demo</a>
           <a href="https://wa.me/34692388908?text=Me%20interesa%20un%20Dashboard%20con%20IA" class="btn btn-primary" style="background:linear-gradient(135deg,#0891b2,#0e7490);" target="_blank">Solicitar</a>
         </div>
       </div>
