@@ -821,6 +821,8 @@
       border-radius: 14px;
       overflow: hidden;
       flex-shrink: 0;
+      background: rgba(255,255,255,0.06);
+      padding: 4px;
       background: rgba(255,255,255,0.05);
       display: flex;
       align-items: center;
@@ -982,8 +984,8 @@
       font-size: 1rem;
       line-height: 1.7;
     }
-    .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-    .cta-micro { margin-top: 20px; font-size: 0.8rem; color: var(--muted2); }
+    .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+    .cta-micro { margin-top: 32px; font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
 
     /* ─── CLIENTS STRIP ─── */
     .clients-strip {
@@ -1006,12 +1008,12 @@
       flex-wrap: wrap;
     }
     .clients-logos img {
-      height: 32px;
-      opacity: 0.4;
-      filter: grayscale(100%);
-      transition: opacity 0.2s;
+      height: 48px;
+      opacity: 0.65;
+      filter: grayscale(100%) brightness(1.8);
+      transition: all 0.2s;
     }
-    .clients-logos img:hover { opacity: 0.7; }
+    .clients-logos img:hover { opacity: 1; filter: grayscale(0%) brightness(1); }
 
     /* ─── FOOTER ─── */
     footer {
