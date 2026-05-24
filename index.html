@@ -487,12 +487,11 @@
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
       transition: box-shadow 0.3s;
     }
-    .vr-card:nth-child(1) { transform: rotateY(0deg)   translateZ(215px); }
-    .vr-card:nth-child(2) { transform: rotateY(60deg)  translateZ(215px); }
-    .vr-card:nth-child(3) { transform: rotateY(120deg) translateZ(215px); }
-    .vr-card:nth-child(4) { transform: rotateY(180deg) translateZ(215px); }
-    .vr-card:nth-child(5) { transform: rotateY(240deg) translateZ(215px); }
-    .vr-card:nth-child(6) { transform: rotateY(300deg) translateZ(215px); }
+    .vr-card:nth-child(1) { transform: rotateY(0deg)   translateZ(220px); }
+    .vr-card:nth-child(2) { transform: rotateY(72deg)  translateZ(220px); }
+    .vr-card:nth-child(3) { transform: rotateY(144deg) translateZ(220px); }
+    .vr-card:nth-child(4) { transform: rotateY(216deg) translateZ(220px); }
+    .vr-card:nth-child(5) { transform: rotateY(288deg) translateZ(220px); }
 
     /* Ground reflection glow */
     .vr-scene::after {
@@ -796,11 +795,14 @@
       letter-spacing: 0;
     }
     .price-old {
-      font-size: 0.95rem;
-      font-weight: 500;
-      color: var(--muted2);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--muted);
       text-decoration: line-through;
-      margin-right: 6px;
+      text-decoration-color: rgba(244,63,94,0.6);
+      text-decoration-thickness: 2px;
+      margin-right: 8px;
+      opacity: 0.75;
     }
     .launch-badge {
       display: inline-flex;
@@ -1186,11 +1188,16 @@
     <!-- Left: text -->
     <div class="hero-text">
       <div class="hero-tag">Activo en Málaga · Costa del Sol</div>
-      <h1 class="hero-h1">Tu negocio, <br><span class="grad-text">impulsado por IA.</span></h1>
-      <p class="hero-p">Webs, apps propias, dashboards interactivos y servicios con IA — todo desde una sola persona, sin agencias ni letra chica. Resultados en días, no en meses.</p>
+      <h1 class="hero-h1">Tu negocio aparece<br><span class="grad-text">cuando te buscan.</span></h1>
+      <p class="hero-p">Aparecer en Google, recibir consultas por WhatsApp, tener los datos de tu negocio en un clic — todo desde una sola persona, sin agencias ni letra chica. Listo en 7 días, no en meses.</p>
       <div class="hero-actions">
-        <a href="#webs" class="btn btn-primary btn-lg">Ver servicios</a>
+        <a href="#webs" class="btn btn-primary btn-lg">¿Qué necesita mi negocio?</a>
         <a href="https://wa.me/34692388908" class="btn btn-secondary btn-lg" target="_blank" rel="noopener">Hablemos →</a>
+      </div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;margin-top:18px;">
+        <span style="font-size:0.78rem;color:var(--muted);"><span style="color:var(--green);font-weight:700;">✓</span> Sin agencias</span>
+        <span style="font-size:0.78rem;color:var(--muted);"><span style="color:var(--green);font-weight:700;">✓</span> Sin mensualidades</span>
+        <span style="font-size:0.78rem;color:var(--muted);"><span style="color:var(--green);font-weight:700;">✓</span> Operativo en 7 días</span>
       </div>
       <div class="hero-proof">
         <div class="hero-proof-avatars">
@@ -1357,29 +1364,7 @@
               </div>
             </div>
 
-            <!-- Card 5: Redes Sociales -->
-            <div class="vr-card vc5">
-              <div class="vc5-header">
-                <div class="vc5-title">Gestión de Redes</div>
-                <div class="vc5-handle">@tunegocio · Instagram</div>
-              </div>
-              <div class="vc5-grid">
-                <div class="vc5-post p1">📸</div>
-                <div class="vc5-post p2">🍽️</div>
-                <div class="vc5-post p3">✨</div>
-                <div class="vc5-post p4">🔥</div>
-                <div class="vc5-post p5">💜</div>
-                <div class="vc5-post p6">📊</div>
-              </div>
-              <div class="vc5-stats">
-                <div class="vc5-stat"><div class="vc5-stat-n">+340%</div><div class="vc5-stat-l">Alcance</div></div>
-                <div class="vc5-stat"><div class="vc5-stat-n">4.2k</div><div class="vc5-stat-l">Seguidores</div></div>
-                <div class="vc5-stat"><div class="vc5-stat-n">12 posts</div><div class="vc5-stat-l">Mes</div></div>
-              </div>
-              <div class="vc5-caption">Contenido generado con IA · Publicación automática</div>
-            </div>
-
-            <!-- Card 6: Pack Lanzamiento -->
+            <!-- Card 5: Pack Lanzamiento -->
             <div class="vr-card vc6">
               <div class="vc6-nav">
                 <div class="vc6-logo">tunegocio.es</div>
@@ -1468,7 +1453,7 @@
         <div class="launch-badge">🔥 Precio lanzamiento · hasta 30 jun</div>
         <div class="service-price"><span class="price-old">350€</span>300€ <span>pago único</span></div>
         <div class="card-actions">
-          <a href="https://wa.me/34692388908?text=Me%20interesa%20la%20Web%20Esencial" class="btn btn-secondary" target="_blank">Empezar</a>
+          <a href="https://wa.me/34692388908?text=Me%20interesa%20la%20Web%20Esencial" class="btn btn-secondary" target="_blank">Quiero mi web en 7 días</a>
         </div>
       </div>
 
@@ -1527,7 +1512,7 @@
       <div class="service-price"><span class="price-old">590€</span>540€ <span>pago único</span></div>
       <div class="card-actions">
         <a href="pack-lanzamiento-demo.html" class="btn btn-secondary" target="_blank">Ver ejemplo</a>
-        <a href="https://wa.me/34692388908?text=Me%20interesa%20el%20Pack%20Lanzamiento" class="btn btn-primary" style="background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 0 20px rgba(249,115,22,0.3);" target="_blank">Solicitar</a>
+        <a href="https://wa.me/34692388908?text=Me%20interesa%20el%20Pack%20Lanzamiento" class="btn btn-primary" style="background:linear-gradient(135deg,#f97316,#ea580c);box-shadow:0 0 20px rgba(249,115,22,0.3);" target="_blank">Lanzar mi negocio</a>
       </div>
     </div>
   </div>
@@ -1564,7 +1549,7 @@
         <div class="service-price"><span class="price-old">490€</span>390€ <span>pago único</span></div>
         <div class="card-actions">
           <a href="dashboard-demo.html" class="btn btn-secondary" target="_blank" style="font-size:0.82rem;">Ver demo</a>
-          <a href="https://wa.me/34692388908?text=Me%20interesa%20un%20Dashboard%20con%20IA" class="btn btn-primary" style="background:linear-gradient(135deg,#0891b2,#0e7490);" target="_blank">Solicitar</a>
+          <a href="https://wa.me/34692388908?text=Me%20interesa%20un%20Dashboard%20con%20IA" class="btn btn-primary" style="background:linear-gradient(135deg,#0891b2,#0e7490);" target="_blank">Quiero verlo con mis datos</a>
         </div>
       </div>
 
@@ -1600,10 +1585,11 @@
           <li>Entrega en PNG, PDF y formatos editables</li>
           <li>2 revisiones incluidas</li>
         </ul>
-        <div class="service-price">149€ <span>por pieza</span></div>
+        <div class="launch-badge">🔥 Precio lanzamiento · hasta 30 jun</div>
+        <div class="service-price"><span class="price-old">199€</span>149€ <span>por pieza</span></div>
         <div class="card-actions">
           <a href="menu-demo.html" class="btn btn-secondary" target="_blank" style="font-size:0.82rem;">Ver diseños</a>
-          <a href="https://wa.me/34692388908?text=Me%20interesa%20el%20Dise%C3%B1o%20con%20IA" class="btn btn-primary" target="_blank">Pedir presupuesto</a>
+          <a href="https://wa.me/34692388908?text=Me%20interesa%20el%20Dise%C3%B1o%20con%20IA" class="btn btn-primary" target="_blank">Ver diseños y pedir precio</a>
         </div>
       </div>
 
@@ -1874,7 +1860,7 @@
         Instagram
       </a>
     </div>
-    <p class="cta-micro">Primeros negocios en Málaga ya trabajan con Impuls Digital — ¿el tuyo es el siguiente?</p>
+    <p class="cta-micro">Ya son más de 10 negocios en Málaga. Cada semana hay lista de espera — si te interesa, mejor hablamos ya.</p>
   </div>
 </section>
 
