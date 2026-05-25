@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pedir presupuesto · Impuls Digital</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #09090f;
+      --bg2: #0e0e1a;
+      --card: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --border-focus: rgba(124,58,237,0.5);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --muted2: #64748b;
+      --purple: #7c3aed;
+      --purple-l: #a78bfa;
+      --cyan: #06b6d4;
+      --green: #10b981;
+      --error: #f87171;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-size: 0.9rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #a78bfa, #22d3ee);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .back-btn {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .back-btn:hover { color: var(--text); }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── HERO ── */
+    .form-hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .form-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+    .grad { background: linear-gradient(135deg, #a78bfa, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .form-hero p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    /* ── SERVICE SELECTOR ── */
+    .service-selector {
+      margin-bottom: 32px;
+    }
+    .selector-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .service-pills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .service-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    .service-pill:hover {
+      border-color: rgba(124,58,237,0.3);
+      background: rgba(124,58,237,0.05);
+    }
+    .service-pill.active {
+      border-color: var(--purple);
+      background: rgba(124,58,237,0.12);
+      box-shadow: 0 0 16px rgba(124,58,237,0.15);
+    }
+    .pill-icon { font-size: 1.3rem; flex-shrink: 0; }
+    .pill-info {}
+    .pill-name { font-size: 0.85rem; font-weight: 600; line-height: 1.2; }
+    .pill-price { font-size: 0.7rem; color: var(--muted2); margin-top: 2px; }
+    .service-pill.active .pill-price { color: var(--purple-l); }
+
+    /* ── FORM ── */
+    .form-block {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+    .form-block.visible { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .form-section-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted2);
+      margin: 28px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+    .field-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .field-group label .req { color: var(--purple-l); margin-left: 2px; }
+    .field-group input,
+    .field-group textarea,
+    .field-group select {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .field-group input:focus,
+    .field-group textarea:focus,
+    .field-group select:focus {
+      border-color: var(--border-focus);
+    }
+    .field-group textarea { resize: vertical; min-height: 90px; }
+    .field-group select option { background: #1e1e2e; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .radio-group, .check-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .radio-item, .check-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      color: var(--muted);
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .radio-item:has(input:checked),
+    .check-item:has(input:checked) {
+      border-color: rgba(124,58,237,0.4);
+      background: rgba(124,58,237,0.1);
+      color: var(--text);
+    }
+    .radio-item input, .check-item input { display: none; }
+
+    /* ── SUBMIT ── */
+    .submit-area {
+      margin-top: 32px;
+      background: rgba(124,58,237,0.06);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 16px;
+      padding: 24px;
+      text-align: center;
+    }
+    .submit-note {
+      font-size: 0.78rem;
+      color: var(--muted2);
+      margin-bottom: 16px;
+    }
+    .submit-note strong { color: var(--muted); }
+    .btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 24px;
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 0 24px rgba(37,211,102,0.25);
+      text-decoration: none;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 36px rgba(37,211,102,0.4);
+    }
+    .btn-submit svg { width: 20px; height: 20px; fill: #fff; }
+
+    /* ── PLACEHOLDER ── */
+    .no-service {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted2);
+    }
+    .no-service-icon { font-size: 2.5rem; margin-bottom: 12px; }
+    .no-service p { font-size: 0.88rem; }
+
+    @media (max-width: 560px) {
+      .service-pills { grid-template-columns: 1fr; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="page-header">
+  <a href="index.html" class="back-btn">← Volver</a>
+  <div class="brand">Impuls Digital</div>
+  <span style="font-size:0.75rem;color:var(--muted2);">Presupuesto gratis</span>
+</header>
+
+<div class="wrapper">
+
+  <div class="form-hero">
+    <h1>¿Qué necesita<br><span class="grad">tu negocio?</span></h1>
+    <p>Elegí el servicio, completá el formulario en 2 minutos y te respondo por WhatsApp el mismo día.</p>
+  </div>
+
+  <!-- SELECTOR DE SERVICIO -->
+  <div class="service-selector">
+    <div class="selector-label">Elegí el servicio</div>
+    <div class="service-pills">
+      <div class="service-pill" onclick="selectService('web-esencial')">
+        <div class="pill-icon">🌐</div>
+        <div class="pill-info">
+          <div class="pill-name">Web Esencial</div>
+          <div class="pill-price">300€ · 1 página</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('web-pro')">
+        <div class="pill-icon">⚡</div>
+        <div class="pill-info">
+          <div class="pill-name">Web Profesional</div>
+          <div class="pill-price">500€ · multi-página</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('pack-lanzamiento')">
+        <div class="pill-icon">🚀</div>
+        <div class="pill-info">
+          <div class="pill-name">Pack Lanzamiento</div>
+          <div class="pill-price">540€ · web + identidad</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('kit-marca')">
+        <div class="pill-icon">✦</div>
+        <div class="pill-info">
+          <div class="pill-name">Kit de Marca</div>
+          <div class="pill-price">149€ · logo + paleta</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('dashboard')">
+        <div class="pill-icon">📊</div>
+        <div class="pill-info">
+          <div class="pill-name">Dashboard con IA</div>
+          <div class="pill-price">390€ · datos en tiempo real</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('analisis')">
+        <div class="pill-icon">🔍</div>
+        <div class="pill-info">
+          <div class="pill-name">Análisis de Mercado</div>
+          <div class="pill-price">199€ · entrega 48h</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('diseno')">
+        <div class="pill-icon">🎨</div>
+        <div class="pill-info">
+          <div class="pill-name">Diseño con IA</div>
+          <div class="pill-price">149€ · menús y flyers</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('dossier')">
+        <div class="pill-icon">📁</div>
+        <div class="pill-info">
+          <div class="pill-name">Dossier Comercial</div>
+          <div class="pill-price">99€ · PDF profesional</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('trilingue')">
+        <div class="pill-icon">🌍</div>
+        <div class="pill-info">
+          <div class="pill-name">Descripción Trilingüe</div>
+          <div class="pill-price">79€ · ES · EN · FR</div>
+        </div>
+      </div>
+      <div class="service-pill" onclick="selectService('google-maps')">
+        <div class="pill-icon">📍</div>
+        <div class="pill-info">
+          <div class="pill-name">Google Maps</div>
+          <div class="pill-price">99€ · ficha optimizada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLACEHOLDER -->
+  <div id="no-service" class="no-service">
+    <div class="no-service-icon">👆</div>
+    <p>Elegí un servicio arriba para ver el formulario</p>
+  </div>
+
+  <!-- ═══ FORMULARIOS ═══ -->
+
+  <!-- WEB ESENCIAL -->
+  <div id="form-web-esencial" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="we-nombre" placeholder="Ej: Peluquería Lucía">
+      </div>
+      <div class="field-group">
+        <label>Sector / tipo de negocio <span class="req">*</span></label>
+        <input type="text" id="we-sector" placeholder="Ej: Peluquería, restaurante...">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Ciudad <span class="req">*</span></label>
+        <input type="text" id="we-ciudad" placeholder="Ej: Torremolinos">
+      </div>
+      <div class="field-group">
+        <label>¿Tenés web ahora?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="we-web" value="No"> No tengo</label>
+          <label class="radio-item"><input type="radio" name="we-web" value="Sí, pero está mal"> Sí, pero está mal</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿A qué se dedica el negocio? <span class="req">*</span></label>
+      <textarea id="we-descripcion" placeholder="Contame brevemente qué hacés, qué ofrecés y a quién le vendés..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>Servicios o productos principales</label>
+      <textarea id="we-servicios" placeholder="Ej: Corte, tinte, peinado, manicura..." style="min-height:70px;"></textarea>
+    </div>
+    <div class="form-section-title">Estilo y materiales</div>
+    <div class="field-group">
+      <label>Estilo visual que te gusta</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="we-estilo" value="Moderno y limpio"> Moderno y limpio</label>
+        <label class="radio-item"><input type="radio" name="we-estilo" value="Cálido y cercano"> Cálido y cercano</label>
+        <label class="radio-item"><input type="radio" name="we-estilo" value="Elegante y oscuro"> Elegante y oscuro</label>
+        <label class="radio-item"><input type="radio" name="we-estilo" value="Sin preferencia"> Sin preferencia</label>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>¿Tenés fotos del negocio?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="we-fotos" value="Sí"> Sí</label>
+          <label class="radio-item"><input type="radio" name="we-fotos" value="No"> No</label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>¿Tenés logo?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="we-logo" value="Sí"> Sí</label>
+          <label class="radio-item"><input type="radio" name="we-logo" value="No"> No</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Web de referencia que te gusta (opcional)</label>
+      <input type="text" id="we-referencia" placeholder="Pegá una URL o describí el estilo">
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="we-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="we-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div id="submit-web-esencial" class="submit-area">
+      <p class="submit-note">Te respondo <strong>el mismo día</strong> por WhatsApp con precio y próximos pasos.</p>
+      <a class="btn-submit" onclick="enviarWA('web-esencial')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- WEB PROFESIONAL -->
+  <div id="form-web-pro" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="wp-nombre" placeholder="Ej: Clínica Dental Martínez">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="wp-sector" placeholder="Ej: Clínica dental, academia...">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Ciudad <span class="req">*</span></label>
+        <input type="text" id="wp-ciudad" placeholder="Ej: Marbella">
+      </div>
+      <div class="field-group">
+        <label>¿Tenés web ahora?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="wp-web" value="No"> No</label>
+          <label class="radio-item"><input type="radio" name="wp-web" value="Sí, desactualizada"> Sí, desactualizada</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿A qué se dedica el negocio? <span class="req">*</span></label>
+      <textarea id="wp-descripcion" placeholder="Servicios, productos, público objetivo..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>Secciones que necesitás en la web</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Inicio"> Inicio</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Servicios"> Servicios</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Galería"> Galería de fotos</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Sobre mí"> Sobre mí / equipo</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Precios"> Precios</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Blog"> Blog</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Contacto"> Contacto</label>
+        <label class="check-item"><input type="checkbox" name="wp-secciones" value="Reservas"> Reservas online</label>
+      </div>
+    </div>
+    <div class="form-section-title">Estilo y materiales</div>
+    <div class="field-group">
+      <label>Estilo visual</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="wp-estilo" value="Moderno y limpio"> Moderno y limpio</label>
+        <label class="radio-item"><input type="radio" name="wp-estilo" value="Cálido y cercano"> Cálido y cercano</label>
+        <label class="radio-item"><input type="radio" name="wp-estilo" value="Elegante y oscuro"> Elegante y oscuro</label>
+        <label class="radio-item"><input type="radio" name="wp-estilo" value="Colorido y dinámico"> Colorido y dinámico</label>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>¿Tenés fotos del negocio?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="wp-fotos" value="Sí, buenas"> Sí, buenas</label>
+          <label class="radio-item"><input type="radio" name="wp-fotos" value="Algunas"> Algunas</label>
+          <label class="radio-item"><input type="radio" name="wp-fotos" value="No"> No</label>
+        </div>
+      </div>
+      <div class="field-group">
+        <label>¿Tenés logo?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="wp-logo" value="Sí"> Sí</label>
+          <label class="radio-item"><input type="radio" name="wp-logo" value="No"> No</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Web de referencia (opcional)</label>
+      <input type="text" id="wp-referencia" placeholder="URL o descripción del estilo que buscás">
+    </div>
+    <div class="field-group">
+      <label>¿Necesitás también Google Maps? (+99€)</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="wp-maps" value="Sí"> Sí, lo quiero</label>
+        <label class="radio-item"><input type="radio" name="wp-maps" value="No"> No por ahora</label>
+        <label class="radio-item"><input type="radio" name="wp-maps" value="Ya lo tengo"> Ya lo tengo</label>
+      </div>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="wp-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="wp-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div id="submit-web-pro" class="submit-area">
+      <p class="submit-note">Te respondo <strong>el mismo día</strong> por WhatsApp con precio y próximos pasos.</p>
+      <a class="btn-submit" onclick="enviarWA('web-pro')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- PACK LANZAMIENTO -->
+  <div id="form-pack-lanzamiento" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="pl-nombre" placeholder="Ej: Barbería El Corte">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="pl-sector" placeholder="Ej: Barbería, tienda, taller...">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Ciudad <span class="req">*</span></label>
+        <input type="text" id="pl-ciudad" placeholder="Ej: Fuengirola">
+      </div>
+      <div class="field-group">
+        <label>¿Es negocio nuevo o renovación?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="pl-nuevo" value="Nuevo"> Nuevo</label>
+          <label class="radio-item"><input type="radio" name="pl-nuevo" value="Renovación"> Renovación</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿A qué se dedica el negocio? <span class="req">*</span></label>
+      <textarea id="pl-descripcion" placeholder="Describí brevemente tu negocio, servicios y público..."></textarea>
+    </div>
+    <div class="form-section-title">Identidad visual</div>
+    <div class="field-group">
+      <label>Estilo visual que buscás</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="pl-estilo" value="Moderno y minimalista"> Moderno y minimalista</label>
+        <label class="radio-item"><input type="radio" name="pl-estilo" value="Cálido y artesanal"> Cálido y artesanal</label>
+        <label class="radio-item"><input type="radio" name="pl-estilo" value="Elegante y premium"> Elegante y premium</label>
+        <label class="radio-item"><input type="radio" name="pl-estilo" value="Colorido y juvenil"> Colorido y juvenil</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Colores que te gustan o ya usás (opcional)</label>
+      <input type="text" id="pl-colores" placeholder="Ej: negro y dorado, azul marino, verde oscuro...">
+    </div>
+    <div class="field-group">
+      <label>Marca o negocio de referencia que te gusta visualmente</label>
+      <input type="text" id="pl-referencia" placeholder="Nombre o URL de referencia">
+    </div>
+    <div class="field-group">
+      <label>¿Qué debe decir el logo?</label>
+      <input type="text" id="pl-logo-texto" placeholder="Ej: solo el nombre, nombre + slogan, solo iniciales...">
+    </div>
+    <div class="field-group">
+      <label>Slogan (si tenés o querés uno)</label>
+      <input type="text" id="pl-slogan" placeholder="Opcional">
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="pl-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="pl-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Te respondo <strong>el mismo día</strong> con propuesta y próximos pasos.</p>
+      <a class="btn-submit" onclick="enviarWA('pack-lanzamiento')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- KIT DE MARCA -->
+  <div id="form-kit-marca" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="km-nombre" placeholder="Ej: Studio Nails Málaga">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="km-sector" placeholder="Ej: Uñas, tienda, academia...">
+      </div>
+    </div>
+    <div class="form-section-title">Estilo de marca</div>
+    <div class="field-group">
+      <label>Estilo visual que buscás</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="km-estilo" value="Moderno y minimalista"> Moderno y minimalista</label>
+        <label class="radio-item"><input type="radio" name="km-estilo" value="Cálido y artesanal"> Cálido y artesanal</label>
+        <label class="radio-item"><input type="radio" name="km-estilo" value="Elegante y premium"> Elegante y premium</label>
+        <label class="radio-item"><input type="radio" name="km-estilo" value="Colorido y juvenil"> Colorido y juvenil</label>
+        <label class="radio-item"><input type="radio" name="km-estilo" value="Natural y sostenible"> Natural y sostenible</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Colores que te gustan o ya usás</label>
+      <input type="text" id="km-colores" placeholder="Ej: rosa palo y dorado, verde y blanco...">
+    </div>
+    <div class="field-group">
+      <label>Marca de referencia que te gusta visualmente</label>
+      <input type="text" id="km-referencia" placeholder="Nombre o URL">
+    </div>
+    <div class="field-group">
+      <label>¿Qué debe decir el logo? <span class="req">*</span></label>
+      <input type="text" id="km-texto" placeholder="Ej: nombre completo, iniciales, nombre + slogan">
+    </div>
+    <div class="field-group">
+      <label>¿Para qué vas a usar el logo?</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="km-uso" value="Web"> Web</label>
+        <label class="check-item"><input type="checkbox" name="km-uso" value="Instagram"> Instagram</label>
+        <label class="check-item"><input type="checkbox" name="km-uso" value="Imprenta"> Imprenta / cartelería</label>
+        <label class="check-item"><input type="checkbox" name="km-uso" value="Packaging"> Packaging</label>
+        <label class="check-item"><input type="checkbox" name="km-uso" value="Uniformes"> Uniformes / bordado</label>
+      </div>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="km-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="km-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Te respondo <strong>el mismo día</strong> con propuesta y próximos pasos.</p>
+      <a class="btn-submit" onclick="enviarWA('kit-marca')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- DASHBOARD IA -->
+  <div id="form-dashboard" class="form-block">
+    <div class="form-section-title">Tu negocio y datos</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="db-nombre" placeholder="Ej: Restaurante La Mar">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="db-sector" placeholder="Ej: Hostelería, clínica...">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Qué datos querés visualizar? <span class="req">*</span></label>
+      <textarea id="db-datos" placeholder="Ej: ventas diarias, reservas por mesa, productos más vendidos, gastos vs ingresos..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>¿Dónde están esos datos ahora?</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="db-fuente" value="Excel"> Excel</label>
+        <label class="check-item"><input type="checkbox" name="db-fuente" value="Google Sheets"> Google Sheets</label>
+        <label class="check-item"><input type="checkbox" name="db-fuente" value="App o software"> App o software</label>
+        <label class="check-item"><input type="checkbox" name="db-fuente" value="WhatsApp / papel"> WhatsApp / papel</label>
+        <label class="check-item"><input type="checkbox" name="db-fuente" value="En mi cabeza"> Están en mi cabeza</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Desde qué dispositivo lo usarías más?</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="db-dispositivo" value="Móvil"> Móvil</label>
+        <label class="radio-item"><input type="radio" name="db-dispositivo" value="Tablet"> Tablet</label>
+        <label class="radio-item"><input type="radio" name="db-dispositivo" value="PC"> PC</label>
+        <label class="radio-item"><input type="radio" name="db-dispositivo" value="Todos"> Todos</label>
+      </div>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="db-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="db-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Te respondo <strong>el mismo día</strong> con propuesta y próximos pasos.</p>
+      <a class="btn-submit" onclick="enviarWA('dashboard')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- ANÁLISIS DE MERCADO -->
+  <div id="form-analisis" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="am-nombre" placeholder="Ej: Gym FitSur">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="am-sector" placeholder="Ej: Gimnasio, farmacia...">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Ciudad / zona <span class="req">*</span></label>
+        <input type="text" id="am-ciudad" placeholder="Ej: Málaga centro">
+      </div>
+      <div class="field-group">
+        <label>Público objetivo</label>
+        <input type="text" id="am-publico" placeholder="Ej: adultos 30-50, familias...">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Qué decisión querés tomar con este análisis? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="am-decision" value="Subir precios"> Subir precios</label>
+        <label class="radio-item"><input type="radio" name="am-decision" value="Abrir otro local"> Abrir otro local</label>
+        <label class="radio-item"><input type="radio" name="am-decision" value="Reposicionarme"> Reposicionarme</label>
+        <label class="radio-item"><input type="radio" name="am-decision" value="Validar una idea"> Validar una idea</label>
+        <label class="radio-item"><input type="radio" name="am-decision" value="Otra"> Otra</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Competidores principales que ya conocés (opcional)</label>
+      <textarea id="am-competencia" placeholder="Nombres, URLs o descripciones de tu competencia..." style="min-height:70px;"></textarea>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="am-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="am-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Recibís el análisis completo en <strong>48 horas</strong>.</p>
+      <a class="btn-submit" onclick="enviarWA('analisis')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- DISEÑO CON IA -->
+  <div id="form-diseno" class="form-block">
+    <div class="form-section-title">Tu negocio y pieza</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="di-nombre" placeholder="Ej: Bar El Rincón">
+      </div>
+      <div class="field-group">
+        <label>Tipo de pieza <span class="req">*</span></label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="di-tipo" value="Menú restaurante"> Menú</label>
+          <label class="radio-item"><input type="radio" name="di-tipo" value="Flyer evento"> Flyer evento</label>
+          <label class="radio-item"><input type="radio" name="di-tipo" value="Cartelería local"> Cartelería</label>
+          <label class="radio-item"><input type="radio" name="di-tipo" value="Otro"> Otro</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Para qué es? ¿Qué información debe incluir? <span class="req">*</span></label>
+      <textarea id="di-contenido" placeholder="Ej: menú del día con 3 primeros, 3 segundos y postre. Precio 12€. Logo del bar incluido..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>¿Para imprimir o digital?</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="di-formato" value="Imprimir"> Para imprimir</label>
+        <label class="radio-item"><input type="radio" name="di-formato" value="Digital (redes/web)"> Digital (redes/web)</label>
+        <label class="radio-item"><input type="radio" name="di-formato" value="Ambos"> Ambos</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Colores de tu marca (si tenés)</label>
+      <input type="text" id="di-colores" placeholder="Ej: verde y blanco, negro y dorado...">
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="di-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="di-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Te mando propuesta y precio en <strong>pocas horas</strong>.</p>
+      <a class="btn-submit" onclick="enviarWA('diseno')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- DOSSIER / TRILINGÜE / GOOGLE MAPS — formulario simple compartido -->
+  <div id="form-dossier" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio o persona <span class="req">*</span></label>
+        <input type="text" id="dos-nombre" placeholder="">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="dos-sector" placeholder="">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Para qué necesitás el dossier? <span class="req">*</span></label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="dos-objetivo" value="Buscar socios"> Buscar socios</label>
+        <label class="radio-item"><input type="radio" name="dos-objetivo" value="Pedir financiación"> Pedir financiación</label>
+        <label class="radio-item"><input type="radio" name="dos-objetivo" value="Presentarme a clientes grandes"> Clientes grandes</label>
+        <label class="radio-item"><input type="radio" name="dos-objetivo" value="Otro"> Otro</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿En qué idioma(s)?</label>
+      <div class="check-group">
+        <label class="check-item"><input type="checkbox" name="dos-idioma" value="Español"> Español</label>
+        <label class="check-item"><input type="checkbox" name="dos-idioma" value="Inglés"> Inglés</label>
+        <label class="check-item"><input type="checkbox" name="dos-idioma" value="Francés"> Francés</label>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>¿Tenés casos de éxito o proyectos destacados?</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="dos-casos" value="Sí"> Sí</label>
+        <label class="radio-item"><input type="radio" name="dos-casos" value="No todavía"> No todavía</label>
+      </div>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="dos-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="dos-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Entrega en <strong>72 horas</strong> desde que confirmemos el pedido.</p>
+      <a class="btn-submit" onclick="enviarWA('dossier')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- TRILINGÜE -->
+  <div id="form-trilingue" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="tr-nombre" placeholder="">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="tr-sector" placeholder="">
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Descripción actual del negocio (si tenés una) <span class="req">*</span></label>
+      <textarea id="tr-descripcion" placeholder="Pegá aquí la descripción que usás ahora, o contame de tu negocio en tus palabras..."></textarea>
+    </div>
+    <div class="field-group">
+      <label>Palabras clave importantes para tu negocio</label>
+      <input type="text" id="tr-keywords" placeholder="Ej: restaurante italiano, Málaga centro, familiar, terraza...">
+    </div>
+    <div class="field-group">
+      <label>Tono de comunicación</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="tr-tono" value="Formal y profesional"> Formal y profesional</label>
+        <label class="radio-item"><input type="radio" name="tr-tono" value="Cercano y familiar"> Cercano y familiar</label>
+        <label class="radio-item"><input type="radio" name="tr-tono" value="Moderno y directo"> Moderno y directo</label>
+      </div>
+    </div>
+    <div class="form-section-title">Contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="tr-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="tr-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Entrega en <strong>24 horas</strong>.</p>
+      <a class="btn-submit" onclick="enviarWA('trilingue')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- GOOGLE MAPS -->
+  <div id="form-google-maps" class="form-block">
+    <div class="form-section-title">Tu negocio</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Nombre del negocio <span class="req">*</span></label>
+        <input type="text" id="gm-nombre" placeholder="">
+      </div>
+      <div class="field-group">
+        <label>Sector <span class="req">*</span></label>
+        <input type="text" id="gm-sector" placeholder="">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Dirección o zona de servicio <span class="req">*</span></label>
+        <input type="text" id="gm-direccion" placeholder="Ej: Calle Mar 12, Torremolinos">
+      </div>
+      <div class="field-group">
+        <label>¿Ya tenés ficha en Google Maps?</label>
+        <div class="radio-group">
+          <label class="radio-item"><input type="radio" name="gm-ficha" value="No"> No tengo</label>
+          <label class="radio-item"><input type="radio" name="gm-ficha" value="Sí, sin reclamar"> Sí, sin reclamar</label>
+          <label class="radio-item"><input type="radio" name="gm-ficha" value="Sí, incompleta"> Sí, incompleta</label>
+        </div>
+      </div>
+    </div>
+    <div class="field-group">
+      <label>Horario de apertura</label>
+      <input type="text" id="gm-horario" placeholder="Ej: Lun-Vie 9-19h · Sáb 10-15h · Dom cerrado">
+    </div>
+    <div class="field-group">
+      <label>Teléfono de contacto del negocio</label>
+      <input type="tel" id="gm-tel-negocio" placeholder="+34 600 000 000">
+    </div>
+    <div class="form-section-title">Tu contacto</div>
+    <div class="field-row">
+      <div class="field-group">
+        <label>Tu nombre <span class="req">*</span></label>
+        <input type="text" id="gm-contacto" placeholder="Nombre y apellido">
+      </div>
+      <div class="field-group">
+        <label>Tu WhatsApp <span class="req">*</span></label>
+        <input type="tel" id="gm-tel" placeholder="+34 600 000 000">
+      </div>
+    </div>
+    <div class="submit-area">
+      <p class="submit-note">Te contacto para coordinar acceso y configurar todo.</p>
+      <a class="btn-submit" onclick="enviarWA('google-maps')" href="#">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Enviar por WhatsApp
+      </a>
+    </div>
+  </div>
+
+</div><!-- /wrapper -->
+
+<script>
+  let currentService = null;
+
+  function selectService(id) {
+    // Quitar activo previo
+    document.querySelectorAll('.service-pill').forEach(p => p.classList.remove('active'));
+    // Activar pill elegida
+    event.currentTarget.classList.add('active');
+    // Ocultar placeholder
+    document.getElementById('no-service').style.display = 'none';
+    // Ocultar forms anteriores
+    document.querySelectorAll('.form-block').forEach(f => f.classList.remove('visible'));
+    // Mostrar form correcto
+    const formId = 'form-' + id;
+    const form = document.getElementById(formId);
+    if (form) {
+      form.classList.add('visible');
+      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    currentService = id;
+  }
+
+  function getRadioValue(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : 'No indicado';
+  }
+
+  function getCheckValues(name) {
+    const els = document.querySelectorAll(`input[name="${name}"]:checked`);
+    const vals = Array.from(els).map(e => e.value);
+    return vals.length ? vals.join(', ') : 'Ninguno';
+  }
+
+  function val(id) {
+    const el = document.getElementById(id);
+    return el && el.value.trim() ? el.value.trim() : 'No indicado';
+  }
+
+  function enviarWA(servicio) {
+    event.preventDefault();
+    let msg = '';
+    const wa = '34692388908';
+
+    const servicioNombres = {
+      'web-esencial': '🌐 Web Esencial (300€)',
+      'web-pro': '⚡ Web Profesional (500€)',
+      'pack-lanzamiento': '🚀 Pack Lanzamiento (540€)',
+      'kit-marca': '✦ Kit de Marca (149€)',
+      'dashboard': '📊 Dashboard con IA (390€)',
+      'analisis': '🔍 Análisis de Mercado (199€)',
+      'diseno': '🎨 Diseño con IA (149€)',
+      'dossier': '📁 Dossier Comercial (99€)',
+      'trilingue': '🌍 Descripción Trilingüe (79€)',
+      'google-maps': '📍 Google Maps (99€)'
+    };
+
+    const titulo = servicioNombres[servicio] || servicio;
+
+    switch(servicio) {
+      case 'web-esencial':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('we-nombre')}\n` +
+          `🏷️ *Sector:* ${val('we-sector')}\n` +
+          `📍 *Ciudad:* ${val('we-ciudad')}\n` +
+          `🌐 *¿Tiene web?:* ${getRadioValue('we-web')}\n` +
+          `📝 *Descripción:* ${val('we-descripcion')}\n` +
+          `🛍️ *Servicios:* ${val('we-servicios')}\n` +
+          `🎨 *Estilo:* ${getRadioValue('we-estilo')}\n` +
+          `📸 *Fotos:* ${getRadioValue('we-fotos')} | *Logo:* ${getRadioValue('we-logo')}\n` +
+          `🔗 *Referencia:* ${val('we-referencia')}\n\n` +
+          `👤 *Contacto:* ${val('we-contacto')} — ${val('we-tel')}`;
+        break;
+
+      case 'web-pro':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('wp-nombre')}\n` +
+          `🏷️ *Sector:* ${val('wp-sector')}\n` +
+          `📍 *Ciudad:* ${val('wp-ciudad')}\n` +
+          `🌐 *¿Tiene web?:* ${getRadioValue('wp-web')}\n` +
+          `📝 *Descripción:* ${val('wp-descripcion')}\n` +
+          `📄 *Secciones:* ${getCheckValues('wp-secciones')}\n` +
+          `🎨 *Estilo:* ${getRadioValue('wp-estilo')}\n` +
+          `📸 *Fotos:* ${getRadioValue('wp-fotos')} | *Logo:* ${getRadioValue('wp-logo')}\n` +
+          `🔗 *Referencia:* ${val('wp-referencia')}\n` +
+          `📍 *Google Maps:* ${getRadioValue('wp-maps')}\n\n` +
+          `👤 *Contacto:* ${val('wp-contacto')} — ${val('wp-tel')}`;
+        break;
+
+      case 'pack-lanzamiento':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('pl-nombre')}\n` +
+          `🏷️ *Sector:* ${val('pl-sector')}\n` +
+          `📍 *Ciudad:* ${val('pl-ciudad')}\n` +
+          `🆕 *¿Nuevo o renovación?:* ${getRadioValue('pl-nuevo')}\n` +
+          `📝 *Descripción:* ${val('pl-descripcion')}\n` +
+          `🎨 *Estilo:* ${getRadioValue('pl-estilo')}\n` +
+          `🎨 *Colores:* ${val('pl-colores')}\n` +
+          `🔗 *Referencia:* ${val('pl-referencia')}\n` +
+          `✍️ *Logo (texto):* ${val('pl-logo-texto')}\n` +
+          `💬 *Slogan:* ${val('pl-slogan')}\n\n` +
+          `👤 *Contacto:* ${val('pl-contacto')} — ${val('pl-tel')}`;
+        break;
+
+      case 'kit-marca':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('km-nombre')}\n` +
+          `🏷️ *Sector:* ${val('km-sector')}\n` +
+          `🎨 *Estilo:* ${getRadioValue('km-estilo')}\n` +
+          `🎨 *Colores:* ${val('km-colores')}\n` +
+          `🔗 *Referencia:* ${val('km-referencia')}\n` +
+          `✍️ *Logo (texto):* ${val('km-texto')}\n` +
+          `📱 *Uso del logo:* ${getCheckValues('km-uso')}\n\n` +
+          `👤 *Contacto:* ${val('km-contacto')} — ${val('km-tel')}`;
+        break;
+
+      case 'dashboard':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('db-nombre')}\n` +
+          `🏷️ *Sector:* ${val('db-sector')}\n` +
+          `📊 *Datos a visualizar:* ${val('db-datos')}\n` +
+          `💾 *Fuente de datos:* ${getCheckValues('db-fuente')}\n` +
+          `📱 *Dispositivo:* ${getRadioValue('db-dispositivo')}\n\n` +
+          `👤 *Contacto:* ${val('db-contacto')} — ${val('db-tel')}`;
+        break;
+
+      case 'analisis':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('am-nombre')}\n` +
+          `🏷️ *Sector:* ${val('am-sector')}\n` +
+          `📍 *Ciudad/zona:* ${val('am-ciudad')}\n` +
+          `👥 *Público:* ${val('am-publico')}\n` +
+          `🎯 *Decisión a tomar:* ${getRadioValue('am-decision')}\n` +
+          `🏆 *Competencia:* ${val('am-competencia')}\n\n` +
+          `👤 *Contacto:* ${val('am-contacto')} — ${val('am-tel')}`;
+        break;
+
+      case 'diseno':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('di-nombre')}\n` +
+          `📄 *Tipo de pieza:* ${getRadioValue('di-tipo')}\n` +
+          `📝 *Contenido:* ${val('di-contenido')}\n` +
+          `🖨️ *Formato:* ${getRadioValue('di-formato')}\n` +
+          `🎨 *Colores:* ${val('di-colores')}\n\n` +
+          `👤 *Contacto:* ${val('di-contacto')} — ${val('di-tel')}`;
+        break;
+
+      case 'dossier':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('dos-nombre')}\n` +
+          `🏷️ *Sector:* ${val('dos-sector')}\n` +
+          `🎯 *Objetivo:* ${getRadioValue('dos-objetivo')}\n` +
+          `🌍 *Idiomas:* ${getCheckValues('dos-idioma')}\n` +
+          `⭐ *Casos de éxito:* ${getRadioValue('dos-casos')}\n\n` +
+          `👤 *Contacto:* ${val('dos-contacto')} — ${val('dos-tel')}`;
+        break;
+
+      case 'trilingue':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('tr-nombre')}\n` +
+          `🏷️ *Sector:* ${val('tr-sector')}\n` +
+          `📝 *Descripción actual:* ${val('tr-descripcion')}\n` +
+          `🔑 *Palabras clave:* ${val('tr-keywords')}\n` +
+          `🗣️ *Tono:* ${getRadioValue('tr-tono')}\n\n` +
+          `👤 *Contacto:* ${val('tr-contacto')} — ${val('tr-tel')}`;
+        break;
+
+      case 'google-maps':
+        msg = `Hola Marcos! Me interesa el servicio ${titulo}\n\n` +
+          `📌 *Negocio:* ${val('gm-nombre')}\n` +
+          `🏷️ *Sector:* ${val('gm-sector')}\n` +
+          `📍 *Dirección:* ${val('gm-direccion')}\n` +
+          `📌 *¿Tiene ficha?:* ${getRadioValue('gm-ficha')}\n` +
+          `🕐 *Horario:* ${val('gm-horario')}\n` +
+          `📞 *Tel negocio:* ${val('gm-tel-negocio')}\n\n` +
+          `👤 *Contacto:* ${val('gm-contacto')} — ${val('gm-tel')}`;
+        break;
+    }
+
+    const url = `https://wa.me/${wa}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+</script>
+
+</body>
+</html>
