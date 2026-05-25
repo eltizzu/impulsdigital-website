@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Postia — Generador de Carruseles con IA · Impuls Digital</title>
+<meta name="description" content="Postia genera carruseles de Instagram profesionales con IA en segundos. Definís el tema y el tono — Postia hace el resto. Desarrollado por Impuls Digital.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07101a;
+    --surface: #0d1929;
+    --elevated: #122236;
+    --border: #1e3a5f;
+    --cyan: #06b6d4;
+    --cyan-hover: #0891b2;
+    --cyan-faint: rgba(6,182,212,0.08);
+    --cyan-border: rgba(6,182,212,0.2);
+    --white: #f0f8ff;
+    --mid: #8aa5c0;
+    --dark: #4a6580;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--white);
+    -webkit-font-smoothing: antialiased;
+    /* Ambient glow */
+    background-image: radial-gradient(ellipse 80% 40% at 50% -5%, rgba(6,182,212,0.12) 0%, transparent 60%);
+  }
+
+  /* ── HEADER ─────────────────────────────────────── */
+  .site-header {
+    background: rgba(7,16,26,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--white);
+  }
+  .header-logo span { color: var(--cyan); }
+  .logo-p {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+    box-shadow: 0 0 12px rgba(6,182,212,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.85rem; color: white;
+    flex-shrink: 0;
+  }
+  .header-by {
+    font-size: 0.75rem;
+    color: var(--dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .header-by:hover { color: var(--mid); }
+  .header-cta {
+    background: var(--cyan);
+    color: #07101a;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 8px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .header-cta:hover {
+    background: var(--cyan-hover);
+    transform: translateY(-1px);
+  }
+
+  /* ── HERO ───────────────────────────────────────── */
+  .hero {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 24px 72px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--cyan-faint);
+    border: 1px solid var(--cyan-border);
+    color: var(--cyan);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, #22d3ee, #06b6d4, #0891b2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.1rem;
+    color: var(--mid);
+    max-width: 540px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cyan);
+    color: #07101a;
+    font-weight: 800;
+    font-size: 0.95rem;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 20px rgba(6,182,212,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--cyan-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(6,182,212,0.35);
+  }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--mid);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 13px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--cyan-border);
+    color: var(--white);
+  }
+
+  /* ── SCREEN MOCKUP ──────────────────────────────── */
+  .mockup-wrap {
+    max-width: 820px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+  .mockup-shell {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 60px rgba(6,182,212,0.08);
+  }
+  .mockup-bar {
+    background: rgba(7,16,26,0.9);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .dot-r { background: #ff5f57; }
+  .dot-y { background: #febc2e; }
+  .dot-g { background: #28c840; }
+  .url-bar {
+    flex: 1;
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    color: var(--mid);
+    font-family: monospace;
+  }
+  .mockup-content {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    min-height: 320px;
+  }
+  /* Sidebar */
+  .mockup-sidebar {
+    background: rgba(7,16,26,0.6);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .sidebar-logo {
+    padding: 0 16px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+  .s-logo-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 0.65rem; color: white;
+  }
+  .s-logo-text { font-size: 0.8rem; font-weight: 700; color: var(--white); }
+  .s-logo-text em { font-style: normal; color: var(--cyan); }
+  .sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 16px;
+    font-size: 0.72rem;
+    color: var(--mid);
+  }
+  .sidebar-nav-item.active { color: var(--cyan); background: var(--cyan-faint); }
+  .sidebar-icon {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .icon-cyan { background: var(--cyan); opacity: 0.7; }
+  .icon-dim { background: var(--border); }
+  /* Main */
+  .mockup-main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mockup-title { font-size: 0.85rem; font-weight: 800; color: var(--white); }
+  .mockup-sub { font-size: 0.68rem; color: var(--mid); margin-top: 2px; }
+  .carousel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .carousel-card {
+    background: var(--elevated);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 1;
+    position: relative;
+  }
+  .card-bg-1 { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+  .card-bg-2 { background: linear-gradient(135deg, #0f2027 0%, #203a43 100%); }
+  .card-bg-3 { background: linear-gradient(135deg, #1a0533 0%, #2d1b69 100%); }
+  .card-line {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .line-cyan { background: var(--cyan); }
+  .line-gold { background: #e4c69a; }
+  .line-violet { background: #8b5cf6; }
+  .card-dots {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .dot-cyan { background: var(--cyan); }
+  .dot-gold { background: #e4c69a; }
+  .dot-violet { background: #8b5cf6; }
+  .card-lines {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .line-block {
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255,255,255,0.12);
+  }
+  .line-block.w80 { width: 80%; }
+  .line-block.w60 { width: 60%; }
+  .line-block.w40 { width: 40%; }
+  .badge-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+  }
+  .mini-badge {
+    font-size: 0.6rem;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 10px;
+    background: var(--cyan-faint);
+    border: 1px solid var(--cyan-border);
+    color: var(--cyan);
+  }
+  .mini-badge.gray {
+    background: rgba(255,255,255,0.04);
+    border-color: var(--border);
+    color: var(--mid);
+  }
+  .mini-badge.green {
+    background: rgba(34,197,94,0.08);
+    border-color: rgba(34,197,94,0.2);
+    color: #4ade80;
+  }
+
+  /* ── SECTION BASE ───────────────────────────────── */
+  section { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
+  .section-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--mid);
+    max-width: 500px;
+    line-height: 1.65;
+  }
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 24px;
+    max-width: 912px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── FEATURES ───────────────────────────────────── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .feature-card:hover {
+    border-color: var(--cyan-border);
+    background: var(--elevated);
+  }
+  .feature-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    background: var(--cyan-faint);
+    border: 1px solid var(--cyan-border);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+  }
+  .feature-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 6px;
+  }
+  .feature-text {
+    font-size: 0.82rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* ── HOW IT WORKS ───────────────────────────────── */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .step {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .step:hover::before { opacity: 1; }
+  .step-num {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--cyan-border);
+    line-height: 1;
+    margin-bottom: 12px;
+    letter-spacing: -0.04em;
+  }
+  .step-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .step-text {
+    font-size: 0.8rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+
+  /* ── PARA QUIÉN ─────────────────────────────────── */
+  .forwhom-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-top: 40px;
+  }
+  .forwhom-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+  .forwhom-card:hover { border-color: var(--cyan-border); }
+  .forwhom-emoji { font-size: 1.4rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+  .forwhom-title { font-size: 0.85rem; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .forwhom-text { font-size: 0.76rem; color: var(--mid); line-height: 1.5; }
+
+  /* ── CTA FINAL ──────────────────────────────────── */
+  .cta-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+  .cta-box {
+    background: var(--surface);
+    border: 1px solid var(--cyan-border);
+    border-radius: 20px;
+    padding: 56px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(6,182,212,0.06);
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(6,182,212,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .cta-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, #22d3ee, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .cta-text {
+    font-size: 0.95rem;
+    color: var(--mid);
+    max-width: 440px;
+    margin: 0 auto 32px;
+    line-height: 1.65;
+    position: relative;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .btn-wa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #1db954;
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 13px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-wa:hover { background: #1aa34a; transform: translateY(-2px); }
+
+  /* ── FOOTER ─────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .footer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .footer-brand em { font-style: normal; color: var(--cyan); }
+  .footer-text { font-size: 0.75rem; color: var(--dark); }
+  .footer-link { color: var(--mid); text-decoration: none; }
+  .footer-link:hover { color: var(--cyan); }
+
+  /* ── RESPONSIVE ─────────────────────────────────── */
+  @media (max-width: 600px) {
+    .mockup-content { grid-template-columns: 1fr; }
+    .mockup-sidebar { display: none; }
+    .cta-box { padding: 40px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:12px">
+      <a href="/" class="header-logo">
+        <div class="logo-p">P</div>
+        Post<span>ia</span>
+      </a>
+      <a href="/" class="header-by">por Impuls Digital</a>
+    </div>
+    <a href="https://postia-iota.vercel.app" target="_blank" rel="noopener" class="header-cta">
+      Abrir app →
+    </a>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Producto propio · Impuls Digital</div>
+  <h1>Carruseles de Instagram<br><em>generados con IA</em></h1>
+  <p>
+    Definís el tema, el tono y los colores.
+    Postia genera el contenido completo — slides, textos, imágenes y caption — listo para publicar.
+  </p>
+  <div class="hero-actions">
+    <a href="https://postia-iota.vercel.app" target="_blank" rel="noopener" class="btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+      </svg>
+      Probá Postia gratis
+    </a>
+    <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20quiero%20saber%20más%20sobre%20Postia" target="_blank" class="btn-secondary">
+      Escribime por WhatsApp
+    </a>
+  </div>
+</section>
+
+<!-- MOCKUP -->
+<div class="mockup-wrap">
+  <div class="mockup-shell">
+    <!-- Browser bar -->
+    <div class="mockup-bar">
+      <div class="dots">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+      </div>
+      <div class="url-bar">postia-iota.vercel.app</div>
+    </div>
+    <!-- App UI -->
+    <div class="mockup-content">
+      <!-- Sidebar -->
+      <div class="mockup-sidebar">
+        <div class="sidebar-logo">
+          <div class="s-logo-icon">P</div>
+          <div class="s-logo-text">Post<em>ia</em></div>
+        </div>
+        <div class="sidebar-nav-item active">
+          <div class="sidebar-icon icon-cyan"></div>
+          Dashboard
+        </div>
+        <div class="sidebar-nav-item">
+          <div class="sidebar-icon icon-dim"></div>
+          Mis Carruseles
+        </div>
+        <div class="sidebar-nav-item">
+          <div class="sidebar-icon icon-dim"></div>
+          Plantillas
+        </div>
+        <div class="sidebar-nav-item">
+          <div class="sidebar-icon icon-dim"></div>
+          Automatización
+        </div>
+        <div class="sidebar-nav-item">
+          <div class="sidebar-icon icon-dim"></div>
+          + Nuevo
+        </div>
+      </div>
+      <!-- Main -->
+      <div class="mockup-main">
+        <div>
+          <div class="mockup-title">Bienvenido a Postia</div>
+          <div class="mockup-sub">3 carruseles creados · 0 publicados esta semana</div>
+        </div>
+        <div class="badge-row">
+          <div class="mini-badge">12 slides totales</div>
+          <div class="mini-badge gray">2 borradores</div>
+          <div class="mini-badge green">1 publicado</div>
+        </div>
+        <div class="carousel-grid">
+          <div class="carousel-card card-bg-1">
+            <div class="card-lines">
+              <div class="line-block w80"></div>
+              <div class="line-block w60"></div>
+              <div class="line-block w40"></div>
+            </div>
+            <div class="card-dots dot-cyan"></div>
+            <div class="card-line line-cyan"></div>
+          </div>
+          <div class="carousel-card card-bg-2">
+            <div class="card-lines">
+              <div class="line-block w60"></div>
+              <div class="line-block w80"></div>
+              <div class="line-block w40"></div>
+            </div>
+            <div class="card-dots dot-gold"></div>
+            <div class="card-line line-gold"></div>
+          </div>
+          <div class="carousel-card card-bg-3">
+            <div class="card-lines">
+              <div class="line-block w40"></div>
+              <div class="line-block w60"></div>
+              <div class="line-block w80"></div>
+            </div>
+            <div class="card-dots dot-violet"></div>
+            <div class="card-line line-violet"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- FEATURES -->
+<section>
+  <p class="section-tag">Qué hace Postia</p>
+  <h2 class="section-title">Todo lo que necesitás<br>para publicar sin esfuerzo</h2>
+  <p class="section-sub">Desde el primer borrador hasta el caption listo para copiar. En segundos, no en horas.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">✦</div>
+      <div class="feature-title">Generación completa con IA</div>
+      <div class="feature-text">Claude genera todos los slides — títulos, textos, emojis, imágenes de fondo y elementos visuales — a partir de un tema y un tono.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎨</div>
+      <div class="feature-title">Paleta de colores por cliente</div>
+      <div class="feature-text">Guardás los colores y el contexto de cada cliente. Postia genera el contenido con la identidad visual que corresponde, sin configurar nada de vuelta.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📐</div>
+      <div class="feature-title">Plantillas reutilizables</div>
+      <div class="feature-text">Creás estructuras de carousel (portada, pasos, CTA, cierre) y las reutilizás para generar variantes del mismo formato con contenido nuevo.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Automatización programada</div>
+      <div class="feature-text">Configurás un horario de generación (diario, semanal o días específicos) y Postia genera borradores automáticamente para que los revises antes de publicar.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Caption de Instagram incluido</div>
+      <div class="feature-text">Con cada carrusel generado también llegás al caption listo — hook, desarrollo, CTA y hashtags — para copiar y pegar directamente.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <div class="feature-title">Exportación ZIP lista</div>
+      <div class="feature-text">Descargás todos los slides como imágenes PNG en un ZIP. Calidad lista para subir a Instagram sin editar nada.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- HOW IT WORKS -->
+<section>
+  <p class="section-tag">Cómo funciona</p>
+  <h2 class="section-title">Tres pasos.<br>Eso es todo.</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Describís el contenido</div>
+      <div class="step-text">Elegís el tema, el tono de voz, la cantidad de slides y el objetivo. Si ya tenés un cliente guardado, sus colores y contexto se aplican solos.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Postia genera con IA</div>
+      <div class="step-text">Claude crea el carrusel completo: títulos, texto por slide, imágenes de fondo desde Unsplash y el caption de Instagram. En menos de 30 segundos.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Revisás y exportás</div>
+      <div class="step-text">Editás cualquier slide que quieras cambiar, aprobás el caption y descargás el ZIP. Listo para subir directamente desde el teléfono.</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PARA QUIÉN -->
+<section>
+  <p class="section-tag">Para quién</p>
+  <h2 class="section-title">Ideal para negocios<br>que quieren publicar seguido</h2>
+  <p class="section-sub">Sin equipo de marketing, sin diseñador. Solo vos y tu negocio.</p>
+
+  <div class="forwhom-grid">
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">💇</div>
+      <div>
+        <div class="forwhom-title">Peluquerías y estéticas</div>
+        <div class="forwhom-text">Publicá servicios, consejos de cuidado y promociones sin perder tiempo.</div>
+      </div>
+    </div>
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">🍽️</div>
+      <div>
+        <div class="forwhom-title">Restaurantes y bares</div>
+        <div class="forwhom-text">Mostrá el menú, novedades y momentos del local con contenido que se ve profesional.</div>
+      </div>
+    </div>
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">🏋️</div>
+      <div>
+        <div class="forwhom-title">Academias y centros</div>
+        <div class="forwhom-text">Generá contenido educativo o motivacional de forma constante, sin inventar desde cero.</div>
+      </div>
+    </div>
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">🛒</div>
+      <div>
+        <div class="forwhom-title">Tiendas y comercios</div>
+        <div class="forwhom-text">Presentá productos, lanzamientos y promociones con un formato visual que llama la atención.</div>
+      </div>
+    </div>
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">🧑‍💻</div>
+      <div>
+        <div class="forwhom-title">Autónomos y freelancers</div>
+        <div class="forwhom-text">Construí autoridad en Instagram con carruseles educativos sobre tu especialidad.</div>
+      </div>
+    </div>
+    <div class="forwhom-card">
+      <div class="forwhom-emoji">🏥</div>
+      <div>
+        <div class="forwhom-title">Clínicas y consultorios</div>
+        <div class="forwhom-text">Contenido informativo sobre salud y servicios, con el tono correcto y sin esfuerzo.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CTA FINAL -->
+<div class="cta-section" style="margin-top:64px">
+  <div class="cta-box">
+    <h2 class="cta-title">Probá <em>Postia</em> ahora</h2>
+    <p class="cta-text">
+      Es gratis para empezar. No necesitás registrarte.<br>
+      Si querés una configuración personalizada para tu negocio, escribime.
+    </p>
+    <div class="cta-actions">
+      <a href="https://postia-iota.vercel.app" target="_blank" rel="noopener" class="btn-primary">
+        Abrir Postia →
+      </a>
+      <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20me%20interesa%20Postia%20para%20mi%20negocio" target="_blank" class="btn-wa">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Hablar por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <a href="/" class="footer-brand">
+      <div class="logo-p" style="width:22px;height:22px;font-size:0.7rem">P</div>
+      Post<em>ia</em> &nbsp;·&nbsp; por Impuls Digital
+    </a>
+    <p class="footer-text">
+      <a href="/" class="footer-link">impulsdigital.es</a>
+      &nbsp;·&nbsp; +34 692 388 908
+      &nbsp;·&nbsp; Málaga, España
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
