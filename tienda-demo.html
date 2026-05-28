@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marea Boutique — Moda mujer Málaga</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --dark: #1a1a1a;
+    --accent: #c05e3c;
+    --accent2: #e07855;
+    --text: #333;
+    --muted: #888;
+    --border: #e8e4de;
+    --light: #f3f0eb;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, 'Segoe UI', sans-serif; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,249,247,0.97);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .nav-brand { font-size: 20px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--dark); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .nav-icon { font-size: 18px; cursor: pointer; color: var(--dark); }
+  .nav-cta {
+    background: var(--dark);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  @media(max-width:640px) { .nav-links { display: none; } }
+
+  /* BANNER */
+  .banner {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 9px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+  }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 85vh;
+  }
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 48px;
+  }
+  .hero-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .hero-text h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .hero-text p {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 28px;
+    max-width: 380px;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-dark {
+    background: var(--dark);
+    color: #fff;
+    padding: 13px 26px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .btn-dark:hover { opacity: 0.85; }
+  .btn-outline {
+    border: 1.5px solid var(--dark);
+    color: var(--dark);
+    padding: 13px 26px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .hero-img {
+    background: url('https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=900&q=80') center/cover no-repeat;
+    position: relative;
+  }
+  .hero-tag {
+    position: absolute;
+    bottom: 32px; left: 32px;
+    background: #fff;
+    padding: 12px 18px;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    font-size: 13px;
+  }
+  .hero-tag strong { display: block; font-size: 16px; color: var(--accent); }
+  @media(max-width:640px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-img { display: none; }
+    .hero-text { padding: 40px 20px; }
+  }
+
+  /* SECTION */
+  section { padding: 64px 24px; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-header { text-align: center; margin-bottom: 48px; }
+  .section-label-center {
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--accent); font-weight: 600; margin-bottom: 10px;
+  }
+  h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; }
+  .section-sub { font-size: 15px; color: var(--muted); margin-top: 10px; }
+
+  /* PRODUCTOS */
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .product-card { cursor: pointer; }
+  .product-img {
+    border-radius: 8px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    margin-bottom: 14px;
+    background: var(--light);
+    position: relative;
+  }
+  .product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .product-card:hover .product-img img { transform: scale(1.04); }
+  .product-badge {
+    position: absolute; top: 12px; left: 12px;
+    background: var(--accent);
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .product-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .product-desc { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .product-price { font-size: 16px; font-weight: 700; color: var(--accent); }
+  .product-price .old { text-decoration: line-through; color: var(--muted); font-size: 13px; margin-left: 6px; font-weight: 400; }
+
+  /* BENEFICIOS */
+  .benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 28px;
+  }
+  .benefit {
+    text-align: center;
+    padding: 28px 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+  }
+  .benefit-icon { font-size: 28px; margin-bottom: 12px; }
+  .benefit-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .benefit-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* ABOUT */
+  .about-banner {
+    background: var(--light);
+    border-radius: 16px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 360px;
+  }
+  .about-content { padding: 56px 48px; display: flex; flex-direction: column; justify-content: center; }
+  .about-img-block { background: url('https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?w=600&q=80') center/cover no-repeat; }
+  @media(max-width:640px) { .about-banner { grid-template-columns: 1fr; } .about-img-block { display: none; } .about-content { padding: 32px 24px; } }
+
+  /* TESTIMONIOS */
+  .tests-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+  }
+  .test-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .test-stars { color: #f59e0b; font-size: 14px; margin-bottom: 10px; }
+  .test-text { font-size: 14px; line-height: 1.7; color: #555; margin-bottom: 12px; }
+  .test-name { font-size: 13px; font-weight: 700; color: var(--accent); }
+
+  /* CTA */
+  .cta-strip {
+    background: var(--dark);
+    color: #fff;
+    text-align: center;
+    padding: 64px 24px;
+  }
+  .cta-strip h2 { font-size: 2rem; margin-bottom: 10px; }
+  .cta-strip p { color: #aaa; margin-bottom: 24px; }
+
+  /* CONTACTO */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .contact-info div { margin-bottom: 20px; }
+  .c-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; margin-bottom: 4px; }
+  .c-value { font-size: 15px; color: var(--dark); }
+  .horario-table { width: 100%; border-collapse: collapse; }
+  .horario-table tr { border-bottom: 1px solid var(--border); }
+  .horario-table td { padding: 9px 0; font-size: 14px; }
+  .horario-table td:last-child { text-align: right; color: var(--accent); font-weight: 600; }
+  @media(max-width:640px) { .contact-grid { grid-template-columns: 1fr; } }
+
+  footer {
+    background: var(--dark);
+    color: #aaa;
+    text-align: center;
+    padding: 28px;
+    font-size: 12px;
+  }
+  footer a { color: #aaa; text-decoration: none; }
+  .footer-credit { margin-top: 10px; font-size: 11px; color: #555; }
+  .footer-credit strong { color: #7c3aed; }
+</style>
+</head>
+<body>
+
+<div class="banner">🌊 Nuevas llegadas primavera-verano ya disponibles · Envío gratis en pedidos +60€</div>
+
+<nav>
+  <div class="nav-brand">MAREA<span>.</span></div>
+  <div class="nav-links">
+    <a href="#coleccion">Colección</a>
+    <a href="#nosotras">Nosotras</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <a href="https://wa.me/34600000000" class="nav-cta">💬 WhatsApp</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-text">
+    <div class="hero-label">✦ Boutique de moda mujer · Málaga</div>
+    <h1>Moda con alma mediterránea</h1>
+    <p>Selección de ropa y accesorios de mujer para quienes buscan piezas únicas, con carácter. Temporadas limitadas, sin repetir.</p>
+    <div class="hero-btns">
+      <a href="#coleccion" class="btn-dark">Ver colección</a>
+      <a href="https://wa.me/34600000000" class="btn-outline">📲 Preguntar disponibilidad</a>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="hero-tag">
+      <strong>Novedad 🌿</strong>
+      Colección Verano 2025
+    </div>
+  </div>
+</div>
+
+<!-- COLECCIÓN -->
+<section id="coleccion">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label-center">Últimas llegadas</div>
+      <h2>Colección primavera-verano</h2>
+      <p class="section-sub">Piezas seleccionadas. Stock limitado.</p>
+    </div>
+    <div class="products-grid">
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&q=80" alt="Vestido lino">
+          <span class="product-badge">Nuevo</span>
+        </div>
+        <div class="product-name">Vestido lino natural</div>
+        <div class="product-desc">Lino premium, corte holgado. Beige, azul y negro.</div>
+        <div class="product-price">89€</div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=400&q=80" alt="Camisa rayas">
+        </div>
+        <div class="product-name">Camisa rayas marineras</div>
+        <div class="product-desc">Algodón orgánico. Tallas S-XL disponibles.</div>
+        <div class="product-price">62€ <span class="old">78€</span></div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1572804013427-4d7ca7268217?w=400&q=80" alt="Pantalón fluido">
+          <span class="product-badge">Últimas unidades</span>
+        </div>
+        <div class="product-name">Pantalón fluido midi</div>
+        <div class="product-desc">Corte palazzo, ideal para el calor. Verde y terracota.</div>
+        <div class="product-price">74€</div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80" alt="Sandalia artesanal">
+        </div>
+        <div class="product-name">Sandalia artesanal</div>
+        <div class="product-desc">Cuero genuino, hecha en Andalucía. Del 36 al 42.</div>
+        <div class="product-price">95€</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="https://wa.me/34600000000?text=Hola%2C%20me%20gustaría%20ver%20toda%20la%20colección" class="btn-dark">💬 Ver toda la colección por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section style="background:var(--light);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="benefits-grid">
+      <div class="benefit">
+        <div class="benefit-icon">🌊</div>
+        <div class="benefit-title">Selección exclusiva</div>
+        <div class="benefit-desc">Piezas únicas por temporada, elegidas a mano.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">🚚</div>
+        <div class="benefit-title">Envío gratis +60€</div>
+        <div class="benefit-desc">A toda España en 24-48h hábiles.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">↩️</div>
+        <div class="benefit-title">Cambios fáciles</div>
+        <div class="benefit-desc">15 días para cambiar talla o devolver sin preguntas.</div>
+      </div>
+      <div class="benefit">
+        <div class="benefit-icon">📲</div>
+        <div class="benefit-title">Atención personal</div>
+        <div class="benefit-desc">Consulta por WhatsApp antes de comprar.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="nosotras">
+  <div class="container">
+    <div class="about-banner">
+      <div class="about-content">
+        <div class="section-label-center" style="text-align:left;margin-bottom:10px;">Nuestra historia</div>
+        <h2 style="font-size:1.8rem;margin-bottom:16px;">Nació en el mercado, creció en el Soho</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;">
+          Marea empezó como un puesto en el mercado de La Merced. Hoy tenemos tienda en el barrio del Soho malagueño, pero seguimos con la misma filosofía: elegir cada pieza como si fuera para nosotras mismas.
+        </p>
+        <a href="https://wa.me/34600000000" class="btn-dark" style="display:inline-block;width:fit-content;">Contactar</a>
+      </div>
+      <div class="about-img-block"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section style="background:var(--light);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label-center">Lo que dicen</div>
+      <h2>Nuestras clientas</h2>
+    </div>
+    <div class="tests-grid">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"El vestido de lino es una maravilla. Lo pedí el martes y el jueves lo tenía en casa. Calidad increíble por el precio."</div>
+        <div class="test-name">— María C., Sevilla</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"Me atendieron por WhatsApp y me ayudaron a elegir la talla correcta. Servicio como en tienda física pero desde casa."</div>
+        <div class="test-name">— Lucía M., Málaga</div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <div class="test-text">"Las sandalias son brutales. Están hechas a mano y se nota. Las he llevado todo el verano. Volvería a comprar sin dudarlo."</div>
+        <div class="test-name">— Sara P., Madrid</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-strip">
+  <h2>¿Dudas sobre talla o disponibilidad?</h2>
+  <p>Escríbenos por WhatsApp — te respondemos en minutos</p>
+  <a href="https://wa.me/34600000000" class="btn-dark" style="display:inline-block;background:var(--accent);border:none;">💬 Escribir por WhatsApp</a>
+</div>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label-center">Visítanos</div>
+      <h2>Dónde estamos</h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div>
+          <div class="c-label">Tienda</div>
+          <div class="c-value">Calle Trinidad Grund 8<br>Barrio del Soho, Málaga</div>
+        </div>
+        <div>
+          <div class="c-label">WhatsApp</div>
+          <div class="c-value">600 000 000</div>
+        </div>
+        <div>
+          <div class="c-label">Email</div>
+          <div class="c-value">hola@mareaboutique.es</div>
+        </div>
+        <div>
+          <div class="c-label">Instagram</div>
+          <div class="c-value">@marea.boutique.malaga</div>
+        </div>
+      </div>
+      <div>
+        <div class="c-label" style="margin-bottom:12px;">Horario</div>
+        <table class="horario-table">
+          <tr><td>Lunes – Viernes</td><td>10:00 – 20:30</td></tr>
+          <tr><td>Sábado</td><td>10:00 – 14:30 / 17:00 – 20:00</td></tr>
+          <tr><td style="color:var(--muted);">Domingo</td><td style="color:var(--muted);">Cerrado</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © 2025 Marea Boutique · Málaga ·
+  <a href="https://wa.me/34600000000">WhatsApp</a> ·
+  <a href="#">Política de privacidad</a>
+  <div class="footer-credit">Web creada por <strong>Impuls Digital</strong> · impulsdigital.es</div>
+</footer>
+
+</body>
+</html>
