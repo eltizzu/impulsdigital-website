@@ -378,20 +378,46 @@ tbody tr:hover td { background: var(--surface2); }
 }
 
 @media (max-width: 768px) {
-  .sidebar { transform: translateX(-100%); }
-  .main { margin-left: 0; padding: 0 20px 60px; }
+  .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; position: fixed; z-index: 100; height: 100%; overflow-y: auto; }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.4); }
+  .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); z-index: 99; }
+  .sidebar-overlay.open { display: block; }
+  .mobile-menu-btn { display: flex !important; }
+  .main { margin-left: 0; padding: 56px 16px 60px; }
   .insights-grid { grid-template-columns: 1fr; }
   .stat-row { grid-template-columns: 1fr 1fr; }
   .chart-grid { grid-template-columns: 1fr; }
   .score-block { grid-template-columns: 1fr; }
   .gtm-grid { grid-template-columns: 1fr; }
   .verdict-axes { grid-template-columns: 1fr 1fr; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero-sub { font-size: 0.85rem; }
+}
+.mobile-menu-btn {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 200;
+  background: var(--surface2, #1e293b);
+  border: 1px solid var(--border, #334155);
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  color: var(--text, #f1f5f9);
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 </style>
 </head>
 <body>
 
 <div id="progress-bar"></div>
+
+<button class="mobile-menu-btn" id="mobileMenuBtn">☰ Índice</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="layout">
 
@@ -1159,6 +1185,32 @@ function updateChartColors() {
 }
 
 buildCharts();
+
+// Mobile sidebar toggle
+const mobileBtn = document.getElementById('mobileMenuBtn');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+const sidebar = document.querySelector('.sidebar');
+if (mobileBtn && sidebar) {
+  mobileBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    sidebarOverlay.classList.toggle('open');
+    mobileBtn.textContent = sidebar.classList.contains('open') ? '✕ Cerrar' : '☰ Índice';
+  });
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('open');
+    sidebarOverlay.classList.remove('open');
+    mobileBtn.textContent = '☰ Índice';
+  });
+  // Close sidebar when clicking a nav link
+  document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', () => {
+      sidebar.classList.remove('open');
+      sidebarOverlay.classList.remove('open');
+      mobileBtn.textContent = '☰ Índice';
+    });
+  });
+}
+
 </script>
 </body>
 </html>

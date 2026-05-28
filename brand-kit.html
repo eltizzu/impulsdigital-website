@@ -246,6 +246,11 @@
       .usage-grid { grid-template-columns: 1fr; }
       .download-strip { flex-direction: column; gap: 24px; }
     }
+    @media (max-width: 600px) {
+      .logo-grid, .icon-grid { grid-template-columns: 1fr; }
+      .color-grid { grid-template-columns: repeat(3, 1fr); }
+      .espacio-grid { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body>
@@ -582,7 +587,7 @@
   <!-- ══ ESPACIO MÍNIMO ══ -->
   <div class="bk-section">
     <div class="bk-section-title">06 — Espacio mínimo y tamaños</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div class="espacio-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
       <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;">
         <div style="font-size:0.72rem;color:var(--muted2);margin-bottom:16px;font-weight:600;">Espacio de respeto mínimo</div>
         <div style="border:1px dashed rgba(124,58,237,0.4);padding:24px;border-radius:8px;display:inline-flex;">
