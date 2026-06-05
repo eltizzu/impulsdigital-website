@@ -1203,6 +1203,75 @@
     .testimonio-role { font-size: 0.68rem; color: var(--muted2); }
     @media (max-width: 768px) { .testimonios-grid { grid-template-columns: 1fr; } }
 
+    /* ─── EBOOKS ─── */
+    .ebooks-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    .ebook-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .ebook-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-3px);
+    }
+    .ebook-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+    .ebook-info { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+    .ebook-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--purple-light);
+      background: rgba(124,58,237,0.12);
+      border-radius: 6px;
+      padding: 3px 8px;
+      width: fit-content;
+    }
+    .ebook-title {
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--text);
+      margin: 0;
+    }
+    .ebook-desc {
+      font-size: 0.85rem;
+      color: var(--muted2);
+      line-height: 1.55;
+      margin: 0;
+    }
+    .ebook-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #25D366;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      padding: 11px 18px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .ebook-btn:hover { opacity: 0.88; }
+    .ebook-btn::before { content: "💬"; }
+    @media (max-width: 900px) { .ebooks-grid { grid-template-columns: 1fr; } }
+
     /* ─── FOOTER ─── */
     footer {
       padding: 48px 0;
@@ -2077,58 +2146,4 @@
 
       <div class="testimonio-card">
         <div class="testimonio-stars">★★★★★</div>
-        <p class="testimonio-text">"El análisis nos mostró exactamente dónde fallaba nuestra ficha de Google. A los 30 días subimos al top 3 en Maps. Vale cada euro."</p>
-        <div class="testimonio-autor">
-          <div class="testimonio-avatar" style="background: linear-gradient(135deg, var(--purple-light), var(--cyan));"></div>
-          <div>
-            <strong>Sergio R.</strong>
-            <span>Centro de Estética · Marbella</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="container footer-inner">
-    <div class="footer-logo">Impuls<span>.</span></div>
-    <div class="footer-links">
-      <a href="#webs">Webs</a>
-      <a href="#ia">Servicios IA</a>
-      <a href="#apps">Apps</a>
-      <a href="https://wa.me/34692388908" target="_blank">WhatsApp</a>
-      <a href="https://instagram.com/impulsdigitaal" target="_blank">Instagram</a>
-    </div>
-    <p class="footer-copy">© 2025 Impuls Digital · Málaga</p>
-  </div>
-</footer>
-
-<script>
-  // Nav scroll effect
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // Reveal on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.service-card, .app-card, .stat-item, .process-step, .about-point').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
-</script>
-</body>
-</html>
+        <p class="testimonio-text">"El análisis nos mostró exacta
