@@ -926,6 +926,10 @@
     }
     .card-actions { display: flex; gap: 10px; margin-top: auto; }
     .card-actions .btn { flex: 1; font-size: 0.82rem; padding: 10px 12px; }
+    @media (max-width: 480px) {
+      .card-actions { flex-direction: column; gap: 8px; }
+      .card-actions .btn { flex: unset; width: 100%; text-align: center; }
+    }
     .card-most-popular {
       position: absolute;
       top: 16px; right: 16px;
@@ -1397,27 +1401,6 @@
     <div class="hero-visual">
       <div style="position:relative;">
 
-        <!-- Cards mobile (solo visible en mobile) -->
-        <div class="hero-mobile-cards" style="display:none;flex-direction:column;gap:12px;padding:4px 0;">
-          <div style="background:rgba(15,15,25,0.9);border:1px solid rgba(124,58,237,0.25);border-radius:16px;padding:16px 18px;">
-            <div style="font-size:0.68rem;color:#a78bfa;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">Web profesional</div>
-            <div style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:3px;">La Brasa · Restaurante</div>
-            <div style="font-size:0.75rem;color:#94a3b8;">Web, carta digital y Google Maps en 7 días</div>
-            <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:0.65rem;background:rgba(52,211,153,0.12);color:#34d399;padding:2px 7px;border-radius:5px;">✓ En Google</span>
-              <span style="font-size:0.65rem;background:rgba(124,58,237,0.12);color:#a78bfa;padding:2px 7px;border-radius:5px;">✓ Carta digital</span>
-            </div>
-          </div>
-          <div style="background:rgba(15,15,25,0.9);border:1px solid rgba(8,145,178,0.25);border-radius:16px;padding:16px 18px;">
-            <div style="font-size:0.68rem;color:#22d3ee;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:5px;">Análisis con IA</div>
-            <div style="font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:3px;">Sal & Brasa · Viabilidad</div>
-            <div style="font-size:0.75rem;color:#94a3b8;">Informe completo del mercado en 48h</div>
-            <div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;">
-              <span style="font-size:0.65rem;background:rgba(34,211,238,0.12);color:#22d3ee;padding:2px 7px;border-radius:5px;">✓ 8 secciones</span>
-              <span style="font-size:0.65rem;background:rgba(52,211,153,0.12);color:#34d399;padding:2px 7px;border-radius:5px;">Score 67/100</span>
-            </div>
-          </div>
-        </div>
 
         <!-- Top floating badge -->
         <div class="float-badge" style="top:-14px;left:10px;z-index:10;">
@@ -2260,3 +2243,4 @@
 </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
