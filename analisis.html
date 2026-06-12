@@ -442,6 +442,13 @@
       const negocio = document.getElementById('negocio').value.trim();
       const whatsapp = document.getElementById('whatsapp').value.trim();
 
+      // 🤖 Guardar lead en n8n → Google Sheets
+      fetch('https://impulsdigital2.app.n8n.cloud/webhook/lead-contacto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: nombre, telefono: whatsapp, negocio: negocio, servicio: 'analisis-gratuito' })
+      }).catch(() => {});
+
       const msg = encodeURIComponent(
         `Hola Marcos! Solicito el análisis gratuito de mi negocio.\n\n` +
         `👤 Nombre: ${nombre}\n` +
