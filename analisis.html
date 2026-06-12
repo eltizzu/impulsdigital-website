@@ -446,7 +446,7 @@
       fetch('https://impulsdigital2.app.n8n.cloud/webhook/lead-contacto', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre: nombre, telefono: whatsapp, negocio: negocio, servicio: 'analisis-gratuito' })
+        body: JSON.stringify({ nombre: nombre, telefono: whatsapp, negocio: negocio, servicio: 'analisis-gratuito', fuente: 'QR tarjeta' })
       }).catch(() => {});
 
       const msg = encodeURIComponent(
