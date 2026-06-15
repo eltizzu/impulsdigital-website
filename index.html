@@ -2159,12 +2159,85 @@
 
     </div>
 
-    <div style="text-align:center;">
-      <p style="color:rgba(255,255,255,0.5);font-size:.9rem;margin-bottom:1.25rem;">¿Querés que tu negocio trabaje solo? Hablamos.</p>
-      <a href="https://wa.me/34692388908?text=Hola%20Marcos%2C%20me%20interesan%20las%20automatizaciones%20para%20mi%20negocio" target="_blank" class="btn btn-primary">Consultar automatizaciones →</a>
+    <!-- Formulario lead automatizaciones -->
+    <div id="automatiza" style="max-width:600px;margin:0 auto;padding:2.5rem;background:rgba(124,58,237,0.07);border:1px solid rgba(124,58,237,0.25);border-radius:1.25rem;">
+      <div style="text-align:center;margin-bottom:1.75rem;">
+        <p style="font-size:1.25rem;font-weight:700;color:#f1f5f9;margin:0 0 .5rem;">¿Qué tarea repetitiva te come tiempo cada semana?</p>
+        <p style="color:rgba(255,255,255,0.5);font-size:.9rem;margin:0;">Contame tu caso — miramos si lo podemos automatizar y te respondemos en 24h.</p>
+      </div>
+      <form id="form-automatiza" novalidate>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem;">
+          <div>
+            <label style="display:block;font-size:.8rem;color:rgba(255,255,255,0.5);margin-bottom:.35rem;">Tu nombre</label>
+            <input type="text" id="fa-nombre" name="nombre" placeholder="Ana García" required
+              style="width:100%;padding:.65rem .9rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:.5rem;color:#f1f5f9;font-size:.9rem;outline:none;font-family:inherit;">
+          </div>
+          <div>
+            <label style="display:block;font-size:.8rem;color:rgba(255,255,255,0.5);margin-bottom:.35rem;">Tu email</label>
+            <input type="email" id="fa-email" name="email" placeholder="ana@negocio.com" required
+              style="width:100%;padding:.65rem .9rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:.5rem;color:#f1f5f9;font-size:.9rem;outline:none;font-family:inherit;">
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="display:block;font-size:.8rem;color:rgba(255,255,255,0.5);margin-bottom:.35rem;">Tu tarea repetitiva</label>
+          <textarea id="fa-tarea" name="tarea" placeholder="Ej: Cada semana paso horas copiando pedidos del email a una hoja de cálculo…" required rows="3"
+            style="width:100%;padding:.65rem .9rem;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:.5rem;color:#f1f5f9;font-size:.9rem;outline:none;font-family:inherit;resize:vertical;"></textarea>
+        </div>
+        <button type="submit" id="fa-btn"
+          style="width:100%;padding:.8rem;background:linear-gradient(135deg,#7c3aed,#a78bfa);border:none;border-radius:.6rem;color:#fff;font-size:.95rem;font-weight:600;cursor:pointer;font-family:inherit;transition:opacity .2s;">
+          Enviar mi caso →
+        </button>
+        <div id="fa-msg" style="display:none;margin-top:1rem;padding:.75rem 1rem;border-radius:.5rem;font-size:.88rem;text-align:center;"></div>
+      </form>
+      <p style="text-align:center;font-size:.78rem;color:rgba(255,255,255,0.3);margin-top:1rem;margin-bottom:0;">Sin spam. Solo te escribo si veo que tiene solución.</p>
     </div>
   </div>
 </section>
+
+<script>
+(function(){
+  var WEBHOOK = 'TU_URL_WEBHOOK_N8N_AQUI'; // reemplazar con la URL del webhook de n8n
+  var form = document.getElementById('form-automatiza');
+  var btn  = document.getElementById('fa-btn');
+  var msg  = document.getElementById('fa-msg');
+
+  function showMsg(text, ok) {
+    msg.style.display = 'block';
+    msg.style.background = ok ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)';
+    msg.style.border = '1px solid ' + (ok ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)');
+    msg.style.color = ok ? '#86efac' : '#fca5a5';
+    msg.textContent = text;
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var nombre = document.getElementById('fa-nombre').value.trim();
+    var email  = document.getElementById('fa-email').value.trim();
+    var tarea  = document.getElementById('fa-tarea').value.trim();
+    if (!nombre || !email || !tarea) { showMsg('Completá todos los campos.', false); return; }
+
+    btn.disabled = true;
+    btn.textContent = 'Enviando…';
+
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ nombre: nombre, email: email, tarea: tarea, origen: 'impulsdigital.es/#automatiza' })
+    })
+    .then(function(r){ return r.ok ? r : Promise.reject(r); })
+    .then(function(){
+      form.reset();
+      btn.style.display = 'none';
+      showMsg('✓ Recibido. Te escribo en menos de 24h si veo que lo podemos automatizar.', true);
+    })
+    .catch(function(){
+      btn.disabled = false;
+      btn.textContent = 'Enviar mi caso →';
+      showMsg('Algo falló. Escribime directamente a marcos@impulsdigital.es', false);
+    });
+  });
+})();
+</script>
 
 <hr class="divider">
 
