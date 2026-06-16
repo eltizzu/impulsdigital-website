@@ -330,6 +330,47 @@
       border-radius: 2px;
       transition: all 0.2s;
     }
+    /* Mobile nav panel */
+    .nav-mobile-panel {
+      display: none;
+      position: fixed;
+      top: 64px; left: 0; right: 0;
+      background: rgba(9,9,11,0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      padding: 1.25rem 1.5rem 1.5rem;
+      flex-direction: column;
+      gap: 0;
+    }
+    .nav-mobile-panel.open { display: flex; }
+    .nav-mobile-panel a {
+      display: block;
+      padding: 0.8rem 0;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 1rem;
+      font-weight: 500;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: color 0.15s;
+    }
+    .nav-mobile-panel a:last-child { border-bottom: none; }
+    .nav-mobile-panel a:hover { color: var(--text); }
+    .nav-mobile-panel .nav-mobile-cta {
+      margin-top: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #25d366;
+      color: #fff;
+      font-weight: 700;
+      padding: 0.65rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      text-align: center;
+      justify-content: center;
+      border-bottom: none;
+    }
 
     /* ─── HERO ─── */
     .hero {
@@ -1363,6 +1404,7 @@
       <li><a href="#webs">Webs & Identidad</a></li>
       <li><a href="#ia">Servicios IA</a></li>
       <li><a href="#apps">Apps</a></li>
+      <li><a href="#automatizaciones">Automatizaciones</a></li>
       <li><a href="#marcos">Quién soy</a></li>
       <li><a href="contacto.html" style="color:#a78bfa;font-weight:700;">Presupuesto →</a></li>
     </ul>
@@ -1370,11 +1412,21 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.137.562 4.14 1.544 5.874L.057 23.428a.75.75 0 0 0 .916.916l5.554-1.487A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.694 9.694 0 0 1-4.93-1.347l-.353-.21-3.297.883.882-3.297-.21-.353A9.694 9.694 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
       WhatsApp
     </a>
-    <button class="nav-hamburger" aria-label="Menú">
+    <button class="nav-hamburger" id="nav-toggle" aria-label="Menú">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
+
+<!-- Mobile nav panel -->
+<div class="nav-mobile-panel" id="nav-mobile-panel">
+  <a href="#webs" onclick="closeMobileNav()">Webs & Identidad</a>
+  <a href="#ia" onclick="closeMobileNav()">Servicios IA</a>
+  <a href="#apps" onclick="closeMobileNav()">Apps</a>
+  <a href="#automatizaciones" onclick="closeMobileNav()">Automatizaciones</a>
+  <a href="#marcos" onclick="closeMobileNav()">Quién soy</a>
+  <a href="contacto.html" class="nav-mobile-cta">Presupuesto →</a>
+</div>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
@@ -2370,60 +2422,4 @@
 
       <div class="testimonio-card">
         <div class="testimonio-stars">★★★★★</div>
-        <p class="testimonio-text">"El análisis nos mostró exactamente dónde fallaba nuestra ficha de Google. A los 30 días subimos al top 3 en Maps. Vale cada euro."</p>
-        <div class="testimonio-autor">
-          <div class="testimonio-avatar" style="background: linear-gradient(135deg, var(--purple-light), var(--cyan));"></div>
-          <div>
-            <strong>Sergio R.</strong>
-            <span>Centro de Estética · Marbella</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══ EBOOKS ═══ -->
-
-<!-- ═══ FOOTER ═══ -->
-<footer>
-  <div class="container footer-inner">
-    <div class="footer-logo">Impuls<span>.</span></div>
-    <div class="footer-links">
-      <a href="#webs">Webs</a>
-      <a href="#ia">Servicios IA</a>
-      <a href="#apps">Apps</a>
-      <a href="https://wa.me/34692388908" target="_blank">WhatsApp</a>
-      <a href="https://instagram.com/impulsdigitaal" target="_blank">Instagram</a>
-    </div>
-    <p class="footer-copy">© 2025 Impuls Digital · Málaga</p>
-  </div>
-</footer>
-
-<script>
-  // Nav scroll effect
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // Reveal on scroll
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.service-card, .app-card, .stat-item, .process-step, .about-point').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
-</script>
-</body>
-</html>
+        <p class="testimonio-text">"El análisis nos mostró exactamente dónde fallaba nuestra ficha de Google. A los 
