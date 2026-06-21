@@ -2521,13 +2521,16 @@
 <!-- GA4: tracking de clicks a WhatsApp -->
 <script>
   document.querySelectorAll('a[href*="wa.me"]').forEach(function(link) {
-    link.addEventListener('click', function() {
-      var href = this.getAttribute('href') || '';
-      var msg = decodeURIComponent(href.split('text=')[1] || '');
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var dest = this.getAttribute('href');
+      var msg = decodeURIComponent((dest.split('text=')[1] || ''));
       gtag('event', 'whatsapp_click', {
         event_category: 'contacto',
-        event_label: msg.slice(0, 100) || 'boton_general'
+        event_label: msg.slice(0, 100) || 'boton_general',
+        event_callback: function() { window.open(dest, '_blank'); }
       });
+      setTimeout(function() { window.open(dest, '_blank'); }, 400);
     });
   });
 </script>
