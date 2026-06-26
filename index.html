@@ -1686,6 +1686,351 @@
 
 <hr class="divider">
 
+<!-- ═══ BENTO FEATURES ═══ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+/* ── Magic Bento ─────────────────────────── */
+.imp-bento-grid {
+  display: grid;
+  gap: 0.5em;
+  padding: 0.75em;
+  max-width: 58em;
+  margin: 2.5rem auto 0;
+  font-size: clamp(1rem, 0.9rem + 0.4vw, 1.4rem);
+  user-select: none;
+}
+@media (max-width: 599px) {
+  .imp-bento-grid { grid-template-columns: 1fr; width: 92%; }
+}
+@media (min-width: 600px) {
+  .imp-bento-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .imp-bento-grid { grid-template-columns: repeat(4, 1fr); }
+  .imp-bento-card:nth-child(3) { grid-column: span 2; grid-row: span 2; }
+  .imp-bento-card:nth-child(4) { grid-column: 1 / span 2; grid-row: 2 / span 2; }
+  .imp-bento-card:nth-child(6) { grid-column: 4; grid-row: 3; }
+}
+.imp-bento-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  aspect-ratio: 4/3;
+  min-height: 180px;
+  padding: 1.2em;
+  border-radius: 20px;
+  border: 1px solid #2a2440;
+  background: #100d1a;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  --glow-x: 50%; --glow-y: 50%;
+  --glow-intensity: 0; --glow-radius: 200px;
+}
+.imp-bento-header {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  color: white;
+}
+.imp-bento-label {
+  font-size: 11px;
+  color: rgba(167,139,250,0.65);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.imp-bento-content {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  color: white;
+}
+.imp-bento-icon { font-size: 2em; margin-bottom: 0.35em; line-height: 1; }
+.imp-bento-title {
+  font-weight: 500;
+  font-size: 1em;
+  margin: 0 0 0.3em;
+  color: #f1f0f5;
+  line-height: 1.2;
+}
+.imp-bento-desc {
+  font-size: 0.72em;
+  line-height: 1.45;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+}
+/* Border glow via mask */
+.imp-bento-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: radial-gradient(
+    var(--glow-radius) circle at var(--glow-x) var(--glow-y),
+    rgba(124,58,237,calc(var(--glow-intensity)*0.9)) 0%,
+    rgba(124,58,237,calc(var(--glow-intensity)*0.4)) 30%,
+    transparent 60%
+  );
+  border-radius: inherit;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
+}
+.imp-bento-card:hover {
+  box-shadow: 0 4px 24px rgba(46,16,90,0.5), 0 0 32px rgba(124,58,237,0.15);
+}
+.imp-ptcl {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(124,58,237,1);
+  box-shadow: 0 0 5px rgba(124,58,237,0.7);
+  pointer-events: none;
+  z-index: 10;
+}
+.imp-spotlight {
+  position: fixed;
+  width: 650px; height: 650px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  mix-blend-mode: screen;
+  background: radial-gradient(circle,
+    rgba(124,58,237,0.14) 0%,
+    rgba(124,58,237,0.07) 15%,
+    rgba(124,58,237,0.03) 28%,
+    rgba(124,58,237,0.01) 45%,
+    transparent 68%
+  );
+  opacity: 0;
+  will-change: opacity;
+}
+</style>
+
+<section class="section" id="beneficios" style="padding-top:56px;padding-bottom:48px;">
+  <div class="container">
+    <div class="section-header">
+      <h2>Todo incluido.<br><span class="grad-text">Sin letra chica.</span></h2>
+      <p>Lo que obtenés en cada proyecto — sin mensualidades, sin extras ocultos.</p>
+    </div>
+  </div>
+  <div class="imp-bento-grid" id="imp-bento-grid">
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Velocidad</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">⚡</div>
+        <h3 class="imp-bento-title">Web en 48h</h3>
+        <p class="imp-bento-desc">De la idea a tu negocio online en dos días.</p>
+      </div>
+    </div>
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Sin riesgo</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">🎯</div>
+        <h3 class="imp-bento-title">Sin anticipo</h3>
+        <p class="imp-bento-desc">Primero ves el resultado. Después pagás.</p>
+      </div>
+    </div>
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Tecnología</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">🤖</div>
+        <h3 class="imp-bento-title">IA & Apps propias</h3>
+        <p class="imp-bento-desc">Automatizaciones n8n, dashboards de negocio, apps de citas, reservas y presupuestos — todo integrado con tu web.</p>
+      </div>
+    </div>
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Responsive</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">📱</div>
+        <h3 class="imp-bento-title">100% mobile</h3>
+        <p class="imp-bento-desc">Perfecto en cualquier pantalla desde el primer día.</p>
+      </div>
+    </div>
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Visibilidad</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">🔍</div>
+        <h3 class="imp-bento-title">SEO incluido</h3>
+        <p class="imp-bento-desc">Optimizado para que Google te encuentre solo.</p>
+      </div>
+    </div>
+
+    <div class="imp-bento-card">
+      <div class="imp-bento-header"><span class="imp-bento-label">Personal</span></div>
+      <div class="imp-bento-content">
+        <div class="imp-bento-icon">💬</div>
+        <h3 class="imp-bento-title">Soporte directo</h3>
+        <p class="imp-bento-desc">Con Marcos, no con un call center ni un bot.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function () {
+  var GLOW = '124,58,237';
+  var SPOT_R = 300;
+  var N_PTCL = 9;
+  var MOBILE = 768;
+  var isMob = function () { return window.innerWidth <= MOBILE; };
+
+  function initBento() {
+    var grid = document.getElementById('imp-bento-grid');
+    if (!grid || !window.gsap) return;
+
+    var spot = document.createElement('div');
+    spot.className = 'imp-spotlight';
+    document.body.appendChild(spot);
+
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.imp-bento-card'));
+    var prox = SPOT_R * 0.5;
+    var fade = SPOT_R * 0.75;
+
+    document.addEventListener('mousemove', function (e) {
+      if (isMob()) return;
+      var sec = grid.closest('section');
+      var r = sec.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX <= r.right &&
+                   e.clientY >= r.top  && e.clientY <= r.bottom;
+      if (!inside) {
+        gsap.to(spot, { opacity: 0, duration: 0.4 });
+        cards.forEach(function (c) { c.style.setProperty('--glow-intensity','0'); });
+        return;
+      }
+      var minD = Infinity;
+      cards.forEach(function (card) {
+        var cr = card.getBoundingClientRect();
+        var rx = ((e.clientX - cr.left) / cr.width)  * 100;
+        var ry = ((e.clientY - cr.top)  / cr.height) * 100;
+        card.style.setProperty('--glow-x', rx + '%');
+        card.style.setProperty('--glow-y', ry + '%');
+        card.style.setProperty('--glow-radius', SPOT_R + 'px');
+        var cx = cr.left + cr.width  / 2;
+        var cy = cr.top  + cr.height / 2;
+        var d  = Math.max(0, Math.hypot(e.clientX - cx, e.clientY - cy) - Math.max(cr.width, cr.height) / 2);
+        minD = Math.min(minD, d);
+        var gi = d <= prox ? 1 : d <= fade ? (fade - d) / (fade - prox) : 0;
+        card.style.setProperty('--glow-intensity', gi.toFixed(3));
+      });
+      gsap.to(spot, { left: e.clientX, top: e.clientY, duration: 0.12, ease: 'power2.out' });
+      var tOp = minD <= prox ? 0.8 : minD <= fade ? ((fade - minD) / (fade - prox)) * 0.8 : 0;
+      gsap.to(spot, { opacity: tOp, duration: tOp > 0 ? 0.18 : 0.5 });
+    });
+
+    document.addEventListener('mouseleave', function () {
+      gsap.to(spot, { opacity: 0, duration: 0.3 });
+      cards.forEach(function (c) { c.style.setProperty('--glow-intensity','0'); });
+    });
+
+    cards.forEach(function (card) {
+      var timeouts = [];
+      var ptcls = [];
+      var hovered = false;
+
+      function launch() {
+        var cr = card.getBoundingClientRect();
+        for (var i = 0; i < N_PTCL; i++) {
+          (function (idx) {
+            var t = setTimeout(function () {
+              if (!hovered) return;
+              var p = document.createElement('div');
+              p.className = 'imp-ptcl';
+              p.style.left = (Math.random() * cr.width)  + 'px';
+              p.style.top  = (Math.random() * cr.height) + 'px';
+              card.appendChild(p);
+              ptcls.push(p);
+              gsap.fromTo(p, { scale: 0, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.3, ease: 'back.out(1.7)' });
+              gsap.to(p, { x: (Math.random()-.5)*70, y: (Math.random()-.5)*70,
+                rotation: Math.random()*360, duration: 2+Math.random()*2,
+                ease: 'none', repeat: -1, yoyo: true });
+              gsap.to(p, { opacity: 0.25, duration: 1.5,
+                ease: 'power2.inOut', repeat: -1, yoyo: true });
+            }, idx * 110);
+            timeouts.push(t);
+          })(i);
+        }
+      }
+
+      function clear() {
+        timeouts.forEach(clearTimeout); timeouts = [];
+        ptcls.forEach(function (p) {
+          gsap.to(p, { scale: 0, opacity: 0, duration: 0.25, ease: 'back.in(1.7)',
+            onComplete: function () { if (p.parentNode) p.parentNode.removeChild(p); } });
+        });
+        ptcls = [];
+      }
+
+      card.addEventListener('mouseenter', function () {
+        if (isMob()) return;
+        hovered = true;
+        launch();
+        gsap.to(card, { rotateX: 3, rotateY: 5, duration: 0.3,
+          ease: 'power2.out', transformPerspective: 900 });
+      });
+
+      card.addEventListener('mouseleave', function () {
+        hovered = false;
+        clear();
+        gsap.to(card, { rotateX: 0, rotateY: 0, x: 0, y: 0,
+          duration: 0.35, ease: 'power2.out' });
+      });
+
+      card.addEventListener('mousemove', function (e) {
+        if (isMob()) return;
+        var cr = card.getBoundingClientRect();
+        var x = e.clientX - cr.left, y = e.clientY - cr.top;
+        var cx = cr.width / 2, cy = cr.height / 2;
+        gsap.to(card, {
+          rotateX: ((y - cy) / cy) * -7,
+          rotateY: ((x - cx) / cx) *  7,
+          x: (x - cx) * 0.04,
+          y: (y - cy) * 0.04,
+          duration: 0.12, ease: 'power2.out', transformPerspective: 900
+        });
+      });
+
+      card.addEventListener('click', function (e) {
+        if (isMob()) return;
+        var cr = card.getBoundingClientRect();
+        var x = e.clientX - cr.left, y = e.clientY - cr.top;
+        var md = Math.max(
+          Math.hypot(x,y), Math.hypot(x-cr.width,y),
+          Math.hypot(x,y-cr.height), Math.hypot(x-cr.width,y-cr.height)
+        );
+        var rp = document.createElement('div');
+        rp.style.cssText = 'position:absolute;border-radius:50%;pointer-events:none;z-index:999;'
+          + 'width:' + (md*2) + 'px;height:' + (md*2) + 'px;'
+          + 'left:' + (x-md) + 'px;top:' + (y-md) + 'px;'
+          + 'background:radial-gradient(circle,rgba(' + GLOW + ',0.35) 0%,rgba(' + GLOW + ',0.15) 35%,transparent 70%);';
+        card.appendChild(rp);
+        gsap.fromTo(rp, { scale: 0, opacity: 1 },
+          { scale: 1, opacity: 0, duration: 0.75, ease: 'power2.out',
+            onComplete: function () { if (rp.parentNode) rp.parentNode.removeChild(rp); } });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBento);
+  } else {
+    initBento();
+  }
+})();
+</script>
+
 <!-- ═══ WEBS ═══ -->
 <section class="section" id="webs">
   <div class="container">
