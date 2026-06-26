@@ -1770,6 +1770,34 @@
   color: rgba(255,255,255,0.55);
   margin: 0;
 }
+/* App tiles dentro de la carta grande */
+.imp-bento-apps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45em;
+  margin: 0.5em 0;
+}
+.imp-bento-app {
+  background: rgba(124,58,237,0.08);
+  border: 1px solid rgba(124,58,237,0.18);
+  border-radius: 10px;
+  padding: 0.55em 0.75em;
+  font-size: 0.68em;
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15em;
+}
+.imp-bento-app span {
+  font-size: 0.85em;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+}
+.imp-bento-card--featured {
+  justify-content: space-between !important;
+  background: radial-gradient(ellipse 90% 55% at 60% 20%, rgba(124,58,237,0.1) 0%, #100d1a 65%) !important;
+}
 /* Border glow via mask */
 .imp-bento-card::after {
   content: '';
@@ -1849,12 +1877,18 @@
       </div>
     </div>
 
-    <div class="imp-bento-card">
+    <div class="imp-bento-card imp-bento-card--featured">
       <div class="imp-bento-header"><span class="imp-bento-label">Tecnología</span></div>
+      <div class="imp-bento-apps">
+        <div class="imp-bento-app">📅 Turnia <span>Citas online</span></div>
+        <div class="imp-bento-app">💰 Cotiza <span>Presupuestos</span></div>
+        <div class="imp-bento-app">🍽️ BrasaReservas <span>Hostelería</span></div>
+        <div class="imp-bento-app">🏠 StayFlow <span>Vacacional</span></div>
+      </div>
       <div class="imp-bento-content">
         <div class="imp-bento-icon">🤖</div>
         <h3 class="imp-bento-title">IA & Apps propias</h3>
-        <p class="imp-bento-desc">Automatizaciones n8n, dashboards de negocio, apps de citas, reservas y presupuestos — todo integrado con tu web.</p>
+        <p class="imp-bento-desc">Automatizaciones n8n, dashboards y apps sectoriales — todo integrado con tu web.</p>
       </div>
     </div>
 
