@@ -27,13 +27,13 @@
   <meta name="twitter:description" content="Webs para negocios en Málaga desde 300€. En 7 días, pago único.">
   <meta name="twitter:image" content="https://impulsdigital.es/images/og-impulsdigital.png">
 
-  <!-- JSON-LD: LocalBusiness (muy importante para Google Maps y búsquedas locales) -->
+  <!-- JSON-LD: LocalBusiness + ProfessionalService (GEO: visible en Google AI, ChatGPT, Perplexity) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "ProfessionalService"],
     "name": "Impuls Digital",
-    "description": "Diseño webs profesionales para negocios en Málaga y Costa del Sol. Web lista en 7 días, pago único, sin mensualidades. Logo, branding, Google Maps y servicios con IA.",
+    "description": "Diseño webs profesionales para negocios en Málaga y Costa del Sol. Web lista en 7 días, pago único, sin mensualidades. Especialistas en SEO local, Google Maps y visibilidad en herramientas de IA.",
     "url": "https://impulsdigital.es",
     "telephone": "+34692388908",
     "email": "marcos.impulsdigital@gmail.com",
@@ -73,36 +73,98 @@
       "itemListElement": [
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Web Esencial" },
-          "price": "300",
+          "itemOffered": { "@type": "Service", "name": "Web Express", "description": "Landing page lista en 48 horas. Sin anticipo, pagás al recibir." },
+          "price": "99",
           "priceCurrency": "EUR"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Web Profesional" },
-          "price": "500",
+          "itemOffered": { "@type": "Service", "name": "Web Esencial", "description": "Web completa con hero, servicios, contacto y WhatsApp. Posicionamiento básico en Google." },
+          "price": "299",
           "priceCurrency": "EUR"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Pack Lanzamiento" },
-          "price": "540",
+          "itemOffered": { "@type": "Service", "name": "Web Profesional", "description": "Web completa con galería, testimonios, SEO avanzado, formulario, Instagram y optimización para aparecer en herramientas de IA." },
+          "price": "499",
           "priceCurrency": "EUR"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Kit de Marca" },
-          "price": "149",
+          "itemOffered": { "@type": "Service", "name": "Dashboard con IA", "description": "Panel de métricas del negocio en tiempo real. Ventas, reservas, rendimiento." },
+          "price": "390",
           "priceCurrency": "EUR"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Alta en Google Maps" },
+          "itemOffered": { "@type": "Service", "name": "Análisis de Mercado", "description": "Informe de competidores, posicionamiento y oportunidades. Entregado en 48h." },
+          "price": "199",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Dossier Comercial", "description": "PDF profesional para presentar el negocio a clientes o inversores." },
+          "price": "99",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Alta en Google Maps y Google Business Profile", "description": "Perfil de Google Business optimizado al 100% para aparecer en búsquedas locales y en herramientas de IA como ChatGPT y Google AI." },
           "price": "99",
           "priceCurrency": "EUR"
         }
       ]
     }
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage (GEO: las IAs extraen estas respuestas directamente) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "¿Cuánto cuesta hacer una página web en Málaga?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "En Impuls Digital, una página web para negocios en Málaga cuesta desde 99€ (Web Express en 48 horas) hasta 499€ (Web Profesional en 5-7 días). Los precios son de pago único, sin mensualidades. La web es del cliente para siempre."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Cuánto tiempo tarda en hacerse una web profesional?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Depende del plan elegido: la Web Express está lista en 48 horas, la Web Esencial en 3-4 días y la Web Profesional en 5-7 días. Todo el proceso se gestiona por WhatsApp, sin reuniones."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Quién hace páginas web baratas en Málaga?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Impuls Digital ofrece diseño web profesional en Málaga desde 99€, con entrega en 48 horas y pago único. Sin mensualidades, sin anticipo en el plan Express. Atendemos negocios en toda la Costa del Sol: Torremolinos, Benalmádena, Fuengirola, Marbella y Estepona."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Aparecerá mi web en Google y en herramientas de inteligencia artificial?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Sí. Todas las webs entregadas por Impuls Digital incluyen SEO básico. La Web Profesional incluye además Schema markup avanzado, configuración para aparecer en Google AI Overviews, ChatGPT y Perplexity, y alta en Google Business Profile opcional."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "¿Qué incluye una web profesional para negocios en Málaga?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "La Web Profesional de Impuls Digital incluye: diseño personalizado, sección de servicios, galería de fotos, testimonios de clientes, formulario de contacto, botón de WhatsApp directo, integración de Instagram, SEO optimizado, configuración en Google Maps y optimización para aparecer en búsquedas con IA. Todo por 499€, pago único."
+        }
+      }
+    ]
   }
   </script>
 
@@ -2154,12 +2216,12 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:960px;margin:0 auto 2.5rem;">
 
       <!-- Prospección Automática -->
-      <div class="app-card" style="border:1px solid rgba(124,58,237,0.35);background:rgba(124,58,237,0.06);">
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
         <div class="app-header">
           <div class="app-logo" style="font-size:1.5rem;">🎯</div>
           <div>
             <div class="app-name">Prospección Automática</div>
-            <div class="app-sub" style="color:#a78bfa;">Disponible ahora</div>
+            <div class="app-sub" style="color:#fbbf24;">En desarrollo</div>
           </div>
         </div>
         <p class="app-desc">Cada semana aparecen 100 negocios nuevos en tu hoja de cálculo con nombre, teléfono, web y email. A los que tienen email les llega un mensaje tuyo automáticamente. Vos solo contestás a los interesados.</p>
@@ -2168,27 +2230,18 @@
           <span class="app-tag">Email automático</span>
           <span class="app-tag">Sin esfuerzo</span>
         </div>
-        <div style="margin-top:1rem;padding:.75rem;background:rgba(124,58,237,0.08);border-radius:.5rem;border:1px solid rgba(124,58,237,0.2);">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <p style="font-size:.82rem;color:rgba(255,255,255,0.6);margin:0 0 .2rem;">Setup único</p>
-              <p style="font-size:1.1rem;font-weight:700;color:#a78bfa;margin:0;">490€</p>
-            </div>
-            <div style="text-align:right;">
-              <p style="font-size:.82rem;color:rgba(255,255,255,0.6);margin:0 0 .2rem;">Mantenimiento</p>
-              <p style="font-size:1.1rem;font-weight:700;color:#22d3ee;margin:0;">69€/mes</p>
-            </div>
-          </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
         </div>
       </div>
 
       <!-- Email Outreach -->
-      <div class="app-card" style="border:1px solid rgba(6,182,212,0.25);background:rgba(6,182,212,0.04);">
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
         <div class="app-header">
           <div class="app-logo" style="font-size:1.5rem;">📨</div>
           <div>
             <div class="app-name">Email Outreach Automático</div>
-            <div class="app-sub" style="color:#22d3ee;">Disponible ahora</div>
+            <div class="app-sub" style="color:#fbbf24;">En desarrollo</div>
           </div>
         </div>
         <p class="app-desc">Tenés una lista de contactos y mandás emails uno a uno. Lo automatizamos: subís tu lista, configuramos el template, y cada día sale un lote de emails personalizados desde tu propio Gmail. Nadie recibe el mismo email dos veces.</p>
@@ -2197,22 +2250,13 @@
           <span class="app-tag">Personalizado</span>
           <span class="app-tag">Sin Mailchimp</span>
         </div>
-        <div style="margin-top:1rem;padding:.75rem;background:rgba(6,182,212,0.08);border-radius:.5rem;border:1px solid rgba(6,182,212,0.2);">
-          <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div>
-              <p style="font-size:.82rem;color:rgba(255,255,255,0.6);margin:0 0 .2rem;">Setup único</p>
-              <p style="font-size:1.1rem;font-weight:700;color:#22d3ee;margin:0;">290€</p>
-            </div>
-            <div style="text-align:right;">
-              <p style="font-size:.82rem;color:rgba(255,255,255,0.6);margin:0 0 .2rem;">Sin mensualidad</p>
-              <p style="font-size:.85rem;color:rgba(255,255,255,0.45);margin:0;">gestionás tu lista</p>
-            </div>
-          </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
         </div>
       </div>
 
       <!-- Reseñas Google -->
-      <div class="app-card" style="border:1px solid rgba(251,191,36,0.25);background:rgba(251,191,36,0.04);">
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
         <div class="app-header">
           <div class="app-logo" style="font-size:1.5rem;">⭐</div>
           <div>
@@ -2226,8 +2270,68 @@
           <span class="app-tag">Google Maps</span>
           <span class="app-tag">Automático</span>
         </div>
-        <div style="margin-top:1rem;padding:.75rem;background:rgba(251,191,36,0.08);border-radius:.5rem;border:1px solid rgba(251,191,36,0.2);">
-          <p style="font-size:.82rem;color:rgba(255,255,255,0.5);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
+        </div>
+      </div>
+
+      <!-- Recordatorio de Cita -->
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
+        <div class="app-header">
+          <div class="app-logo" style="font-size:1.5rem;">📅</div>
+          <div>
+            <div class="app-name">Recordatorio de Cita por WhatsApp</div>
+            <div class="app-sub" style="color:#fbbf24;">En desarrollo</div>
+          </div>
+        </div>
+        <p class="app-desc">24 horas antes de cada cita, el cliente recibe un recordatorio automático por WhatsApp. Menos ausencias, menos tiempo perdido. Integra con Turnia.</p>
+        <div class="app-tags">
+          <span class="app-tag">WhatsApp</span>
+          <span class="app-tag">Turnia</span>
+          <span class="app-tag">Automático</span>
+        </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
+        </div>
+      </div>
+
+      <!-- Seguimiento de Presupuesto -->
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
+        <div class="app-header">
+          <div class="app-logo" style="font-size:1.5rem;">📋</div>
+          <div>
+            <div class="app-name">Seguimiento de Presupuesto</div>
+            <div class="app-sub" style="color:#fbbf24;">En desarrollo</div>
+          </div>
+        </div>
+        <p class="app-desc">Mandaste una propuesta y no hubo respuesta. A los 3 días el sistema manda un mensaje automático por WhatsApp o email recordando la propuesta. Más cierres, menos seguimiento manual.</p>
+        <div class="app-tags">
+          <span class="app-tag">WhatsApp</span>
+          <span class="app-tag">Email</span>
+          <span class="app-tag">Cotiza</span>
+        </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
+        </div>
+      </div>
+
+      <!-- Informe Semanal -->
+      <div class="app-card" style="border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.02);opacity:0.7;">
+        <div class="app-header">
+          <div class="app-logo" style="font-size:1.5rem;">📊</div>
+          <div>
+            <div class="app-name">Informe Semanal del Negocio</div>
+            <div class="app-sub" style="color:#fbbf24;">En desarrollo</div>
+          </div>
+        </div>
+        <p class="app-desc">Cada lunes recibís un resumen automático por WhatsApp: cuántos leads llegaron, visitas a la web, citas reservadas y actividad de la semana. Sin entrar a ningún panel.</p>
+        <div class="app-tags">
+          <span class="app-tag">WhatsApp</span>
+          <span class="app-tag">Analytics</span>
+          <span class="app-tag">Automático</span>
+        </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(255,255,255,0.04);border-radius:.5rem;border:1px solid rgba(255,255,255,0.1);">
+          <p style="font-size:.82rem;color:rgba(255,255,255,0.45);margin:0;">Próximamente — anotate para ser el primero en probarlo.</p>
         </div>
       </div>
 
