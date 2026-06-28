@@ -3,263 +3,203 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ElectroRapid Málaga — Electricistas de urgencia 24h</title>
-  <meta name="description" content="Electricistas de urgencia en Málaga. Disponibles 24 horas. Presupuesto sin compromiso. Llamá ahora." />
+  <title>ElectroRapid Málaga — Electricistas 24h</title>
+  <meta name="description" content="Electricistas de urgencia en Málaga. Disponibles 24 horas. Presupuesto gratuito. Llamá ahora." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #0f0f0f;
-      color: #e5e5e5;
-      min-height: 100vh;
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --amber: #f59e0b;
+      --amber-light: #fbbf24;
+      --dark: #0a0a0a;
+      --dark2: #111;
+      --dark3: #1a1a1a;
     }
+    body { font-family: 'Inter', sans-serif; background: var(--dark); color: #e5e5e5; }
 
-    /* HEADER */
+    /* ─── HEADER ─── */
     header {
-      background: #0f0f0f;
-      border-bottom: 1px solid #222;
-      padding: 14px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,10,0.95); backdrop-filter: blur(10px);
+      border-bottom: 1px solid #1f1f1f;
+      padding: 0 24px;
+      height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
     }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo-icon {
-      width: 36px;
-      height: 36px;
-      background: #f59e0b;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
+      width: 34px; height: 34px; border-radius: 8px;
+      background: var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 17px; font-weight: 900; color: #000;
     }
-    .logo-text {
-      font-size: 17px;
-      font-weight: 700;
-      color: #fff;
-    }
-    .logo-text span {
-      color: #f59e0b;
+    .logo-name { font-size: 16px; font-weight: 800; color: #fff; }
+    .logo-name span { color: var(--amber); }
+    .header-cta {
+      display: flex; align-items: center; gap: 12px;
     }
     .header-tel {
-      font-size: 14px;
-      color: #f59e0b;
-      font-weight: 600;
-      text-decoration: none;
+      font-size: 13px; font-weight: 600; color: var(--amber); text-decoration: none;
+    }
+    .btn-wa-sm {
+      background: #25d366; color: #fff; font-size: 12px; font-weight: 700;
+      padding: 7px 14px; border-radius: 7px; text-decoration: none;
+      display: flex; align-items: center; gap: 5px;
     }
 
-    /* HERO */
+    /* ─── HERO ─── */
     .hero {
-      background: linear-gradient(135deg, #111 0%, #1a1400 100%);
-      padding: 60px 20px 50px;
-      text-align: center;
-      border-bottom: 1px solid #2a2200;
+      position: relative; overflow: hidden;
+      min-height: 520px;
+      display: flex; align-items: center;
     }
-    .urgencia-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      color: #fbbf24;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 14px;
-      border-radius: 20px;
-      margin-bottom: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .hero-bg {
+      position: absolute; inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1400&q=80&fit=crop');
+      background-size: cover; background-position: center;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(105deg, rgba(10,10,10,0.95) 45%, rgba(10,10,10,0.6) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 1100px; margin: 0 auto; padding: 60px 24px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.35);
+      color: var(--amber-light); font-size: 11px; font-weight: 700;
+      padding: 5px 12px; border-radius: 20px; margin-bottom: 18px;
+      text-transform: uppercase; letter-spacing: 0.6px;
     }
     .hero h1 {
-      font-size: clamp(26px, 5vw, 40px);
-      font-weight: 800;
-      color: #fff;
-      line-height: 1.2;
-      margin-bottom: 14px;
+      font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: #fff; line-height: 1.15;
+      margin-bottom: 16px;
     }
-    .hero h1 span {
-      color: #f59e0b;
-    }
-    .hero p {
-      font-size: 16px;
-      color: #999;
-      max-width: 480px;
-      margin: 0 auto 30px;
-      line-height: 1.6;
-    }
-    .cta-group {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      align-items: center;
-    }
+    .hero h1 em { color: var(--amber); font-style: normal; }
+    .hero p { font-size: 16px; color: #aaa; line-height: 1.65; margin-bottom: 32px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
     .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #f59e0b;
-      color: #0f0f0f;
-      font-size: 16px;
-      font-weight: 700;
-      padding: 14px 30px;
-      border-radius: 10px;
-      text-decoration: none;
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--amber); color: #000; font-size: 15px; font-weight: 800;
+      padding: 14px 26px; border-radius: 10px; text-decoration: none;
       transition: background 0.2s;
     }
-    .btn-primary:hover { background: #d97706; }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      border: 1px solid #333;
-      color: #aaa;
-      font-size: 14px;
-      font-weight: 500;
-      padding: 11px 22px;
-      border-radius: 10px;
-      text-decoration: none;
+    .btn-primary:hover { background: var(--amber-light); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid #333; color: #ccc; font-size: 14px; font-weight: 600;
+      padding: 13px 22px; border-radius: 10px; text-decoration: none;
     }
 
-    /* TRUST BAR */
-    .trust-bar {
-      background: #141414;
-      border-bottom: 1px solid #1f1f1f;
-      padding: 16px 20px;
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
+    /* HERO RIGHT — stats */
+    .hero-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
     }
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      color: #888;
+    .stat-card {
+      background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 20px 18px;
     }
-    .trust-item span:first-child {
-      color: #f59e0b;
+    .stat-num { font-size: 30px; font-weight: 900; color: var(--amber); line-height: 1; }
+    .stat-label { font-size: 12px; color: #777; margin-top: 4px; }
+    .stat-card.accent {
+      background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.2);
+      grid-column: span 2;
+      display: flex; align-items: center; gap: 16px;
     }
+    .stat-card.accent .stat-icon { font-size: 32px; }
+    .stat-card.accent .stat-text .stat-num { font-size: 22px; }
 
-    /* SERVICES */
-    .section {
-      padding: 50px 20px;
-      max-width: 700px;
-      margin: 0 auto;
+    /* ─── SERVICES ─── */
+    .services { background: var(--dark2); padding: 70px 24px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 8px;
     }
-    .section-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 6px;
+    .section-title { font-size: clamp(22px, 3vw, 32px); font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .section-sub { font-size: 15px; color: #666; margin-bottom: 40px; }
+    .svc-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;
     }
-    .section-sub {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 28px;
+    .svc-card {
+      background: var(--dark3); border: 1px solid #222; border-radius: 12px;
+      padding: 24px; display: flex; gap: 16px; align-items: flex-start;
     }
-    .services-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    .svc-icon-box {
+      width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;
+      background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2);
+      display: flex; align-items: center; justify-content: center; font-size: 20px;
     }
-    .svc-item {
-      background: #141414;
-      border: 1px solid #1f1f1f;
-      border-radius: 10px;
-      padding: 16px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-    .svc-icon {
-      font-size: 22px;
-      width: 40px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .svc-name {
-      font-size: 15px;
-      font-weight: 600;
-      color: #e5e5e5;
-    }
-    .svc-desc {
-      font-size: 12px;
-      color: #666;
-      margin-top: 2px;
-    }
+    .svc-name { font-size: 14px; font-weight: 700; color: #e5e5e5; margin-bottom: 4px; }
+    .svc-desc { font-size: 13px; color: #666; line-height: 1.5; }
 
-    /* HORARIO */
-    .horario-box {
-      background: #141414;
-      border: 1px solid #1f1f1f;
-      border-radius: 12px;
-      padding: 24px;
-      margin: 0 auto;
-      max-width: 700px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    /* ─── HORARIO + ZONA ─── */
+    .info-strip { background: var(--dark); padding: 50px 24px; }
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .info-card {
+      background: var(--dark3); border: 1px solid #1f1f1f; border-radius: 14px; padding: 28px;
     }
-    .horario-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 14px;
+    .info-card-title {
+      font-size: 13px; font-weight: 700; color: var(--amber);
+      text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px;
     }
-    .horario-dia { color: #999; }
-    .horario-hora { color: #e5e5e5; font-weight: 500; }
-    .horario-hora.open { color: #4ade80; }
-    .divider { border: none; border-top: 1px solid #1f1f1f; }
+    .hor-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #1f1f1f; font-size: 14px; }
+    .hor-row:last-child { border-bottom: none; }
+    .hor-dia { color: #888; }
+    .hor-hora { color: #e5e5e5; font-weight: 500; }
+    .hor-hora.open { color: #4ade80; }
+    .zona-list { list-style: none; }
+    .zona-list li { padding: 8px 0; border-bottom: 1px solid #1f1f1f; font-size: 14px; color: #ccc; display: flex; align-items: center; gap: 8px; }
+    .zona-list li:last-child { border-bottom: none; }
+    .zona-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--amber); flex-shrink: 0; }
 
-    /* CTA FINAL */
+    /* ─── CTA FINAL ─── */
     .cta-final {
-      background: linear-gradient(135deg, #1a1400 0%, #111 100%);
-      border-top: 1px solid #2a2200;
-      padding: 50px 20px;
-      text-align: center;
+      background: linear-gradient(135deg, #111 0%, #0a0a0a 100%);
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 24px; text-align: center;
     }
-    .cta-final h2 {
-      font-size: 24px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 8px;
+    .cta-final h2 { font-size: clamp(22px, 3.5vw, 36px); font-weight: 900; color: #fff; margin-bottom: 8px; }
+    .cta-final p { font-size: 15px; color: #666; margin-bottom: 32px; }
+    .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .tel-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: var(--amber); color: #000; font-size: 20px; font-weight: 900;
+      padding: 16px 32px; border-radius: 12px; text-decoration: none;
     }
-    .cta-final p {
-      font-size: 14px;
-      color: #777;
-      margin-bottom: 24px;
+    .tel-btn:hover { background: var(--amber-light); }
+    .wa-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: #25d366; color: #fff; font-size: 15px; font-weight: 700;
+      padding: 16px 26px; border-radius: 12px; text-decoration: none;
     }
-    .tel-big {
-      display: block;
-      font-size: clamp(28px, 6vw, 40px);
-      font-weight: 900;
-      color: #f59e0b;
-      text-decoration: none;
-      margin-bottom: 20px;
-      letter-spacing: -0.5px;
-    }
-    .tel-big:hover { color: #fbbf24; }
 
-    /* FOOTER */
+    /* ─── FOOTER ─── */
     footer {
-      background: #0a0a0a;
-      border-top: 1px solid #111;
-      padding: 16px 20px;
-      text-align: center;
-      font-size: 12px;
-      color: #444;
+      background: #050505; border-top: 1px solid #111;
+      padding: 18px 24px; display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 8px;
     }
-    footer a { color: #555; text-decoration: none; }
+    footer p { font-size: 12px; color: #333; }
+    footer a { color: #444; text-decoration: none; }
 
-    @media (min-width: 500px) {
-      .cta-group { flex-direction: row; justify-content: center; }
+    /* ─── WhatsApp flotante ─── */
+    .wa-float {
+      position: fixed; bottom: 20px; right: 20px; z-index: 999;
+      background: #25d366; color: #fff; width: 54px; height: 54px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; font-size: 26px;
+      text-decoration: none; box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    }
+
+    @media (max-width: 700px) {
+      .hero-content { grid-template-columns: 1fr; gap: 32px; }
+      .hero-stats { display: none; }
+      .info-grid { grid-template-columns: 1fr; }
+      footer { justify-content: center; text-align: center; }
     }
   </style>
 </head>
@@ -267,115 +207,162 @@
 
   <!-- HEADER -->
   <header>
-    <div class="logo">
+    <a href="#" class="logo">
       <div class="logo-icon">⚡</div>
-      <div class="logo-text">Electro<span>Rapid</span></div>
+      <div class="logo-name">Electro<span>Rapid</span></div>
+    </a>
+    <div class="header-cta">
+      <a href="tel:+34612345678" class="header-tel">📞 612 345 678</a>
+      <a href="https://wa.me/34612345678" class="btn-wa-sm" target="_blank">
+        💬 WhatsApp
+      </a>
     </div>
-    <a href="tel:+34612345678" class="header-tel">📞 612 345 678</a>
   </header>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="urgencia-badge">⚡ Disponibles 24 horas</div>
-    <h1>Electricistas en Málaga<br /><span>rápidos y de confianza</span></h1>
-    <p>Avería eléctrica, instalación nueva o urgencia nocturna. Llegamos en menos de 2 horas. Presupuesto gratuito sin compromiso.</p>
-    <div class="cta-group">
-      <a href="https://wa.me/34612345678?text=Hola%2C%20necesito%20un%20electricista%20en%20Málaga" class="btn-primary">
-        💬 WhatsApp urgente
-      </a>
-      <a href="tel:+34612345678" class="btn-secondary">
-        📞 612 345 678
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">⚡ Electricistas en Málaga · 24h</div>
+        <h1>Averías eléctricas<br>resueltas <em>hoy mismo</em></h1>
+        <p>Instalaciones, urgencias y reparaciones en Málaga capital y Costa del Sol. Presupuesto gratuito sin compromiso.</p>
+        <div class="hero-btns">
+          <a href="https://wa.me/34612345678?text=Hola%2C%20necesito%20un%20electricista" class="btn-primary" target="_blank">
+            💬 Pedir presupuesto
+          </a>
+          <a href="tel:+34612345678" class="btn-ghost">
+            📞 612 345 678
+          </a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-num">+500</div>
+          <div class="stat-label">Clientes en Málaga</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2h</div>
+          <div class="stat-label">Tiempo de respuesta</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Garantía en mano de obra</div>
+        </div>
+        <div class="stat-card accent">
+          <div class="stat-icon">🏆</div>
+          <div class="stat-text">
+            <div class="stat-num">Certificados oficiales</div>
+            <div class="stat-label">Boletines eléctricos homologados</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section class="services">
+    <div class="container">
+      <div class="section-label">Lo que hacemos</div>
+      <div class="section-title">Servicios de electricidad</div>
+      <div class="section-sub">Trabajo limpio, materiales de calidad y garantía escrita en cada instalación.</div>
+      <div class="svc-grid">
+        <div class="svc-card">
+          <div class="svc-icon-box">⚡</div>
+          <div>
+            <div class="svc-name">Averías urgentes</div>
+            <div class="svc-desc">Sin luz, cortocircuitos o cortes de corriente — llegamos el mismo día.</div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon-box">🔌</div>
+          <div>
+            <div class="svc-name">Enchufes y puntos de luz</div>
+            <div class="svc-desc">Nuevas tomas, interruptores, ampliación de circuitos y cuadros.</div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon-box">🏠</div>
+          <div>
+            <div class="svc-name">Instalaciones completas</div>
+            <div class="svc-desc">Obra nueva, reformas de vivienda, locales y comunidades de vecinos.</div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon-box">📋</div>
+          <div>
+            <div class="svc-name">Boletín eléctrico</div>
+            <div class="svc-desc">Certificados oficiales para contratar suministro o legalizar instalaciones.</div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon-box">☀️</div>
+          <div>
+            <div class="svc-name">Placas solares</div>
+            <div class="svc-desc">Instalación de autoconsumo y gestión de ayudas y subvenciones.</div>
+          </div>
+        </div>
+        <div class="svc-card">
+          <div class="svc-icon-box">💡</div>
+          <div>
+            <div class="svc-name">Iluminación y domótica</div>
+            <div class="svc-desc">LED, enchufes inteligentes, sistemas de control por app.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HORARIO + ZONA -->
+  <section class="info-strip">
+    <div class="container">
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-card-title">🕐 Horario</div>
+          <div class="hor-row"><span class="hor-dia">Lunes – Viernes</span><span class="hor-hora open">8:00 – 20:00</span></div>
+          <div class="hor-row"><span class="hor-dia">Sábado</span><span class="hor-hora open">9:00 – 14:00</span></div>
+          <div class="hor-row"><span class="hor-dia">Urgencias 24h</span><span class="hor-hora" style="color:var(--amber);">Con recargo · Siempre disponibles</span></div>
+          <div class="hor-row"><span class="hor-dia">Presupuesto</span><span class="hor-hora" style="color:#4ade80;">Gratuito · Sin compromiso</span></div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-title">📍 Zonas de trabajo</div>
+          <ul class="zona-list">
+            <li><span class="zona-dot"></span>Málaga capital y centro histórico</li>
+            <li><span class="zona-dot"></span>Teatinos, Campanillas, Churriana</li>
+            <li><span class="zona-dot"></span>Marbella, Torremolinos, Benalmádena</li>
+            <li><span class="zona-dot"></span>Fuengirola, Nerja, Vélez-Málaga</li>
+            <li><span class="zona-dot"></span>Costa del Sol — bajo consulta</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2>¿Tenés una avería ahora?</h2>
+    <p>Llamanos o escribinos — respondemos en minutos, llegamos en horas.</p>
+    <div class="cta-btns">
+      <a href="tel:+34612345678" class="tel-btn">📞 612 345 678</a>
+      <a href="https://wa.me/34612345678?text=Hola%2C%20necesito%20un%20electricista%20en%20M%C3%A1laga" class="wa-btn" target="_blank">
+        💬 Escribir por WhatsApp
       </a>
     </div>
   </section>
 
-  <!-- TRUST BAR -->
-  <div class="trust-bar">
-    <div class="trust-item"><span>✅</span> +500 clientes en Málaga</div>
-    <div class="trust-item"><span>⏱️</span> En 2 horas</div>
-    <div class="trust-item"><span>🔧</span> Garantía 2 años</div>
-    <div class="trust-item"><span>💳</span> Se acepta Bizum</div>
-  </div>
-
-  <!-- SERVICIOS -->
-  <div class="section">
-    <div class="section-title">¿Qué hacemos?</div>
-    <div class="section-sub">Todos los trabajos con materiales de calidad y garantía</div>
-    <div class="services-list">
-      <div class="svc-item">
-        <div class="svc-icon">⚡</div>
-        <div>
-          <div class="svc-name">Averías eléctricas urgentes</div>
-          <div class="svc-desc">Sin luz, cortes de corriente, cortocircuitos — intervenimos el mismo día</div>
-        </div>
-      </div>
-      <div class="svc-item">
-        <div class="svc-icon">🔌</div>
-        <div>
-          <div class="svc-name">Instalación de enchufes y puntos de luz</div>
-          <div class="svc-desc">Nuevas tomas, cambio de interruptores, ampliación de circuitos</div>
-        </div>
-      </div>
-      <div class="svc-item">
-        <div class="svc-icon">🏠</div>
-        <div>
-          <div class="svc-name">Instalación completa en viviendas</div>
-          <div class="svc-desc">Obra nueva, reformas, locales comerciales y comunidades</div>
-        </div>
-      </div>
-      <div class="svc-item">
-        <div class="svc-icon">📋</div>
-        <div>
-          <div class="svc-name">Certificados eléctricos</div>
-          <div class="svc-desc">Boletines eléctricos para contratar la luz o legalizar instalaciones</div>
-        </div>
-      </div>
-      <div class="svc-item">
-        <div class="svc-icon">☀️</div>
-        <div>
-          <div class="svc-name">Placas solares y domótica</div>
-          <div class="svc-desc">Instalación de autoconsumo, enchufes inteligentes y sistemas de iluminación</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- HORARIO -->
-  <div style="padding: 0 20px 50px; max-width: 700px; margin: 0 auto;">
-    <div class="section-title" style="margin-bottom:16px;">Horario</div>
-    <div class="horario-box">
-      <div class="horario-row">
-        <span class="horario-dia">Lunes – Viernes</span>
-        <span class="horario-hora open">8:00 – 20:00</span>
-      </div>
-      <hr class="divider" />
-      <div class="horario-row">
-        <span class="horario-dia">Sábado</span>
-        <span class="horario-hora open">9:00 – 14:00</span>
-      </div>
-      <hr class="divider" />
-      <div class="horario-row">
-        <span class="horario-dia">Urgencias (resto del tiempo)</span>
-        <span class="horario-hora" style="color:#f59e0b;">📞 Con recargo de urgencia</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA FINAL -->
-  <div class="cta-final">
-    <h2>¿Tenés una avería ahora?</h2>
-    <p>Llamanos o escribinos por WhatsApp — respondemos en minutos.</p>
-    <a href="tel:+34612345678" class="tel-big">612 345 678</a>
-    <a href="https://wa.me/34612345678?text=Hola%2C%20necesito%20un%20electricista%20en%20Málaga" class="btn-primary" style="margin:0 auto;">
-      💬 Escribir por WhatsApp
-    </a>
-  </div>
-
   <!-- FOOTER -->
   <footer>
     <p>ElectroRapid Málaga · Electricistas desde 2015 · <a href="tel:+34612345678">612 345 678</a></p>
-    <p style="margin-top:6px; color:#333;">Web realizada por <a href="https://impulsdigital.es">Impuls Digital</a> — agencia digital en Málaga</p>
+    <p>Web por <a href="https://impulsdigital.es" target="_blank">Impuls Digital</a></p>
   </footer>
+
+  <!-- WhatsApp flotante -->
+  <a href="https://wa.me/34612345678" class="wa-float" target="_blank">💬</a>
 
 </body>
 </html>
