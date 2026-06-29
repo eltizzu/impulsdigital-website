@@ -286,32 +286,32 @@
   <div class="service-selector">
     <div class="selector-label">Elegí el servicio</div>
     <div class="service-pills">
+      <div class="service-pill" onclick="selectService('web-express')" style="border-color:rgba(250,204,21,0.35);background:rgba(250,204,21,0.05);">
+        <div class="pill-icon">⚡</div>
+        <div class="pill-info">
+          <div class="pill-name" style="color:#fde68a;">Web Express</div>
+          <div class="pill-price" style="color:rgba(253,230,138,0.7);">99€ · landing en 48h</div>
+        </div>
+      </div>
       <div class="service-pill" onclick="selectService('web-esencial')">
         <div class="pill-icon">🌐</div>
         <div class="pill-info">
           <div class="pill-name">Web Esencial</div>
-          <div class="pill-price">299€ · 1 página</div>
+          <div class="pill-price">299€ · 3–4 días</div>
         </div>
       </div>
       <div class="service-pill" onclick="selectService('web-pro')">
-        <div class="pill-icon">⚡</div>
+        <div class="pill-icon">💼</div>
         <div class="pill-info">
           <div class="pill-name">Web Profesional</div>
-          <div class="pill-price">499€ · multi-página</div>
+          <div class="pill-price">499€ · 5–7 días</div>
         </div>
       </div>
-      <div class="service-pill" onclick="selectService('pack-lanzamiento')">
-        <div class="pill-icon">🚀</div>
+      <div class="service-pill" onclick="selectService('web-premium')" style="border-color:rgba(201,168,124,0.4);background:rgba(201,168,124,0.06);">
+        <div class="pill-icon">✨</div>
         <div class="pill-info">
-          <div class="pill-name">Pack Lanzamiento</div>
-          <div class="pill-price">499€ · web + identidad</div>
-        </div>
-      </div>
-      <div class="service-pill" onclick="selectService('kit-marca')">
-        <div class="pill-icon">✦</div>
-        <div class="pill-info">
-          <div class="pill-name">Kit de Marca</div>
-          <div class="pill-price">149€ · logo + paleta</div>
+          <div class="pill-name" style="color:#e8c87a;">Web Premium</div>
+          <div class="pill-price" style="color:rgba(232,200,122,0.7);">799€ · 10 días</div>
         </div>
       </div>
       <div class="service-pill" onclick="selectService('dashboard')">
@@ -328,32 +328,11 @@
           <div class="pill-price">199€ · entrega 48h</div>
         </div>
       </div>
-      <div class="service-pill" onclick="selectService('diseno')">
-        <div class="pill-icon">🎨</div>
-        <div class="pill-info">
-          <div class="pill-name">Diseño con IA</div>
-          <div class="pill-price">149€ · menús y flyers</div>
-        </div>
-      </div>
       <div class="service-pill" onclick="selectService('dossier')">
         <div class="pill-icon">📁</div>
         <div class="pill-info">
           <div class="pill-name">Dossier Comercial</div>
           <div class="pill-price">99€ · PDF profesional</div>
-        </div>
-      </div>
-      <div class="service-pill" onclick="selectService('trilingue')">
-        <div class="pill-icon">🌍</div>
-        <div class="pill-info">
-          <div class="pill-name">Descripción Trilingüe</div>
-          <div class="pill-price">79€ · ES · EN · FR</div>
-        </div>
-      </div>
-      <div class="service-pill" onclick="selectService('google-maps')">
-        <div class="pill-icon">📍</div>
-        <div class="pill-info">
-          <div class="pill-name">Google Maps</div>
-          <div class="pill-price">99€ · ficha optimizada</div>
         </div>
       </div>
     </div>
@@ -1087,16 +1066,13 @@
     }
 
     const servicioNombres = {
+      'web-express': '⚡ Web Express (99€)',
       'web-esencial': '🌐 Web Esencial (299€)',
-      'web-pro': '⚡ Web Profesional (499€)',
-      'pack-lanzamiento': '🚀 Pack Lanzamiento (499€)',
-      'kit-marca': '✦ Kit de Marca (149€)',
+      'web-pro': '💼 Web Profesional (499€)',
+      'web-premium': '✨ Web Premium (799€)',
       'dashboard': '📊 Dashboard con IA (390€)',
       'analisis': '🔍 Análisis de Mercado (199€)',
-      'diseno': '🎨 Diseño con IA (149€)',
-      'dossier': '📁 Dossier Comercial (99€)',
-      'trilingue': '🌍 Descripción Trilingüe (79€)',
-      'google-maps': '📍 Google Maps (99€)'
+      'dossier': '📁 Dossier Comercial (99€)'
     };
 
     const titulo = servicioNombres[servicio] || servicio;
