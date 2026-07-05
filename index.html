@@ -2404,4 +2404,33 @@
     })
     .then(function(r){ return r.ok ? r : Promise.reject(r); })
     .then(function(){
-      f
+      form.reset();
+      showMsg('¡Recibido! Te escribo en menos de 24h con una propuesta concreta.', true);
+      if (typeof fbq === 'function') fbq('track', 'Lead');
+      if (typeof gtag === 'function') gtag('event', 'form_automatiza_enviado');
+    })
+    .catch(function(){
+      showMsg('Ups, algo falló. Escribime directo por WhatsApp: +34 692 388 908', false);
+    })
+    .finally(function(){
+      btn.disabled = false;
+      btn.textContent = 'Enviar mi caso →';
+    });
+  });
+})();
+</script>
+
+<!-- Tracking de clicks a WhatsApp: Meta Pixel (Contact) + GA4 (whatsapp_click) -->
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var link = e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
+    if (!link) return;
+    if (typeof fbq === 'function') fbq('track', 'Contact');
+    if (typeof gtag === 'function') gtag('event', 'whatsapp_click', { link_url: link.href });
+  });
+})();
+</script>
+
+</body>
+</html>
