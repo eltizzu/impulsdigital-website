@@ -348,6 +348,7 @@
         <div class="check">✅</div>
         <h3>¡Solicitud enviada!</h3>
         <p>Abrimos WhatsApp para completar tu solicitud.<br>Te enviamos el análisis en menos de <strong>48 horas</strong>.</p>
+        <a id="wa-btn" href="#" target="_blank" style="display:inline-block;margin-top:20px;padding:14px 28px;background:#25D366;color:white;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px;">📲 Abrir WhatsApp</a>
       </div>
     </div>
   </div>
@@ -387,9 +388,9 @@
   </div>
 
   <div class="servicios">
-    <div class="promo-badge">🔥 Oferta solo este mes</div>
+    <div class="promo-badge">🔥 Oferta limitada</div>
     <h3>Si querés dar el siguiente paso</h3>
-    <p class="desc">Para quienes piden el análisis y deciden avanzar, estos son los precios especiales de junio:</p>
+    <p class="desc">Para quienes piden el análisis y deciden avanzar, estos son los precios especiales:</p>
 
     <div class="servicio-card">
       <div class="servicio-info">
@@ -442,27 +443,37 @@
       const negocio = document.getElementById('negocio').value.trim();
       const whatsapp = document.getElementById('whatsapp').value.trim();
 
+      // Detectar fuente (UTM o referrer)
+      const params = new URLSearchParams(window.location.search);
+      const fuente = params.get('utm_source') || params.get('utm_medium') || 'organico';
+
       // 🤖 Guardar lead en n8n → Google Sheets
       fetch('https://impulsdigital2.app.n8n.cloud/webhook/lead-contacto', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre: nombre, telefono: whatsapp, negocio: negocio, servicio: 'analisis-gratuito', fuente: 'QR tarjeta' })
+        body: JSON.stringify({ nombre, telefono: whatsapp, negocio, servicio: 'analisis-gratuito', fuente })
       }).catch(() => {});
 
       const msg = encodeURIComponent(
         `Hola Marcos! Solicito el análisis gratuito de mi negocio.\n\n` +
         `👤 Nombre: ${nombre}\n` +
         `🏪 Negocio: ${negocio}\n` +
-        `📱 WhatsApp: ${whatsapp}\n\n` +
-        ``
+        `📱 WhatsApp: ${whatsapp}\n\n`
       );
+
+      const waUrl = `https://wa.me/34692388908?text=${msg}`;
+
+      // Asignar href al botón de fallback (por si el redirect falla)
+      document.getElementById('wa-btn').href = waUrl;
 
       document.getElementById('form-content').style.display = 'none';
       document.getElementById('success-msg').style.display = 'block';
 
+      // Usar location.href en lugar de window.open — compatible con el navegador
+      // interno de Facebook/Instagram que bloquea popups
       setTimeout(() => {
-        window.open(`https://wa.me/34692388908?text=${msg}`, '_blank');
-      }, 800);
+        window.location.href = waUrl;
+      }, 1200);
     }
   </script>
 

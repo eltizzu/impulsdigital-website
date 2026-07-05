@@ -169,7 +169,10 @@ h2.sec-title{
 .s-price{
   font-family:'Playfair Display',serif;font-size:1.05rem;
   color:var(--orange);white-space:nowrap;font-weight:400;
+  flex-shrink:0;margin-left:auto;padding-left:16px;
 }
+/* scroll offset for fixed nav */
+section[id]{scroll-margin-top:80px}
 .servicios-img{
   border-radius:4px;overflow:hidden;aspect-ratio:3/4;position:relative;
 }
@@ -412,27 +415,285 @@ footer{
         <ul class="servicio-list">
           <li>
             <div class="s-left">
-              <div class="s-ico">✂</div>
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>
               <div><div class="s-name">Corte clásico</div><div class="s-desc">Máquina y tijera, acabado con navaja</div></div>
             </div>
             <div class="s-price">desde 18€</div>
           </li>
           <li>
             <div class="s-left">
-              <div class="s-ico">🪒</div>
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h12"/></svg></div>
               <div><div class="s-name">Arreglo de barba</div><div class="s-desc">Perfilado, hidratación y cera</div></div>
             </div>
             <div class="s-price">desde 12€</div>
           </li>
           <li>
             <div class="s-left">
-              <div class="s-ico">💈</div>
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/><path d="M3 12h4"/></svg></div>
               <div><div class="s-name">Corte + barba</div><div class="s-desc">Pack completo — el más pedido</div></div>
             </div>
             <div class="s-price">desde 25€</div>
           </li>
           <li>
             <div class="s-left">
-              <div class="s-ico">🫧</div>
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 4h14l-1 7H6L5 4z"/><path d="M6 11v6a2 2 0 004 0v-2h4v2a2 2 0 004 0v-6"/></svg></div>
               <div><div class="s-name">Afeitado a navaja</div><div class="s-desc">Ritual clásico con toalla caliente</div></div>
-          
+            </div>
+            <div class="s-price">22€</div>
+          </li>
+          <li>
+            <div class="s-left">
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/></svg></div>
+              <div><div class="s-name">Corte infantil</div><div class="s-desc">Para peques hasta 12 años</div></div>
+            </div>
+            <div class="s-price">desde 12€</div>
+          </li>
+          <li>
+            <div class="s-left">
+              <div class="s-ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 017 7c0 5-7 13-7 13S5 14 5 9a7 7 0 017-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+              <div><div class="s-name">Tratamiento capilar</div><div class="s-desc">Hidratación profunda o anticaída</div></div>
+            </div>
+            <div class="s-price">desde 15€</div>
+          </li>
+        </ul>
+      </div>
+      <div class="servicios-img">
+        <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=700&q=85" alt="Interior Barber & Co.">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="sec sec-dark" id="precios">
+  <div class="container">
+    <div class="sec-tag">Tarifas</div>
+    <h2 class="sec-title">Precios claros,<br><em style="font-style:italic;color:rgba(245,237,224,.5)">sin sorpresas</em></h2>
+    <div class="sec-rule"></div>
+    <div class="precios-layout">
+      <div class="precio-group">
+        <div class="grupo-titulo">✂ &nbsp;Cortes</div>
+        <div class="precio-row">
+          <span class="precio-name">Corte clásico</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">18€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Corte con degradado</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">20€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Corte + barba</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">25€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Corte infantil (–12)</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">12€</span>
+        </div>
+      </div>
+      <div class="precio-group">
+        <div class="grupo-titulo">🪒 &nbsp;Barba y afeitado</div>
+        <div class="precio-row">
+          <span class="precio-name">Arreglo de barba</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">12€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Afeitado a navaja</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">22€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Perfilado de barba</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">8€</span>
+        </div>
+        <div class="precio-row">
+          <span class="precio-name">Tratamiento capilar</span>
+          <span class="precio-dots"></span>
+          <span class="precio-val">desde 15€</span>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:.75rem;color:rgba(245,237,224,.3);margin-top:24px;text-align:center;letter-spacing:.06em">
+      Precios con IVA incluido · Consultar precios especiales para visitas frecuentes
+    </p>
+  </div>
+</section>
+
+<!-- GALERÍA -->
+<section class="sec sec-cream2" id="galeria">
+  <div class="container">
+    <div class="sec-tag">Nuestro trabajo</div>
+    <h2 class="sec-title">El resultado<br><em style="font-style:italic;color:var(--muted)">habla por sí solo</em></h2>
+    <div class="sec-rule"></div>
+    <div class="gallery-strip">
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=600&q=80" alt="Corte 1">
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=80" alt="Corte 2">
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1585747860715-2ba37e788b70?w=600&q=80" alt="Corte 3">
+      </div>
+      <div class="g-item">
+        <img src="https://images.unsplash.com/photo-1534297635766-a1b516f7e8dd?w=600&q=80" alt="Barba">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIO GRANDE -->
+<div class="testimonio-hero sec-cream">
+  <div class="t-stars">★★★★★</div>
+  <blockquote class="t-quote">
+    "Llevo tres años viniendo y no me planteo ir a otro sitio. Carlos sabe exactamente lo que quiero con solo explicarlo una vez. El mejor de Málaga, sin duda."
+  </blockquote>
+  <div class="t-author">— Javier M., &nbsp;<span>cliente desde 2021</span></div>
+</div>
+
+<!-- EQUIPO -->
+<section class="sec sec-cream2" id="equipo">
+  <div class="container">
+    <div class="equipo-header">
+      <div class="sec-tag">El equipo</div>
+      <h2 class="sec-title">Nuestros barberos</h2>
+      <div class="sec-rule"></div>
+      <p>Profesionales con años de experiencia y pasión por el oficio. Cada uno con su estilo, todos comprometidos con el mismo nivel de detalle.</p>
+    </div>
+    <div class="equipo-grid">
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=600&q=80" alt="Carlos">
+        </div>
+        <div class="barber-info">
+          <div class="barber-name">Carlos Ruiz</div>
+          <div class="barber-role">Fundador · Maestro barbero</div>
+          <div class="barber-exp">15 años de experiencia. Especialista en corte clásico y afeitado a navaja tradicional.</div>
+        </div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="https://images.unsplash.com/photo-1566492031773-4f4e44671857?w=600&q=80" alt="Miguel">
+        </div>
+        <div class="barber-info">
+          <div class="barber-name">Miguel Sánchez</div>
+          <div class="barber-role">Barbero · Especialista en fade</div>
+          <div class="barber-exp">8 años perfeccionando degradados y estilos modernos. El favorito de los más jóvenes.</div>
+        </div>
+      </div>
+      <div class="barber-card">
+        <div class="barber-photo">
+          <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80" alt="Alejandro">
+        </div>
+        <div class="barber-info">
+          <div class="barber-name">Alejandro Torres</div>
+          <div class="barber-role">Barbero · Diseño de barba</div>
+          <div class="barber-exp">6 años de oficio. Especializado en esculpido y diseño de barba con técnica artesanal.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UBICACIÓN -->
+<section class="sec sec-cream" id="ubicacion" style="padding:88px 56px">
+  <div class="container">
+    <div class="sec-tag">Dónde estamos</div>
+    <h2 class="sec-title">Ven a vernos</h2>
+    <div class="sec-rule"></div>
+    <div class="ubicacion-layout">
+      <div class="ubicacion-info">
+        <div class="sec-tag">Barber &amp; Co. Málaga</div>
+        <h3>El Soho,<br>Málaga</h3>
+        <div class="ubi-item">
+          <div class="ubi-ico">📍</div>
+          <div>
+            <div class="ubi-label">Dirección</div>
+            <div class="ubi-value">Calle Alcazabilla 12, Bajo<br>El Soho, Málaga 29015</div>
+          </div>
+        </div>
+        <div class="ubi-item">
+          <div class="ubi-ico">📞</div>
+          <div>
+            <div class="ubi-label">Teléfono</div>
+            <div class="ubi-value"><a href="tel:+34600000000" style="color:inherit">600 000 000</a></div>
+          </div>
+        </div>
+        <div class="ubi-item">
+          <div class="ubi-ico">🕐</div>
+          <div>
+            <div class="ubi-label">Horario</div>
+            <div class="ubi-value">
+              <table class="horario-table">
+                <tr><td>Lunes – Viernes</td><td>9:00 – 20:00</td></tr>
+                <tr><td>Sábado</td><td>9:00 – 18:00</td></tr>
+                <tr><td class="cer">Domingo</td><td class="cer">Cerrado</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:28px;padding:14px 18px;background:rgba(200,80,26,.12);border-left:3px solid var(--orange);border-radius:0 3px 3px 0">
+          <div style="font-size:.72rem;color:var(--orange);letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px">Tip</div>
+          <div style="font-size:.82rem;color:rgba(245,237,224,.65);line-height:1.5">Los sábados se llenan rápido — reserva con antelación por WhatsApp.</div>
+        </div>
+      </div>
+      <div class="ubicacion-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3198.0!2d-4.4221!3d36.7213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd72f79b7e3a8d23%3A0x131b48a4e18be2be!2sEl%20Soho%2C%20M%C3%A1laga!5e0!3m2!1ses!2ses!4v1640000000000!5m2!1ses!2ses"
+          width="600" height="500"
+          style="border:0;width:100%;height:100%;min-height:380px"
+          allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <h2>¿Listo para tu próximo corte?</h2>
+  <p>Reserva en 30 segundos por WhatsApp. Sin esperas, sin complicaciones.</p>
+  <div class="cta-btns">
+    <a href="https://wa.me/34600000000?text=Hola%2C%20quiero%20reservar%20una%20cita" class="cta-wa">
+      💬 &nbsp;Reservar por WhatsApp
+    </a>
+    <a href="tel:+34600000000" class="cta-tel">
+      📞 &nbsp;Llamar
+    </a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Barber &amp; Co. · Málaga</div>
+  <div class="footer-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#precios">Precios</a>
+    <a href="#equipo">Equipo</a>
+    <a href="#ubicacion">Ubicación</a>
+  </div>
+  <div class="footer-badge">Web por <a href="https://impulsdigital.es" target="_blank">Impuls Digital</a></div>
+</footer>
+
+<script>
+/* Nav smooth scroll con offset del header fijo */
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const target = document.querySelector(id);
+    if (!target) return;
+    e.preventDefault();
+    const top = target.getBoundingClientRect().top + window.scrollY - 76;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+});
+</script>
+</body>
+</html>
