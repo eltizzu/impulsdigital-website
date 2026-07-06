@@ -297,6 +297,20 @@
     @media (max-width: 480px) {
       .card { padding: 28px 22px; }
       .hero { padding: 50px 20px 45px; }
+
+      /* Servicios — mobile fix */
+      .servicio-card {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .servicio-info { flex: 1 1 100%; }
+      .servicio-precio {
+        text-align: left;
+        flex-shrink: 1;
+      }
+      .precio-ahora { font-size: 18px; }
+      .precio-nota { display: inline; font-size: 11px; }
     }
   </style>
 </head>
@@ -435,7 +449,7 @@
 
     <div class="servicio-card">
       <div class="servicio-info">
-        <strong>🛒 Tienda + Carrito WhatsApp</strong>
+        <strong>🛒 Tienda + Carrito WA</strong>
         <span>Catálogo de productos con checkout por WhatsApp. Sin Shopify, sin comisiones.</span>
       </div>
       <div class="servicio-precio">
