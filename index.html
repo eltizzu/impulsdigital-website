@@ -1738,6 +1738,45 @@
   </div>
 </section>
 
+<section class="section" id="marcos" style="background:rgba(255,255,255,0.015);">
+  <div class="container about-grid">
+    <div class="about-photo-wrap">
+      <div class="about-glow"></div>
+      <img src="images/marcos.jpg" alt="Marcos Coetsee — Impuls Digital" class="about-photo">
+    </div>
+    <div class="about-text">
+      <div class="badge">Quién está detrás</div>
+      <h2>Hola, soy Marcos.</h2>
+      <p>Arranqué Impuls Digital porque vi que los negocios de Málaga necesitaban presencia digital real — y nadie se la ofrecía sin tecnicismos, sin letra chica y a un precio que tuviera sentido.</p>
+      <p>Hago webs, apps propias para sectores concretos y servicios con IA: análisis de mercado, dashboards, diseño, dossiers, scripts. Todo yo, directo — sin intermediarios.</p>
+      <div class="about-points">
+        <div class="about-point">
+          <div class="about-num">01</div>
+          <div class="about-point-text">
+            <strong>Hablo de negocios, no de código</strong>
+            <span>No necesitás entender de tecnología. Traduzco lo que tu negocio necesita en soluciones concretas.</span>
+          </div>
+        </div>
+        <div class="about-point">
+          <div class="about-num">02</div>
+          <div class="about-point-text">
+            <strong>Todo pensado para generar resultados</strong>
+            <span>Cada web, análisis o diseño está pensado para que genere algo real: más reservas, más consultas.</span>
+          </div>
+        </div>
+        <div class="about-point">
+          <div class="about-num">03</div>
+          <div class="about-point-text">
+            <strong>IA aplicada a negocios reales</strong>
+            <span>Entrego en días lo que antes tardaba semanas — a un precio que ninguna agencia puede ofrecer.</span>
+          </div>
+        </div>
+      </div>
+      <p class="about-firma">— Marcos Coetsee, fundador de Impuls Digital</p>
+    </div>
+  </div>
+</section>
+
 <hr class="divider">
 
 <!-- ═══ STATS STRIP ═══ -->
@@ -2450,63 +2489,4 @@
   form.addEventListener('submit', function(e){
     e.preventDefault();
     var nombre = document.getElementById('fa-nombre').value.trim();
-    var email  = document.getElementById('fa-email').value.trim();
-    var tarea  = document.getElementById('fa-tarea').value.trim();
-    if (!nombre || !email || !tarea) { showMsg('Completá todos los campos.', false); return; }
-
-    btn.disabled = true;
-    btn.textContent = 'Enviando…';
-
-    fetch(WEBHOOK, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ nombre: nombre, email: email, tarea: tarea, origen: 'impulsdigital.es/#automatiza' })
-    })
-    .then(function(r){ return r.ok ? r : Promise.reject(r); })
-    .then(function(){
-      form.reset();
-      showMsg('¡Recibido! Te escribo en menos de 24h con una propuesta concreta.', true);
-      if (typeof fbq === 'function') fbq('track', 'Lead');
-      if (typeof gtag === 'function') gtag('event', 'form_automatiza_enviado');
-    })
-    .catch(function(){
-      showMsg('Ups, algo falló. Escribime directo por WhatsApp: +34 692 388 908', false);
-    })
-    .finally(function(){
-      btn.disabled = false;
-      btn.textContent = 'Enviar mi caso →';
-    });
-  });
-})();
-</script>
-
-<!-- Tracking de clicks a WhatsApp: Meta Pixel (Contact) + GA4 (whatsapp_click) -->
-<script>
-(function(){
-  document.addEventListener('click', function(e){
-    var link = e.target.closest ? e.target.closest('a[href*="wa.me"]') : null;
-    if (!link) return;
-    if (typeof fbq === 'function') fbq('track', 'Contact');
-    if (typeof gtag === 'function') gtag('event', 'whatsapp_click', { link_url: link.href });
-  });
-})();
-</script>
-
-<footer>
-  <div class="container">
-    <div class="footer-inner">
-      <div class="footer-logo">Impuls<span>Digital</span></div>
-      <nav class="footer-links">
-        <a href="#webs">Webs</a>
-        <a href="#servicios-ia">Servicios IA</a>
-        <a href="#apps">Apps</a>
-        <a href="#automatizaciones">Automatizaciones</a>
-        <a href="contacto.html">Contacto</a>
-      </nav>
-      <p class="footer-copy">© 2026 Impuls Digital · Marcos Coetsee · Málaga</p>
-    </div>
-  </div>
-</footer>
-
-</body>
-</html>
+    var email 
