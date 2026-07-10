@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StockFlow — Control de stock en tiempo real · Impuls Digital</title>
+  <meta name="description" content="StockFlow: gestioná el inventario desde el móvil. Stock en tiempo real, alertas automáticas y API para conectar tu web. Para tiendas con variantes. Desde 99€.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #09090f;
+      --bg2: #0e0e1a;
+      --card: rgba(255,255,255,0.04);
+      --card-border: rgba(255,255,255,0.08);
+      --card-hover: rgba(255,255,255,0.07);
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --muted2: #64748b;
+      --purple: #7c3aed;
+      --purple-light: #a78bfa;
+      --cyan: #06b6d4;
+      --cyan-light: #22d3ee;
+      --green: #10b981;
+      --red: #ef4444;
+      --red-light: #f87171;
+      --border: rgba(255,255,255,0.07);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: .4;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { position: relative; z-index: 1; }
+
+    /* ─── HEADER ─── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(9,9,15,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+    }
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, rgba(239,68,68,0.25), rgba(239,68,68,0.1));
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .nav-beta {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: rgba(239,68,68,0.15);
+      color: var(--red-light);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 99px;
+      padding: 2px 8px;
+    }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--text); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #7c3aed, #4f46e5);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(124,58,237,0.35);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(124,58,237,0.55); }
+    .btn-red {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: #fff;
+      box-shadow: 0 0 24px rgba(220,38,38,0.3);
+    }
+    .btn-red:hover { transform: translateY(-1px); box-shadow: 0 0 36px rgba(220,38,38,0.5); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--card-border);
+      font-size: 0.85rem;
+      padding: 9px 18px;
+    }
+    .btn-ghost:hover { color: var(--text); background: var(--card); }
+    .btn-wa {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: #fff;
+      box-shadow: 0 0 20px rgba(37,211,102,0.25);
+    }
+    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 0 32px rgba(37,211,102,0.4); }
+    .btn-lg { padding: 15px 32px; font-size: 1rem; }
+
+    /* ─── BADGE ─── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .badge-red {
+      border: 1px solid rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.1);
+      color: #fca5a5;
+    }
+    .badge-purple {
+      border: 1px solid rgba(124,58,237,0.35);
+      background: rgba(124,58,237,0.12);
+      color: #c4b5fd;
+    }
+    .badge-green {
+      border: 1px solid rgba(16,185,129,0.35);
+      background: rgba(16,185,129,0.1);
+      color: #6ee7b7;
+    }
+
+    /* ─── GRAD TEXT ─── */
+    .grad-red {
+      background: linear-gradient(135deg, #f87171 0%, #fbbf24 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .grad-text {
+      background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(239,68,68,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      margin-bottom: 20px;
+    }
+    .hero p.lead {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .hero-proof {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .proof-item {
+      font-size: 0.8rem;
+      color: var(--muted2);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .proof-item span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      flex-shrink: 0;
+    }
+
+    /* ─── APP PREVIEW MOCKUP ─── */
+    .mockup-wrap {
+      max-width: 900px;
+      margin: 0 auto 100px;
+      position: relative;
+    }
+    .mockup-frame {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(239,68,68,0.1);
+    }
+    .mockup-topbar {
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot-red { width: 12px; height: 12px; border-radius: 50%; background: #ef4444; }
+    .dot-yellow { width: 12px; height: 12px; border-radius: 50%; background: #f59e0b; }
+    .dot-green { width: 12px; height: 12px; border-radius: 50%; background: #10b981; }
+    .mockup-url {
+      margin-left: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 4px 14px;
+      font-size: 0.75rem;
+      color: var(--muted2);
+      flex: 1;
+      max-width: 300px;
+    }
+    .mockup-body {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 400px;
+    }
+    .mock-sidebar {
+      background: rgba(0,0,0,0.3);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 16px;
+    }
+    .mock-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .mock-logo-icon {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .mock-logo-text { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .mock-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .mock-nav-item.active {
+      background: rgba(239,68,68,0.12);
+      color: #fca5a5;
+      border: 1px solid rgba(239,68,68,0.2);
+    }
+    .mock-main { padding: 24px; }
+    .mock-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .mock-title { font-size: 1.1rem; font-weight: 700; }
+    .mock-btn {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+    }
+    .mock-kpis {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .mock-kpi {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .mock-kpi-label { font-size: 0.65rem; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+    .mock-kpi-val { font-size: 1.3rem; font-weight: 800; color: var(--text); }
+    .mock-kpi-sub { font-size: 0.65rem; color: var(--green); margin-top: 2px; }
+    .mock-table { width: 100%; border-collapse: collapse; }
+    .mock-table th { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted2); padding: 6px 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mock-table td { font-size: 0.78rem; padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--muted); }
+    .mock-table td:first-child { color: var(--text); font-weight: 500; }
+    .mock-badge-ok { display: inline-block; background: rgba(16,185,129,0.12); color: #6ee7b7; font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(16,185,129,0.2); }
+    .mock-badge-low { display: inline-block; background: rgba(239,68,68,0.12); color: #fca5a5; font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(239,68,68,0.2); }
+    .mock-badge-warn { display: inline-block; background: rgba(245,158,11,0.12); color: #fcd34d; font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(245,158,11,0.2); }
+
+    /* ─── FEATURES ─── */
+    .section { padding: 80px 0; }
+    .section-header { text-align: center; margin-bottom: 56px; }
+    .section-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 14px; }
+    .section-header p { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin: 0 auto; }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 28px;
+      transition: all 0.2s;
+    }
+    .feature-card:hover {
+      background: var(--card-hover);
+      border-color: rgba(239,68,68,0.2);
+      transform: translateY(-2px);
+    }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+    .feature-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; color: var(--text); }
+    .feature-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── PARA QUIÉN ─── */
+    .audience-section { padding: 80px 0; background: rgba(255,255,255,0.015); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .audience-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+    .audience-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .audience-icon { font-size: 1.8rem; }
+    .audience-card h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); }
+    .audience-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── API SECTION ─── */
+    .api-section { padding: 80px 0; }
+    .api-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .api-text h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 16px; line-height: 1.15; }
+    .api-text p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; line-height: 1.7; }
+    .api-points { list-style: none; margin: 20px 0; display: flex; flex-direction: column; gap: 10px; }
+    .api-points li { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: var(--muted); }
+    .api-points li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+    .api-code-block {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+    .code-topbar {
+      background: rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .code-dots { display: flex; gap: 6px; }
+    .code-dots span { width: 10px; height: 10px; border-radius: 50%; }
+    .code-lang { font-size: 0.7rem; color: var(--muted2); letter-spacing: 0.06em; text-transform: uppercase; }
+    .code-body { padding: 20px 18px; font-size: 0.78rem; line-height: 1.8; }
+    .c-comment { color: #64748b; }
+    .c-key { color: #93c5fd; }
+    .c-val { color: #6ee7b7; }
+    .c-str { color: #fcd34d; }
+    .c-num { color: #f87171; }
+
+    /* ─── PRICING ─── */
+    .pricing-section { padding: 80px 0; }
+    .pricing-card {
+      max-width: 580px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(239,68,68,0.06);
+    }
+    .pricing-header {
+      background: linear-gradient(135deg, rgba(220,38,38,0.2), rgba(239,68,68,0.1));
+      border-bottom: 1px solid rgba(239,68,68,0.2);
+      padding: 32px 40px;
+      text-align: center;
+    }
+    .pricing-name { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fca5a5; margin-bottom: 10px; }
+    .pricing-amount { display: flex; align-items: flex-end; justify-content: center; gap: 4px; margin-bottom: 6px; }
+    .price-big { font-size: 3rem; font-weight: 900; color: var(--text); line-height: 1; }
+    .price-label { font-size: 0.85rem; color: var(--muted); margin-bottom: 6px; }
+    .pricing-sub { font-size: 0.85rem; color: var(--muted); }
+    .pricing-sub strong { color: #fca5a5; }
+    .pricing-body { padding: 32px 40px; }
+    .pricing-includes { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; }
+    .pricing-includes li { display: flex; align-items: center; gap: 12px; font-size: 0.9rem; color: var(--muted); }
+    .pricing-includes li .check { color: var(--green); font-size: 1rem; flex-shrink: 0; }
+    .pricing-includes li strong { color: var(--text); }
+    .pricing-cta { text-align: center; }
+    .pricing-cta p { font-size: 0.8rem; color: var(--muted2); margin-top: 12px; }
+
+    /* ─── PASOS ─── */
+    .steps-section { padding: 80px 0; background: rgba(255,255,255,0.015); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+    .step-item { text-align: center; position: relative; }
+    .step-item::after { content: '→'; position: absolute; right: -16px; top: 24px; color: var(--muted2); font-size: 1.2rem; }
+    .step-item:last-child::after { display: none; }
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(239,68,68,0.12);
+      border: 1px solid rgba(239,68,68,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fca5a5;
+      margin: 0 auto 14px;
+    }
+    .step-item h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+    .step-item p { font-size: 0.8rem; color: var(--muted); }
+
+    /* ─── FAQ ─── */
+    .faq-section { padding: 80px 0; }
+    .faq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .faq-item h4 { font-size: 0.9rem; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .faq-item p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── CTA FINAL ─── */
+    .cta-section {
+      padding: 100px 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(239,68,68,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-section h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .cta-section p { color: var(--muted); font-size: 1rem; margin-bottom: 36px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .cta-actions { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 24px;
+      text-align: center;
+    }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; margin: 0 auto; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 700; color: var(--muted); text-decoration: none; }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 0.8rem; color: var(--muted2); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 0.75rem; color: var(--muted2); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .api-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .step-item::after { display: none; }
+      .mockup-body { grid-template-columns: 1fr; }
+      .mock-sidebar { display: none; }
+      .mock-kpis { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 2.2rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .faq-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .pricing-body { padding: 28px 24px; }
+      .pricing-header { padding: 28px 24px; }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+      .nav-back span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-back">
+        ← <span>Impuls Digital</span>
+      </a>
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">📦</div>
+        StockFlow
+        <span class="nav-beta">BETA</span>
+      </a>
+      <div class="nav-actions">
+        <a href="#pricing" class="btn-ghost btn">Ver precios</a>
+        <a href="https://wa.me/34692388908?text=Quiero%20saber%20m%C3%A1s%20sobre%20StockFlow" target="_blank" class="btn btn-red">Solicitar acceso</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge badge-red">📦 App de gestión de stock</div>
+      <h1>Control de inventario<br><span class="grad-red">en tiempo real.</span><br>Desde el móvil.</h1>
+      <p class="lead">Sin Excel. Sin WhatsApp de emergencia. Sin errores de conteo. StockFlow te da una visión exacta del stock en todo momento, desde cualquier dispositivo.</p>
+      <div class="hero-actions">
+        <a href="https://wa.me/34692388908?text=Quiero%20saber%20m%C3%A1s%20sobre%20StockFlow" target="_blank" class="btn btn-wa btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Solicitar acceso beta
+        </a>
+        <a href="https://stockflow-marcos-projects2.vercel.app" target="_blank" class="btn btn-ghost btn-lg">Ver la app →</a>
+      </div>
+      <div class="hero-proof">
+        <div class="proof-item"><span class="dot"></span>PWA — instalable en el móvil</div>
+        <div class="proof-item"><span class="dot"></span>Multi-sucursal desde el día 1</div>
+        <div class="proof-item"><span class="dot"></span>API para conectar tu web</div>
+        <div class="proof-item"><span class="dot"></span>Sin contrato de permanencia</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MOCKUP -->
+  <div class="container">
+    <div class="mockup-wrap">
+      <div class="mockup-frame">
+        <div class="mockup-topbar">
+          <div class="code-dots">
+            <span class="dot-red"></span>
+            <span class="dot-yellow"></span>
+            <span class="dot-green"></span>
+          </div>
+          <div class="mockup-url">stockflow-marcos-projects2.vercel.app</div>
+        </div>
+        <div class="mockup-body">
+          <div class="mock-sidebar">
+            <div class="mock-logo">
+              <div class="mock-logo-icon">📦</div>
+              <div class="mock-logo-text">StockFlow</div>
+            </div>
+            <div class="mock-nav-item active">📊 &nbsp;Dashboard</div>
+            <div class="mock-nav-item">📦 &nbsp;Productos</div>
+            <div class="mock-nav-item">🔄 &nbsp;Movimientos</div>
+            <div class="mock-nav-item">🛒 &nbsp;Pedidos</div>
+            <div class="mock-nav-item">⚠️ &nbsp;Stock bajo</div>
+            <div class="mock-nav-item">🔑 &nbsp;API Keys</div>
+            <div class="mock-nav-item">⚙️ &nbsp;Configuración</div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-header-row">
+              <div class="mock-title">Dashboard</div>
+              <div class="mock-btn">+ Ajustar stock</div>
+            </div>
+            <div class="mock-kpis">
+              <div class="mock-kpi">
+                <div class="mock-kpi-label">Valor del stock</div>
+                <div class="mock-kpi-val">$48.200</div>
+                <div class="mock-kpi-sub">↑ a precio de costo</div>
+              </div>
+              <div class="mock-kpi">
+                <div class="mock-kpi-label">Ganancia potencial</div>
+                <div class="mock-kpi-val">$72.800</div>
+                <div class="mock-kpi-sub">↑ margen 51%</div>
+              </div>
+              <div class="mock-kpi">
+                <div class="mock-kpi-label">Alertas stock bajo</div>
+                <div class="mock-kpi-val" style="color:#f87171;">3</div>
+                <div class="mock-kpi-sub" style="color:#fca5a5;">↓ revisar urgente</div>
+              </div>
+            </div>
+            <table class="mock-table">
+              <thead>
+                <tr>
+                  <th>Producto / Variante</th>
+                  <th>SKU</th>
+                  <th>Stock</th>
+                  <th>Estado</th>
+                  <th>Margen</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Remera Básica · Talle M · Blanco</td><td>REM-M-BL</td><td>24</td><td><span class="mock-badge-ok">OK</span></td><td>62%</td></tr>
+                <tr><td>Remera Básica · Talle S · Negro</td><td>REM-S-NG</td><td>3</td><td><span class="mock-badge-low">BAJO</span></td><td>62%</td></tr>
+                <tr><td>Buzo con capucha · Talle L · Gris</td><td>BUZ-L-GR</td><td>11</td><td><span class="mock-badge-ok">OK</span></td><td>58%</td></tr>
+                <tr><td>Pantalón cargo · Talle M · Kaki</td><td>PAN-M-KK</td><td>7</td><td><span class="mock-badge-warn">POCA</span></td><td>71%</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge badge-purple">Funcionalidades</div>
+        <h2>Todo lo que necesitás<br>para <span class="grad-text">controlar tu inventario</span></h2>
+        <p>Construido para negocios reales, con variantes, multi-sucursal y equipos.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Stock en tiempo real</h3>
+          <p>Todos los dispositivos ven el mismo número al mismo momento. Sin F5, sin retrasos. Si en la sucursal A se vende una remera, el panel de B lo sabe al instante.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏷️</div>
+          <h3>Productos con variantes</h3>
+          <p>Talles, colores, sabores — el combo que uses. Cada variante tiene su propio SKU, código de barras, foto, costo y precio. Sin forzar el catálogo en una estructura rígida.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Dashboard financiero</h3>
+          <p>Valor del stock a costo, ganancia potencial, margen por variante y ventas de los últimos 30 días en un solo vistazo. Para saber cuánto vale tu inventario hoy.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔫</div>
+          <h3>Modo pistola de barras</h3>
+          <p>Conectás un escáner USB y cada bip suma o resta una unidad. Sin tocar el teclado. Ideal para el mostrador o para hacer inventario a fin de mes.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛒</div>
+          <h3>Pedidos externos</h3>
+          <p>Tu web o punto de venta crea un pedido PENDIENTE. Vos confirmás o rechazás desde StockFlow — el descuento del stock es atómico, nunca quedan inconsistencias.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚠️</div>
+          <h3>Alertas de mínimo</h3>
+          <p>Definís el mínimo por variante. Cuando el stock baja de ese umbral, aparece en la vista "Stock bajo" ordenada por urgencia. Sin sorpresas ni roturas de stock.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔑</div>
+          <h3>API REST con claves</h3>
+          <p>Conectá tu web, tu punto de venta o tu app con la API de StockFlow. Autenticación por claves hasheadas, revocables en cualquier momento desde configuración.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3>PWA — instalable</h3>
+          <p>StockFlow funciona como una app nativa en el móvil y en la tablet. Sin App Store, sin Play Store. Desde el navegador, instalás y lo tenés en la pantalla de inicio.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏢</div>
+          <h3>Multi-cuenta aislada</h3>
+          <p>Cada negocio tiene su propia cuenta y sus propios datos. Perfecta separación de inventarios — aunque trabajen en el mismo servidor, nadie ve los datos del otro.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUIÉN -->
+  <section class="audience-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge badge-green">Para quién es</div>
+        <h2>Cualquier negocio que<br>venda productos con variantes</h2>
+        <p>Si manejás stock y te tira dolores de cabeza, StockFlow es para vos.</p>
+      </div>
+      <div class="audience-grid">
+        <div class="audience-card">
+          <div class="audience-icon">👕</div>
+          <h4>Tiendas de ropa</h4>
+          <p>Talles, colores y temporadas. Stock por variante al instante desde el probador o el depósito.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🍺</div>
+          <h4>Cervecerías / distribuidoras</h4>
+          <p>Estilos, formatos (lata, botella, barril) y lotes. Pedidos desde la web, confirmación en 2 clics.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">💄</div>
+          <h4>Cosmética y perfumería</h4>
+          <p>Fragancias, tamaños y tonos. Con fotos de producto y alertas antes de que se rompa el stock.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🔧</div>
+          <h4>Ferreterías y repuestos</h4>
+          <p>Referencia, talla, material y marca. Con modo escaneo para inventario físico rápido.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🏪</div>
+          <h4>Multi-sucursal</h4>
+          <p>Mismo inventario o inventarios separados por local. Todo en un panel, acceso diferenciado por usuario.</p>
+        </div>
+        <div class="audience-card">
+          <div class="audience-icon">🌐</div>
+          <h4>Tiendas con web propia</h4>
+          <p>Conectás tu e-commerce a la API y el stock de la web refleja el stock real del depósito, en tiempo real.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- API -->
+  <section class="api-section">
+    <div class="container">
+      <div class="api-grid">
+        <div class="api-text">
+          <div class="badge badge-purple">API REST</div>
+          <h2>Conectá tu web al<br><span class="grad-text">stock en tiempo real</span></h2>
+          <p>StockFlow no es solo un panel de control — es el cerebro de tu inventario. Tu web, tu tienda online o tu punto de venta se conectan por API y consultan el stock en vivo.</p>
+          <p>Cuando alguien compra en tu web, la API crea un pedido en StockFlow. Vos confirmás (o rechazás) y el stock se descuenta de forma atómica. Sin doble venta. Sin inconsistencias.</p>
+          <ul class="api-points">
+            <li>Catálogo con fotos y variantes</li>
+            <li>Stock por SKU en tiempo real</li>
+            <li>Crear y confirmar pedidos</li>
+            <li>Vender y reabastecer por API</li>
+            <li>Claves API revocables desde config</li>
+          </ul>
+        </div>
+        <div class="api-code-block">
+          <div class="code-topbar">
+            <div class="code-dots">
+              <span style="background:#ef4444;"></span>
+              <span style="background:#f59e0b;"></span>
+              <span style="background:#10b981;"></span>
+            </div>
+            <span class="code-lang">REST API · stock-api</span>
+          </div>
+          <div class="code-body">
+            <div class="c-comment">// GET /catalog — productos con stock</div>
+            <br>
+            <span class="c-key">GET</span> <span class="c-val">/api/catalog</span>
+            <br>
+            <span class="c-key">Authorization:</span> <span class="c-str">Bearer sk_live_xyzabc...</span>
+            <br><br>
+            <div class="c-comment">// Respuesta:</div>
+            {<br>
+            &nbsp;&nbsp;<span class="c-key">"products"</span>: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"name"</span>: <span class="c-str">"Remera básica"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-key">"variants"</span>: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="c-key">"sku"</span>: <span class="c-str">"REM-M-BL"</span>, <span class="c-key">"stock"</span>: <span class="c-num">24</span>, <span class="c-key">"price"</span>: <span class="c-num">4500</span> },<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{ <span class="c-key">"sku"</span>: <span class="c-str">"REM-S-NG"</span>, <span class="c-key">"stock"</span>: <span class="c-num">3</span>,  <span class="c-key">"price"</span>: <span class="c-num">4500</span> }<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+            &nbsp;&nbsp;]<br>
+            }<br><br>
+            <div class="c-comment">// POST /orders — nuevo pedido desde la web</div>
+            <span class="c-key">POST</span> <span class="c-val">/api/orders</span><br>
+            { <span class="c-key">"items"</span>: [{ <span class="c-key">"sku"</span>: <span class="c-str">"REM-M-BL"</span>, <span class="c-key">"qty"</span>: <span class="c-num">2</span> }] }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-header">
+        <div class="badge badge-red">Precio</div>
+        <h2>Simple. Sin letra chica.</h2>
+        <p>Pago de setup una sola vez, y una mensualidad plana. Sin sorpresas.</p>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-header">
+          <div class="pricing-name">StockFlow · Acceso completo</div>
+          <div class="pricing-amount">
+            <span class="price-big">99€</span>
+          </div>
+          <div class="pricing-sub">setup único · después <strong>29€/mes</strong></div>
+        </div>
+        <div class="pricing-body">
+          <ul class="pricing-includes">
+            <li><span class="check">✓</span><span>Configuración inicial de tu cuenta y catálogo</span></li>
+            <li><span class="check">✓</span><span>Carga de productos, variantes y stock inicial</span></li>
+            <li><span class="check">✓</span><span>Todas las funcionalidades — sin límite de productos</span></li>
+            <li><span class="check">✓</span><span><strong>API REST</strong> para conectar tu web o tienda online</span></li>
+            <li><span class="check">✓</span><span>PWA instalable en móvil y tablet</span></li>
+            <li><span class="check">✓</span><span>Modo escaneo con pistola USB</span></li>
+            <li><span class="check">✓</span><span>Dashboard financiero con márgenes</span></li>
+            <li><span class="check">✓</span><span>Soporte directo por WhatsApp</span></li>
+            <li><span class="check">✓</span><span>Actualizaciones incluidas en la mensualidad</span></li>
+          </ul>
+          <div class="pricing-cta">
+            <a href="https://wa.me/34692388908?text=Quiero%20contratar%20StockFlow%20%2899%E2%82%AC%20setup%20%2B%2029%E2%82%AC%2Fmes%29" target="_blank" class="btn btn-red btn-lg" style="width:100%;justify-content:center;">
+              Empezar ahora — 99€ setup
+            </a>
+            <p>Sin permanencia · Cancelás cuando querés</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PASOS -->
+  <section class="steps-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Empezás en menos de 48 hs</h2>
+        <p>Del WhatsApp inicial al inventario en tiempo real.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h4>Hablamos por WhatsApp</h4>
+          <p>Me contás cómo es tu catálogo y qué variantes manejás.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h4>Configuro tu cuenta</h4>
+          <p>Creo los productos, variantes y stock inicial. Vos no tocás nada.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h4>Te mando acceso</h4>
+          <p>Usuario, contraseña y manual de uso. En 48 hs estás operativo.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <h4>Inventario bajo control</h4>
+          <p>Tu equipo empieza a mover stock en tiempo real desde el día 1.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Preguntas frecuentes</h2>
+      </div>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <h4>¿Necesito instalar algo?</h4>
+          <p>No. StockFlow funciona en el navegador y también se puede instalar como app (PWA) en el móvil sin pasar por el App Store ni el Play Store.</p>
+        </div>
+        <div class="faq-item">
+          <h4>¿Cuántos usuarios puedo agregar?</h4>
+          <p>Los que necesités. Podés tener a todo el equipo trabajando al mismo tiempo, cada uno con su acceso, y todos ven el mismo stock en tiempo real.</p>
+        </div>
+        <div class="faq-item">
+          <h4>¿Funciona con varias sucursales?</h4>
+          <p>Sí. Cada cuenta puede manejar inventarios separados por sucursal, o un inventario centralizado con acceso desde múltiples locales.</p>
+        </div>
+        <div class="faq-item">
+          <h4>¿Qué pasa si cancelo?</h4>
+          <p>Sin permanencia. Si decidís cancelar, te exportamos los datos en Excel y cerramos la cuenta sin cargos adicionales. Sin preguntas.</p>
+        </div>
+        <div class="faq-item">
+          <h4>¿Puedo conectar mi tienda online?</h4>
+          <p>Sí. La API REST de StockFlow está lista para conectar WooCommerce, tu web a medida, o cualquier plataforma que pueda hacer llamadas HTTP.</p>
+        </div>
+        <div class="faq-item">
+          <h4>¿Los datos son míos?</h4>
+          <p>100%. Tu cuenta y tus datos son completamente privados. Usamos Supabase (PostgreSQL en Europa) con cifrado y aislamiento total entre cuentas.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="badge badge-red">¿Te suma?</div>
+      <h2>Empezá a controlar<br>tu stock <span class="grad-red">hoy mismo</span></h2>
+      <p>Setup en 48 hs. Sin instalaciones raras, sin Excel, sin dolores de cabeza. Hablame y lo arrancamos.</p>
+      <div class="cta-actions">
+        <a href="https://wa.me/34692388908?text=Quiero%20saber%20m%C3%A1s%20sobre%20StockFlow%20para%20mi%20negocio" target="_blank" class="btn btn-wa btn-lg">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Hablar por WhatsApp
+        </a>
+        <a href="https://stockflow-marcos-projects2.vercel.app" target="_blank" class="btn btn-ghost btn-lg">Explorar la app →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">
+        ← Impuls Digital
+      </a>
+      <div class="footer-links">
+        <a href="index.html#apps">Otras apps</a>
+        <a href="https://wa.me/34692388908" target="_blank">WhatsApp</a>
+        <a href="index.html">impulsdigital.es</a>
+      </div>
+      <div class="footer-copy">© 2025 Impuls Digital · Marcos Coetsee · Málaga</div>
+    </div>
+  </footer>
+
+</body>
+</html>
