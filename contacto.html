@@ -41,6 +41,8 @@ h1{font-size:clamp(2rem,6vw,3rem);font-weight:800;letter-spacing:-.03em;line-hei
 /* FORM */
 .formwrap{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:32px 28px;margin:30px 0 10px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
 .form-ok{display:none;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.4);color:#6ee7b7;border-radius:14px;padding:18px 20px;margin-bottom:24px;font-weight:600;text-align:center}
+.form-err{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.4);color:#fca5a5;border-radius:14px;padding:18px 20px;margin-bottom:24px;font-weight:500;text-align:center;line-height:1.55}
+.form-err a{display:inline-block;margin-top:8px;color:#042;background:var(--green);padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none}
 .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:640px){.fgrid{grid-template-columns:1fr}}
 .field{display:flex;flex-direction:column;gap:7px}
@@ -98,7 +100,8 @@ footer a{color:var(--muted)}
  <div class="container">
   <div class="formwrap">
    <div class="form-ok" id="form-ok">✓ ¡Recibido! Gracias. Te escribo por mail en cuanto lo vea.</div>
-   <form action="https://formsubmit.co/marcos.impulsdigital@gmail.com" method="POST">
+   <div class="form-err" id="form-err">No pude enviar el formulario ahora mismo (puede ser un problema temporal). Para no perder tu consulta, escribime directo — ya te dejo tus datos cargados:<br><a class="wa-fallback" href="#" target="_blank">💬 Enviar por WhatsApp</a></div>
+   <form id="cform" action="https://formsubmit.co/marcos.impulsdigital@gmail.com" method="POST">
     <input type="hidden" name="_subject" value="📩 Nueva consulta desde impulsdigital.es">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_captcha" value="false">
@@ -191,7 +194,50 @@ footer a{color:var(--muted)}
 </footer>
 
 <script>
-if(location.search.indexOf('ok=1')>-1){var ok=document.getElementById('form-ok');if(ok){ok.style.display='block';setTimeout(function(){ok.scrollIntoView({behavior:'smooth',block:'center'});},300);}}
+(function(){
+ var f=document.getElementById('cform');
+ var okBox=document.getElementById('form-ok');
+ var errBox=document.getElementById('form-err');
+ var ENDPOINT='https://formsubmit.co/ajax/marcos.impulsdigital@gmail.com';
+ var WA='https://wa.me/34692388908?text=';
+
+ function buildWa(fd){
+  var get=function(k){return (fd.get(k)||'').toString().trim();};
+  var t='Hola Marcos, quería consultarte sobre un proyecto:';
+  if(get('Nombre')) t+='\n• Nombre: '+get('Nombre');
+  if(get('Negocio')) t+='\n• Negocio: '+get('Negocio');
+  if(get('Sector')) t+='\n• Sector: '+get('Sector');
+  if(get('Servicio de interes')) t+='\n• Servicio: '+get('Servicio de interes');
+  if(get('Mensaje')) t+='\n• '+get('Mensaje');
+  return WA+encodeURIComponent(t);
+ }
+
+ f.addEventListener('submit',function(e){
+  e.preventDefault();
+  if(f.reportValidity && !f.reportValidity()) return;
+  var btn=f.querySelector('.btn-submit'); var orig=btn.textContent;
+  btn.disabled=true; btn.textContent='Enviando…';
+  errBox.style.display='none';
+  var fd=new FormData(f);
+  var ctrl=new AbortController();
+  var to=setTimeout(function(){ctrl.abort();},12000);
+  fetch(ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:fd,signal:ctrl.signal})
+   .then(function(r){clearTimeout(to); if(!r.ok) throw new Error('http'); return r.json();})
+   .then(function(j){
+     if(j && (j.success==='true'||j.success===true)){
+       f.style.display='none'; okBox.style.display='block';
+       okBox.scrollIntoView({behavior:'smooth',block:'center'});
+     } else { throw new Error('nosuccess'); }
+   })
+   .catch(function(){
+     clearTimeout(to);
+     errBox.querySelector('.wa-fallback').href=buildWa(fd);
+     errBox.style.display='block';
+     errBox.scrollIntoView({behavior:'smooth',block:'center'});
+   })
+   .then(function(){ btn.disabled=false; btn.textContent=orig; });
+ });
+})();
 </script>
 </body>
 </html>
