@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="376.5" height="376" viewBox="0 0 376.5 376" role="img" aria-labelledby="title desc">
+  <title id="title">Símbolo Cotiza</title>
+  <desc id="desc">Dos formas azules y una forma dorada.</desc>
+  <g transform="scale(1.195238 1.196656)">
+    <path d="M136 19C98 19 68 41 52 80C44 101 37 123 31 137C29.5 141 32 142 37 142H207C247 142 279 118 294 83C303 62 309 38 314 24C315 21 313 19 309 19H136Z" fill="#0345CA"/>
+    <path d="M105 174C82 174 62 184 50 200C35 220 27 244 19 265L3 295C1.5 299 4 300 9 300H97C137 300 166 276 177 240C186 214 191 194 197 180C198 176 196 174 192 174H105Z" fill="#0345CA"/>
+    <path d="M258 205C239 205 222 215 214 230C203 249 198 273 185 295C183.5 299 186 300 190 300H236C266 300 289 279 298 254C304 236 310 220 314 210C315 207 313 205 310 205H258Z" fill="#D29306"/>
+  </g>
+</svg>

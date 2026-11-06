@@ -1151,7 +1151,7 @@
       align-items: center;
       justify-content: center;
     }
-    .app-logo img { width: 100%; height: 100%; object-fit: cover; }
+    .app-logo img { width: 100%; height: 100%; object-fit: contain; }
     .app-name { font-size: 1.05rem; font-weight: 700; margin-bottom: 2px; }
     .app-sub { font-size: 0.78rem; color: var(--muted2); }
     .app-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; margin-bottom: 16px; }
@@ -1927,13 +1927,12 @@
       <div class="extra-card-left">
         <h4>🛒 Tienda online + Carrito WhatsApp <span style="font-size:0.75rem;color:var(--muted2);font-weight:400;">(Servicio o add-on)</span></h4>
         <p>Catálogo de productos con carrito integrado. El cliente elige, selecciona cantidades y al hacer checkout te escribe directo por WhatsApp con el pedido completo. Sin Shopify, sin comisiones por venta.</p>
-        <p style="margin-top:8px;font-size:0.85rem;color:var(--muted2);">✦ Conectado con <strong style="color:var(--text);">StockFlow</strong>: los productos se cargan una sola vez en la app y la web los muestra automáticamente vía API — con el stock disponible en tiempo real. Cada pedido que entra por WhatsApp descuenta el inventario solo. Web + carrito + stock: un ecosistema completo.</p>
+        <p style="margin-top:8px;font-size:0.85rem;color:var(--muted2);">✦ Pensada para integrarse a futuro con <strong style="color:var(--text);">StockFlow</strong>, nuestra app de inventario (en desarrollo): la idea es cargar los productos una vez y que la web los muestre. La sincronización automática de stock todavía no está disponible.</p>
       </div>
       <div class="extra-card-right">
         <div style="text-align:right;">
           <div class="extra-price">599€</div>
           <div style="font-size:0.75rem;color:var(--muted2);margin-top:2px;">o +150€ sobre web existente</div>
-          <div style="font-size:0.75rem;color:var(--muted2);margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.07);">Pack con StockFlow: <strong style="color:var(--text);">699€ + 29€/mes</strong></div>
         </div>
         <a href="https://wa.me/34692388908?text=Me%20interesa%20la%20tienda%20online%20con%20carrito%20WhatsApp" class="btn btn-ghost" target="_blank">Más info</a>
       </div>
@@ -2155,98 +2154,91 @@
       <!-- BrasaFlow -->
       <div class="app-card">
         <div class="app-header">
-          <div class="app-logo"><img src="images/logo-brasaflow.svg" alt="BrasaFlow"></div>
+          <div class="app-logo" style="background:#f3ece0;"><img src="images/brasaflow-mark.svg" alt="BrasaFlow"></div>
           <div>
             <div class="app-name">BrasaFlow</div>
-            <div class="app-sub">Suite operativa para hostelería</div>
+            <div class="app-sub">Gestión para restaurantes</div>
           </div>
         </div>
-        <p class="app-desc">Cuatro herramientas conectadas para restaurantes: gestión de equipo, reservas, comandas en tiempo real y proveedores. Todo en un solo ecosistema.</p>
+        <p class="app-desc">Demo local (con SQLite) para la operativa de un restaurante: inventario de productos y pedidos a proveedores. Prepara el pedido y abre manualmente un WhatsApp con el mensaje listo para revisar. Sin nube; en preparación para una prueba privada, aún sin restaurantes reales.</p>
         <div class="app-tags">
           <span class="app-tag">Restaurantes</span>
-          <span class="app-tag">Hostelería</span>
-          <span class="app-tag">Suite completa</span>
+          <span class="app-tag">Inventario y pedidos</span>
+          <span class="app-tag">Demo local</span>
         </div>
-        <a href="https://brasaflow-gestion-hostelera.vercel.app" class="btn btn-block" style="background:linear-gradient(135deg,rgba(232,130,12,0.2),rgba(232,130,12,0.1));border:1px solid rgba(232,130,12,0.3);color:#fb923c;text-align:center;" target="_blank">Ver BrasaFlow →</a>
+        <a href="https://wa.me/34692388908?text=Me%20interesa%20conocer%20BrasaFlow" class="btn btn-block" style="background:linear-gradient(135deg,rgba(215,104,56,0.2),rgba(215,104,56,0.1));border:1px solid rgba(215,104,56,0.35);color:#e8926a;text-align:center;" target="_blank">Consultar →</a>
       </div>
 
       <!-- Turnia -->
       <div class="app-card">
         <div class="app-header">
-          <div class="app-logo"><img src="images/logo-turnia.svg" alt="Turnia"></div>
+          <div class="app-logo" style="background:#eaf1f0;padding:7px;"><img src="images/turnia-mark.svg" alt="Turnia"></div>
           <div>
             <div class="app-name">Turnia</div>
-            <div class="app-sub">Citas y turnos para negocios beauty</div>
+            <div class="app-sub">Citas y reservas para belleza</div>
           </div>
         </div>
-        <p class="app-desc">Agenda visual, reservas desde el móvil del cliente y confirmación automática por WhatsApp. Para peluquerías, uñas, estética y masajes.</p>
+        <p class="app-desc">Agenda de citas con enlace de reserva para los clientes, que ya funciona. El panel de gestión tiene integración parcial y su guardado todavía no está completo. Para peluquerías, barberías y estética; sin negocios reales usándola aún.</p>
         <div class="app-tags">
           <span class="app-tag">Peluquerías</span>
-          <span class="app-tag">Uñas & estética</span>
-          <span class="app-tag">Reservas online</span>
+          <span class="app-tag">Reservas</span>
+          <span class="app-tag">Demo funcional</span>
         </div>
-        <a href="https://turnia-citas.vercel.app" class="btn btn-block" style="background:linear-gradient(135deg,rgba(47,125,104,0.2),rgba(47,125,104,0.1));border:1px solid rgba(47,125,104,0.3);color:#34d399;text-align:center;" target="_blank">Ver Turnia →</a>
+        <a href="https://turnia-citas.vercel.app" class="btn btn-block" style="background:linear-gradient(135deg,rgba(47,125,104,0.2),rgba(47,125,104,0.1));border:1px solid rgba(47,125,104,0.3);color:#34d399;text-align:center;" target="_blank">Ver la demo →</a>
       </div>
 
       <!-- StayFlow -->
       <div class="app-card">
         <div class="app-header">
-          <div class="app-logo" style="background:#DFF5EB;padding:6px;overflow:hidden;">
-            <svg viewBox="0 0 64 64" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 31.2L32 19L46 31.2" stroke="#10251D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M23.5 29.5V45H40.5V29.5" stroke="#10251D" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M22 43C29.5 48.8 42 47.7 47 39.5C51.1 32.7 45.6 25.2 37.5 28.4C30.7 31.1 30.8 39.6 23 38.4C16.6 37.4 14.9 30.3 20 25.6" stroke="#167C5B" stroke-width="4" stroke-linecap="round"/>
-              <path d="M49 18L52 21L58 14" stroke="#167C5B" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <div class="app-logo" style="background:#e9f0ee;padding:7px;"><img src="images/stayflow-mark.svg" alt="StayFlow"></div>
           <div>
             <div class="app-name">StayFlow</div>
             <div class="app-sub">Operativa para alquiler vacacional</div>
           </div>
         </div>
-        <p class="app-desc">Panel de control para gestores de alquiler vacacional. Entradas, salidas, limpiezas y responsables en un solo vistazo. Sin WhatsApp, sin hojas sueltas.</p>
+        <p class="app-desc">Panel para gestores de alquiler vacacional: entradas, salidas, limpiezas y responsables en un solo vistazo. Demo funcional en local (sin nube conectada); en preparación para validar con gestores, aún sin gestores reales usándola.</p>
         <div class="app-tags">
           <span class="app-tag">Alquiler vacacional</span>
           <span class="app-tag">Gestión</span>
-          <span class="app-tag">Costa del Sol</span>
+          <span class="app-tag">En preparación</span>
         </div>
-        <a href="https://stayflow-gestion-vacacional.vercel.app" class="btn btn-block" style="background:linear-gradient(135deg,rgba(3,105,161,0.2),rgba(3,105,161,0.1));border:1px solid rgba(3,105,161,0.3);color:#38bdf8;text-align:center;" target="_blank">Ver StayFlow →</a>
+        <a href="https://wa.me/34692388908?text=Me%20interesa%20conocer%20StayFlow" class="btn btn-block" style="background:linear-gradient(135deg,rgba(3,105,161,0.2),rgba(3,105,161,0.1));border:1px solid rgba(3,105,161,0.3);color:#38bdf8;text-align:center;" target="_blank">Consultar →</a>
       </div>
 
       <!-- StockFlow -->
       <div class="app-card">
         <div class="app-header">
-          <div class="app-logo" style="font-size:1.5rem;background:rgba(239,68,68,0.1);">📦</div>
+          <div class="app-logo" style="background:#ffffff;padding:7px;"><img src="images/stockflow-mark.svg" alt="StockFlow"></div>
           <div>
             <div class="app-name">StockFlow</div>
-            <div class="app-sub">Control de stock en tiempo real</div>
+            <div class="app-sub">Inventario para comercios</div>
           </div>
         </div>
-        <p class="app-desc">Gestioná el inventario desde el móvil. Stock en tiempo real, alertas de mínimo, ajustes manuales y API para conectar con tu web. Sin Excel, sin errores de conteo.</p>
+        <p class="app-desc">Para comercios que venden productos con variantes (talle, color): cargar productos, registrar entradas, ventas y ajustes, y avisar de faltantes. En desarrollo; la nube todavía no está operativa.</p>
         <div class="app-tags">
-          <span class="app-tag">Tiendas</span>
+          <span class="app-tag">Comercios</span>
           <span class="app-tag">Inventario</span>
-          <span class="app-tag">Tiempo real</span>
+          <span class="app-tag">En desarrollo</span>
         </div>
-        <a href="stockflow.html" class="btn btn-block" style="background:linear-gradient(135deg,rgba(239,68,68,0.18),rgba(239,68,68,0.08));border:1px solid rgba(239,68,68,0.3);color:#f87171;text-align:center;">Ver StockFlow →</a>
+        <a href="stockflow.html" class="btn btn-block" style="background:linear-gradient(135deg,rgba(27,111,232,0.2),rgba(27,111,232,0.1));border:1px solid rgba(27,111,232,0.4);color:#6ea8ff;text-align:center;">Conocer el proyecto →</a>
       </div>
 
       <!-- Cotiza -->
       <div class="app-card">
         <div class="app-header">
-          <div class="app-logo" style="font-size:1.5rem;">📋</div>
+          <div class="app-logo" style="background:#ffffff;padding:7px;"><img src="images/cotiza-mark.svg" alt="Cotiza"></div>
           <div>
             <div class="app-name">Cotiza</div>
-            <div class="app-sub">Presupuestos rápidos desde el móvil</div>
+            <div class="app-sub">Presupuestos para reformas y oficios</div>
           </div>
         </div>
-        <p class="app-desc">Crea presupuestos profesionales en segundos, envíalos por PDF o WhatsApp y controla el estado de cada uno. Para autónomos, reformistas y equipos de ventas.</p>
+        <p class="app-desc">Herramienta para crear presupuestos de reformas y oficios: plantillas, PDF y panel con tus presupuestos guardados. Demo funcional en local (la nube no está operativa); en preparación para las primeras pruebas con pintores (0 de 3 hechas).</p>
         <div class="app-tags">
-          <span class="app-tag">Autónomos</span>
           <span class="app-tag">Reformas</span>
-          <span class="app-tag">Servicios</span>
+          <span class="app-tag">Presupuestos</span>
+          <span class="app-tag">Demo funcional</span>
         </div>
-        <a href="https://cotiza-app-de-presupuestos-y9qm.vercel.app" class="btn btn-block" style="background:linear-gradient(135deg,rgba(29,78,216,0.2),rgba(29,78,216,0.1));border:1px solid rgba(29,78,216,0.3);color:#818cf8;text-align:center;" target="_blank">Ver Cotiza →</a>
+        <a href="https://wa.me/34692388908?text=Me%20interesa%20conocer%20Cotiza" class="btn btn-block" style="background:linear-gradient(135deg,rgba(3,69,202,0.22),rgba(3,69,202,0.1));border:1px solid rgba(3,69,202,0.4);color:#6ea8ff;text-align:center;" target="_blank">Consultar →</a>
       </div>
 
       <!-- Postia -->
