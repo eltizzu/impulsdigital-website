@@ -387,12 +387,17 @@
       gap: 24px;
     }
     .nav-logo {
-      font-size: 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 1.3rem;
       font-weight: 800;
       color: var(--text);
       text-decoration: none;
       letter-spacing: -0.03em;
     }
+    .nav-logo img { width: 34px; height: 34px; border-radius: 8px; display: block; }
     .nav-logo span { color: #a78bfa; }
     .nav-links {
       display: flex;
@@ -1500,7 +1505,7 @@
 <!-- ═══ NAV ═══ -->
 <nav class="nav" id="navbar">
   <div class="container nav-inner">
-    <a href="#" class="nav-logo"><span style="font-family:'Inter',sans-serif;font-size:1.1rem;font-weight:800;color:#f1f5f9;letter-spacing:-0.03em;">Impuls<span style="color:#a78bfa;">.</span></span></a>
+    <a href="#" class="nav-logo"><img src="images/apple-touch-icon.png" alt="Impuls Digital">Impuls<span>Digital</span></a>
     <ul class="nav-links">
       <li><a href="#webs">Webs & Identidad</a></li>
       <li><a href="#apps">Apps</a></li>
